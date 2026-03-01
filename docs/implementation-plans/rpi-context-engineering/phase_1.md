@@ -49,7 +49,7 @@ Run a search for `ed3d-` across all files under `plugins/` (after the directory 
 - Agent .md files that reference plugin-namespaced subagent types
 - Hook scripts that reference plugin names
 
-**DO NOT** update `.ed3d/` references — these are user project configuration directories and are explicitly out of scope.
+Also update `.ed3d/` → `.rpi/` in all files (covered in Task 1.9 below).
 
 ### Task 1.5 — Update CLAUDE.md
 In `CLAUDE.md`:
@@ -75,9 +75,30 @@ Fork now ships as Paul Anderson's independent RPI plugin suite. All plugin names
 ### Task 1.7 — Update session-start.sh hook
 In `plugins/rpi-plan-and-execute/hooks/session-start.sh`, update the path variable `PLUGIN_ROOT` reference and any hard-coded `ed3d-` strings.
 
-### Task 1.8 — Verify
-Run: `grep -r "ed3d-" plugins/ .claude-plugin/ CLAUDE.md`
-Result must be zero matches. Any match is a bug to fix.
+### Task 1.9 — Rename .ed3d/ → .rpi/ throughout skill and documentation files
+
+Replace all occurrences of `.ed3d/` with `.rpi/` in the following files (which are all
+under `plugins/rpi-plan-and-execute/` after Task 1.1):
+
+- `README.md`
+- `commands/how-to-customize.md`
+- `skills/starting-a-design-plan/SKILL.md`
+- `skills/starting-an-implementation-plan/SKILL.md`
+- `skills/writing-implementation-plans/SKILL.md`
+- `skills/executing-an-implementation-plan/SKILL.md`
+
+This renames the project-level guidance directory that users create in their own repos.
+After this change, users will create `.rpi/design-plan-guidance.md` and
+`.rpi/implementation-plan-guidance.md` instead of `.ed3d/` equivalents.
+
+Also update the `how-to-customize` command's example directory structure to show `.rpi/`.
+
+### Task 1.10 — Verify
+```bash
+grep -r "ed3d-" plugins/ .claude-plugin/ CLAUDE.md   # must return nothing
+grep -r "\.ed3d/" plugins/                             # must return nothing
+```
+Both must return zero results.
 
 ## Done When
-`grep -r "ed3d-" plugins/ .claude-plugin/ CLAUDE.md` returns no results.
+Both grep commands in Task 1.10 return no results.

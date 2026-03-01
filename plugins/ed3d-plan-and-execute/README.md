@@ -219,10 +219,10 @@ The goal is to resolve unacknowledged trade-offs and turn vague intentions into 
 
 ## Customization
 
-Provide project-specific guidance by creating files in a `.ed3d/` directory:
+Provide project-specific guidance by creating files in a `.rpi/` directory:
 
-- `.ed3d/design-plan-guidance.md` — Loaded before clarification in `/start-design-plan`. Define domain terminology, architectural constraints, technology preferences, and scope boundaries.
-- `.ed3d/implementation-plan-guidance.md` — Loaded when creating implementation plans and during final code review. Specify coding standards, testing requirements, and review criteria.
+- `.rpi/design-plan-guidance.md` — Loaded before clarification in `/start-design-plan`. Define domain terminology, architectural constraints, technology preferences, and scope boundaries.
+- `.rpi/implementation-plan-guidance.md` — Loaded when creating implementation plans and during final code review. Specify coding standards, testing requirements, and review criteria.
 
 Run `/how-to-customize` for details and example files.
 

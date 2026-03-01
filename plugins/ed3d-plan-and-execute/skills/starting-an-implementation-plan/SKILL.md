@@ -46,7 +46,7 @@ Use TaskCreate to track the orchestration steps:
 TaskCreate: "Branch setup"
 (conditional) TaskCreate: "Read project implementation guidance from [absolute path]"
   → TaskUpdate: addBlockedBy: [Branch setup]
-  → (only if .ed3d/implementation-plan-guidance.md exists)
+  → (only if .rpi/implementation-plan-guidance.md exists)
 TaskCreate: "Create implementation plan"
   → TaskUpdate: addBlockedBy: [Branch setup] (or [Read guidance] if it exists)
 TaskCreate: "Re-read starting-an-implementation-plan skill (restore context)"
@@ -131,13 +131,13 @@ Mark "Branch setup" task as completed. **THEN proceed to Planning.**
 
 After branch setup, check for project-specific implementation guidance.
 
-**Check if `.ed3d/implementation-plan-guidance.md` exists:**
+**Check if `.rpi/implementation-plan-guidance.md` exists:**
 
-Use the Read tool to check if `.ed3d/implementation-plan-guidance.md` exists in the session's working directory.
+Use the Read tool to check if `.rpi/implementation-plan-guidance.md` exists in the session's working directory.
 
 **If the file exists:**
 
-1. Use TaskCreate to add: "Read project implementation guidance from [absolute path to .ed3d/implementation-plan-guidance.md]"
+1. Use TaskCreate to add: "Read project implementation guidance from [absolute path to .rpi/implementation-plan-guidance.md]"
    - Set this task as blocked by "Branch setup"
    - Update "Create implementation plan" to be blocked by this new task
 2. Mark the task in_progress

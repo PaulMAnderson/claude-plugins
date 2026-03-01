@@ -10,9 +10,9 @@ You can provide project-specific guidance that shapes how design and implementat
 
 ## Guidance Files
 
-Create a `.ed3d/` directory in your project root with these optional files:
+Create a `.rpi/` directory in your project root with these optional files:
 
-### `.ed3d/design-plan-guidance.md`
+### `.rpi/design-plan-guidance.md`
 
 Loaded before the clarification phase of `/start-design-plan`.
 
@@ -23,7 +23,7 @@ Loaded before the clarification phase of `/start-design-plan`.
 - **Stakeholder context**: Who cares about what
 - **Scope boundaries**: What's typically in/out of scope
 
-### `.ed3d/implementation-plan-guidance.md`
+### `.rpi/implementation-plan-guidance.md`
 
 Loaded when starting an implementation plan and again during the final all-phase code review.
 
@@ -36,7 +36,7 @@ Loaded when starting an implementation plan and again during the final all-phase
 
 ## Example Files
 
-### `.ed3d/design-plan-guidance.md`
+### `.rpi/design-plan-guidance.md`
 
 ```markdown
 # Design Guidance for MyProject
@@ -60,7 +60,7 @@ Loaded when starting an implementation plan and again during the final all-phase
 - Migrations are in scope for any schema changes
 ```
 
-### `.ed3d/implementation-plan-guidance.md`
+### `.rpi/implementation-plan-guidance.md`
 
 ```markdown
 # Implementation Guidance for MyProject

@@ -87,11 +87,11 @@ Examples of headers you might see:
 
 **Check for implementation guidance:**
 
-After discovering phases, check if `.ed3d/implementation-plan-guidance.md` exists in the project root:
+After discovering phases, check if `.rpi/implementation-plan-guidance.md` exists in the project root:
 
 ```bash
 # Check for implementation guidance (note the absolute path for later use)
-ls [project-root]/.ed3d/implementation-plan-guidance.md
+ls [project-root]/.rpi/implementation-plan-guidance.md
 ```
 
 If the file exists, note its **absolute path** for use during code reviews. If it doesn't exist, proceed without it—do not pass a nonexistent path to reviewers.
@@ -228,7 +228,7 @@ Mark "Phase Nc: Code review" as in_progress.
 - PLAN_OR_REQUIREMENTS: All tasks from this phase
 - BASE_SHA: commit before phase started
 - HEAD_SHA: current commit
-- IMPLEMENTATION_GUIDANCE: absolute path to `.ed3d/implementation-plan-guidance.md` (**only if it exists**—omit entirely if the file doesn't exist)
+- IMPLEMENTATION_GUIDANCE: absolute path to `.rpi/implementation-plan-guidance.md` (**only if it exists**—omit entirely if the file doesn't exist)
 
 The implementation guidance file contains project-specific coding standards, testing requirements, and review criteria. When provided, the code reviewer should read it and apply those standards during review.
 

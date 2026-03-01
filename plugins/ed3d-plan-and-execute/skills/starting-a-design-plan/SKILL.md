@@ -32,7 +32,7 @@ Orchestrate the complete design workflow from initial idea to implementation-rea
 Use TaskCreate to create todos for each phase (or TodoWrite in older Claude Code versions):
 
 - Phase 1: Context Gathering (initial information collected)
-- (conditional) Read project design guidance (if `.ed3d/design-plan-guidance.md` exists)
+- (conditional) Read project design guidance (if `.rpi/design-plan-guidance.md` exists)
 - Phase 2: Clarification (requirements disambiguated)
 - Phase 3: Definition of Done (deliverables confirmed)
 - Phase 4: Brainstorming (design validated)
@@ -82,13 +82,13 @@ Mark Phase 1 as completed when you have initial context.
 
 Before clarification, check for project-specific design guidance.
 
-**Check if `.ed3d/design-plan-guidance.md` exists:**
+**Check if `.rpi/design-plan-guidance.md` exists:**
 
-Use the Read tool to check if `.ed3d/design-plan-guidance.md` exists in the session's working directory.
+Use the Read tool to check if `.rpi/design-plan-guidance.md` exists in the session's working directory.
 
 **If the file exists:**
 
-1. Use TaskCreate to add: "Read project design guidance from [absolute path to .ed3d/design-plan-guidance.md]"
+1. Use TaskCreate to add: "Read project design guidance from [absolute path to .rpi/design-plan-guidance.md]"
    - Set this task as blocked by Phase 1 (Context Gathering)
    - Update Phase 2 (Clarification) to be blocked by this new task
 2. Mark the task in_progress

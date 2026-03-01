@@ -21,7 +21,7 @@ This design covers two interlocking changes to the ed3d-plugins fork: (1) a full
 
 ## 🔴 Definition of Done
 
-1. All `ed3d-*` plugin directories renamed to `rpi-*`; all internal references updated; `marketplace.json`, `CLAUDE.md`, `CHANGELOG.md`, and `README.md` updated; attribution to `ed3dai/ed3d-plugins` and `obra/superpowers` (Jesse Vincent) preserved and made explicit
+1. All `ed3d-*` plugin directories renamed to `rpi-*`; all internal references updated; `marketplace.json`, `CLAUDE.md`, `CHANGELOG.md`, and `README.md` updated; attribution to `ed3dai/ed3d-plugins` and `obra/superpowers` (Jesse Vincent) preserved and made explicit; all `.ed3d/` project-level configuration directory references renamed to `.rpi/` throughout all skill, command, and documentation files
 2. A `PostToolUse` context monitor hook fires after every tool call, debounced via a call-count file, and injects a context-pressure warning into Claude's context at configurable thresholds (default: warn at 40 tool calls, urgent at 70)
 3. A `compressing-context` skill produces an Anchored Iterative Summary written to `.rpi/CONTEXT.md`; a `/compress-context` command invokes it manually; the skill is called automatically at RPI phase-boundary transitions (design→plan, plan→execute)
 4. The `writing-design-plans` skill template is upgraded to include a Memory Tier Index section and hot/warm/cold annotations on each section; the `writing-implementation-plans` skill template is upgraded to annotate each phase file with a context budget estimate
@@ -36,7 +36,9 @@ This design covers two interlocking changes to the ed3d-plugins fork: (1) a full
 - **AC1.2**: No remaining occurrences of the string `ed3d-` exist in any skill, command, agent, hook, or config file that would be installed into a user's Claude Code environment
 - **AC1.3**: `README.md` includes an explicit attribution block crediting `ed3dai/ed3d-plugins` and `obra/superpowers` (Jesse Vincent, MIT) as upstream sources
 - **AC1.4**: `CLAUDE.md` and `marketplace.json` reflect the `rpi-*` naming throughout
-- **AC1.5 (failure)**: A grep for `ed3d-` across `plugins/` returns results → rebrand is incomplete
+- **AC1.5**: All `.ed3d/` references in skill, command, and README files are updated to `.rpi/` — this covers the project-level guidance directories users create in their own repos (`.rpi/design-plan-guidance.md`, `.rpi/implementation-plan-guidance.md`)
+- **AC1.6 (failure)**: A grep for `ed3d-` across `plugins/` returns results → rebrand is incomplete
+- **AC1.7 (failure)**: A grep for `\.ed3d/` across `plugins/` returns results → directory rename is incomplete
 
 ### rpi-context-engineering.AC2 — Context Monitor Hook
 

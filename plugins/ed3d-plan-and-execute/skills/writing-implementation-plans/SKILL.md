@@ -390,14 +390,14 @@ Before creating tasks, capture absolute paths:
 
 **After all phase tasks, create finalization task:**
 
-Before creating the Finalization task, check if `.ed3d/implementation-plan-guidance.md` exists. If it does, include its absolute path in the task description:
+Before creating the Finalization task, check if `.rpi/implementation-plan-guidance.md` exists. If it does, include its absolute path in the task description:
 
 ```markdown
-# If .ed3d/implementation-plan-guidance.md exists:
-- [ ] Finalization: Run code-reviewer over all phase files (guidance: [absolute path to .ed3d/implementation-plan-guidance.md]), fix ALL issues including minor ones
+# If .rpi/implementation-plan-guidance.md exists:
+- [ ] Finalization: Run code-reviewer over all phase files (guidance: [absolute path to .rpi/implementation-plan-guidance.md]), fix ALL issues including minor ones
       → blocked by: all Phase *D tasks
 
-# If .ed3d/implementation-plan-guidance.md does NOT exist:
+# If .rpi/implementation-plan-guidance.md does NOT exist:
 - [ ] Finalization: Run code-reviewer over all phase files, fix ALL issues including minor ones
       → blocked by: all Phase *D tasks
 ```
@@ -819,7 +819,7 @@ After all phase D tasks are completed, mark the Finalization task as in_progress
 
   DESIGN_PLAN: [path to design plan, e.g., docs/design-plans/YYYY-MM-DD-feature.md]
 
-  IMPLEMENTATION_GUIDANCE: [absolute path to .ed3d/implementation-plan-guidance.md, or "None" if file does not exist]
+  IMPLEMENTATION_GUIDANCE: [absolute path to .rpi/implementation-plan-guidance.md, or "None" if file does not exist]
 
   IMPLEMENTATION_PHASES:
   - [path to phase_01.md]
