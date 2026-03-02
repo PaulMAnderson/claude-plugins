@@ -1,5 +1,15 @@
 # Changelog
 
+## [All plugins] Rebranded ed3d-* → rpi-*
+
+Fork now ships as Paul Anderson's independent RPI plugin suite. All plugin names updated from `ed3d-` prefix to `rpi-` prefix. This is a breaking change for any marketplace or CLAUDE.md that references `ed3d-*` plugin names.
+
+**Changed:**
+- All 9 plugin directories renamed
+- marketplace.json updated
+- CLAUDE.md updated
+- Internal cross-plugin references updated
+
 ## ed3d-extending-claude 1.1.0
 
 Adds marketplace management skill for creating and maintaining Claude Code Plugin Marketplaces.

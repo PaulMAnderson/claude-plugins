@@ -1,4 +1,4 @@
-# ed3d-plugins
+# rpi-plugins (Paul's RPI Fork)
 
 Claude Code plugins for design, implementation, and development workflows.
 
@@ -10,7 +10,7 @@ When documenting Task tool invocations in skills or agent prompts, use XML-style
 
 ```
 <invoke name="Task">
-<parameter name="subagent_type">ed3d-basic-agents:sonnet-general-purpose</parameter>
+<parameter name="subagent_type">rpi-basic-agents:sonnet-general-purpose</parameter>
 <parameter name="description">Brief description of what the subagent does</parameter>
 <parameter name="prompt">
 The prompt content goes here.

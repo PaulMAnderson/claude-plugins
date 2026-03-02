@@ -1,0 +1,17 @@
+{
+    "name": "rpi-hook-claudemd-reminder",
+    "description": "A PostToolUse hook that reminds to invoke project-claude-librarian before committing when git status or git log reveals changes that may warrant CLAUDE.md updates.",
+    "version": "1.0.0",
+    "author": {
+        "name": "Ed",
+        "email": "ed@ed3d.net"
+    },
+    "homepage": "https://github.com/PaulMAnderson/rpi-plugins",
+    "repository": "https://github.com/PaulMAnderson/rpi-plugins",
+    "license": "UNLICENSED",
+    "keywords": [
+        "hooks",
+        "documentation",
+        "claude-md"
+    ]
+}

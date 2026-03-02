@@ -1,0 +1,17 @@
+{
+    "name": "rpi-getting-started",
+    "description": "Getting started guide and onboarding for rpi-plugins",
+    "version": "1.0.0",
+    "author": {
+        "name": "Ed",
+        "email": "ed@ed3d.net"
+    },
+    "homepage": "https://github.com/PaulMAnderson/rpi-plugins",
+    "repository": "https://github.com/PaulMAnderson/rpi-plugins",
+    "license": "MIT",
+    "keywords": [
+        "getting-started",
+        "onboarding",
+        "documentation"
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "name": "rpi-basic-agents",
+    "description": "Core agents for general-purpose tasks. Other plugins expect this to exist.",
+    "version": "1.1.0",
+    "author": {
+        "name": "Ed",
+        "email": "ed@ed3d.net"
+    },
+    "homepage": "https://github.com/PaulMAnderson/rpi-plugins",
+    "repository": "https://github.com/PaulMAnderson/rpi-plugins",
+    "license": "UNLICENSED",
+    "keywords": [
+    ]
+}
