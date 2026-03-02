@@ -43,17 +43,23 @@ Rough Idea
 
 ## Installation
 
-### Add the marketplace
-```bash
+### Option A — GitHub (when the repo is published)
+```
 /plugin marketplace add https://github.com/paulanderson/rpi-plugins.git
+/plugin install rpi-plan-and-execute@rpi-plugins
 ```
 
-### Install plugins
-All plugins are available from the `rpi-plugins` marketplace:
+### Option B — Local development (working directly in this repo)
 ```bash
-/plugin install rpi-plan-and-execute@rpi-plugins
-/plugin install rpi-house-style@rpi-plugins
-# ... etc
+./scripts/install.sh
+```
+Installs `rpi-basic-agents`, `rpi-research-agents`, and `rpi-plan-and-execute`.
+Re-run after pulling changes or switching branches.
+Restart Claude Code or `/clear` for changes to take effect.
+
+To install specific plugins only:
+```bash
+./scripts/install.sh rpi-basic-agents rpi-plan-and-execute
 ```
 
 ## Repository Structure
