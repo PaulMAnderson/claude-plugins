@@ -238,10 +238,14 @@ Run `/how-to-customize` for details and example files.
 
 ## Attribution
 
-This plugin is derived from [obra/superpowers](https://github.com/obra/superpowers) by Jesse Vincent.
+This plugin is derived from [obra/superpowers](https://github.com/obra/superpowers) by Jesse Vincent (MIT licence).
+The original code has been extensively modified. See `plugins/rpi-plan-and-execute/LICENSE.superpowers`.
+
+This plugin is part of [rpi-plugins](https://github.com/paulanderson/rpi-plugins), a fork of
+[ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins).
 
 ## License
 
-The original [obra/superpowers](https://github.com/obra/superpowers) code is licensed under the MIT License, copyright Jesse Vincent. See `LICENSE.superpowers`.
+The original [obra/superpowers](https://github.com/obra/superpowers) code is licensed under the MIT License, copyright Jesse Vincent. See `plugins/rpi-plan-and-execute/LICENSE.superpowers`.
 
-All modifications and additions are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/), copyright Ed Ropple.
+All modifications and additions are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
