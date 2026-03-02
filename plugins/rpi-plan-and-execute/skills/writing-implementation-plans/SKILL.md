@@ -258,9 +258,39 @@ The execution agent uses these markers to identify related tasks. The tests task
 
 **Read the design plan's "Done when" section.** If it says "build succeeds," don't invent unit tests. If it says "tests pass for X," ensure tasks produce those tests.
 
+## Phase File Frontmatter
+
+**Every plan phase document MUST begin with YAML frontmatter:**
+
+```yaml
+---
+phase: N
+title: [Short descriptive title]
+context-budget: [small | medium | large]
+files-required:
+  - [absolute or repo-relative path to each file the executor must load]
+depends-on: [list of phase_N dependencies, or empty list]
+---
+```
+
+**How to estimate context-budget:**
+- `small`: Phase touches 1–3 files, tasks are straightforward edits or new file creation
+- `medium`: Phase touches 4–8 files or requires reading large skill files for context
+- `large`: Phase involves bulk operations (many files), complex logic, or extensive investigation
+
+**files-required guidance:**
+List every file the executing agent MUST read to complete this phase. Include:
+- The design plan document (always)
+- Files being modified (so the agent loads current content)
+- Files being used as patterns/references
+
+Do NOT list files the agent might optionally read. Be selective — this is the minimum required set.
+
+**Phase 1 note:** The first phase file (`phase_1.md`) must always include the design plan document path in its `files-required`. The `session-start.sh` hook injects the `using-plan-and-execute` skill automatically, so the executor does not need to re-explain the workflow from scratch.
+
 ## Plan Document Header
 
-**Every plan phase document MUST start with this header:**
+**Every plan phase document MUST start with this header (after the frontmatter):**
 
 ```markdown
 # [Feature Name] Implementation Plan

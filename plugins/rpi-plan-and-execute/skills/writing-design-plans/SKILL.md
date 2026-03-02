@@ -87,34 +87,36 @@ The file is created by starting-a-design-plan Phase 3. This skill appends to tha
 ## Summary
 <!-- TO BE GENERATED after body is written -->
 
-## Definition of Done
+## 🔴 Definition of Done
 [Already written - confirmed in Phase 3]
 
-## Acceptance Criteria
+## 🔴 Acceptance Criteria
 <!-- TO BE GENERATED and validated before glossary -->
 
-## Glossary
+## 🔵 Glossary
 <!-- TO BE GENERATED after body is written -->
 ```
 
 **This skill appends the body sections:**
 
+**Note on tier emojis:** Each section heading includes a tier emoji (🔴/🟡/🔵) that signals to future agents how urgently they need to read it. Do not explain the emoji in the document body; the Memory Tier Index (written after Summary) provides the legend.
+
 ```markdown
-## Architecture
+## 🟡 Architecture
 [Approach selected in brainstorming Phase 2]
 
 [Key components and how they interact]
 
 [Data flow and system boundaries]
 
-## Existing Patterns
+## 🔵 Existing Patterns
 [Document codebase patterns discovered by investigator that this design follows]
 
 [If introducing new patterns, explain why and note divergence from existing code]
 
 [If no existing patterns found, state that explicitly]
 
-## Implementation Phases
+## 🟡 Implementation Phases
 
 Break implementation into discrete phases (<=8 recommended).
 
@@ -140,7 +142,7 @@ Break implementation into discrete phases (<=8 recommended).
 
 **Why markers:** These enable writing-implementation-plans to parse phases individually, reducing context usage and enabling granular task tracking across compaction boundaries.
 
-## Additional Considerations
+## 🔵 Additional Considerations
 [Error handling, edge cases, future extensibility - only if relevant]
 
 [Don't include hypothetical "nice to have" features]
@@ -506,25 +508,25 @@ The body has been appended and Acceptance Criteria validated:
 ## Summary
 <!-- TO BE GENERATED after body is written -->
 
-## Definition of Done
+## 🔴 Definition of Done
 [Already written from Phase 3]
 
-## Acceptance Criteria
+## 🔴 Acceptance Criteria
 [Validated in previous step]
 
-## Glossary
+## 🔵 Glossary
 <!-- TO BE GENERATED after body is written -->
 
-## Architecture
+## 🟡 Architecture
 [... body content ...]
 
-## Existing Patterns
+## 🔵 Existing Patterns
 [... body content ...]
 
-## Implementation Phases
+## 🟡 Implementation Phases
 [... body content ...]
 
-## Additional Considerations
+## 🔵 Additional Considerations
 [... body content ...]
 ```
 
@@ -576,6 +578,24 @@ Don't wait for approval — proceed to insert the sections. The user can hit esc
 **Step 4: Replace placeholders**
 
 Replace the Summary and Glossary placeholder comments with the subagent's output. Do not insert the Omitted Terms section — that was for your transparency message only.
+
+**Step 4b: Write Memory Tier Index immediately after Summary**
+
+After replacing the Summary placeholder, write the Memory Tier Index table immediately after the Summary section. This is a map that tells future agents what to read first when context is limited.
+
+Standard mapping for all design plans:
+
+```markdown
+## 🗂 Memory Tier Index
+
+| Tier | Sections | When to read |
+|------|----------|-------------|
+| 🔴 **HOT** | DoD, Acceptance Criteria | Always — load before doing anything |
+| 🟡 **WARM** | Architecture, File Map, Implementation Phases | When planning or implementing a specific phase |
+| 🔵 **COLD** | Background, Alternatives Considered, Glossary | Reference on demand only |
+```
+
+Customise the Warm and Cold rows if this design plan has unusual sections.
 
 **Step 5: Review and adjust**
 
