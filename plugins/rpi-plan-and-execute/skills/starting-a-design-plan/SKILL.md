@@ -292,6 +292,17 @@ After design is documented, guide user to create implementation plan in fresh co
 
 Use TaskUpdate to mark Phase 6 as in_progress.
 
+### Pre-Handoff: Compress Context
+
+Before clearing context, preserve this session's state.
+
+**REQUIRED:** Use your Skill tool to invoke `compressing-context`.
+
+The skill will write a structured summary to `.rpi/CONTEXT.md`. This file persists
+across `/clear` and lets the implementation-planning session resume without re-investigation.
+
+Wait for the skill to confirm `.rpi/CONTEXT.md` has been written before proceeding.
+
 **Do NOT create implementation plan directly.** The user needs to /clear context first.
 
 Announce design completion and provide next steps:
@@ -318,6 +329,9 @@ Ready to create the implementation plan? This requires fresh context to work eff
 
 The start-implementation-plan command will create detailed tasks, set up a branch, and prepare for execution.
 ```
+
+**Note:** `.rpi/CONTEXT.md` has been written. The next session will automatically
+read it to restore context about what was accomplished.
 
 **Why /clear instead of continuing:**
 - Implementation planning needs fresh context for codebase investigation

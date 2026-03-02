@@ -222,6 +222,19 @@ Mark "Execution handoff" task as in_progress.
 
 After planning is complete, hand off to execution.
 
+### Pre-Handoff: Compress Context
+
+Before clearing context, preserve this session's implementation planning state.
+
+**REQUIRED:** Use your Skill tool to invoke `compressing-context`.
+
+Ensure the summary captures:
+- Which phase files were created and their paths
+- Any architectural decisions made during planning
+- The absolute path to the plan directory (critical for the execute command)
+
+Wait for the skill to confirm `.rpi/CONTEXT.md` has been written before proceeding.
+
 **Do NOT invoke execute-plan directly.** The user needs to /clear context first.
 
 **Step 1: Capture and verify absolute paths**
@@ -268,6 +281,9 @@ Ready to execute? This requires fresh context to work effectively.
 
 The execute-implementation-plan command will implement the plan task-by-task with code review between tasks.
 ```
+
+**Note:** `.rpi/CONTEXT.md` has been written. The next session will automatically
+read it to restore context about what was accomplished.
 
 **Use the real paths from Step 1, not placeholders.** The example above shows the format — substitute your actual verified paths.
 
