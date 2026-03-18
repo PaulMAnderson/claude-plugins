@@ -1,5 +1,5 @@
 ---
-name: opus-general-purpose
+name: rpi-basic-agents:opus-general-purpose
 model: opus
 description: An unprompted generic subagent. Uses Opus. Intended for tasks that require deep reasoning, complex analysis, or nuanced judgment.
 ---
