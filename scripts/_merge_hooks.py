@@ -5,7 +5,9 @@ Usage:
     _merge_hooks.py <hooks.json> <settings.json> <plugin_root>
 
 Substitutes ${CLAUDE_PLUGIN_ROOT} with plugin_root in all command values,
-then merges hook entries deduplicating by command path.
+then merges hook entries deduplicating by script basename so that
+re-running install (e.g. after moving the repo) updates paths in-place
+rather than accumulating duplicate entries.
 Writes atomically via a temp file.
 """
 
@@ -27,12 +29,23 @@ def resolve_plugin_root(obj, plugin_root):
 
 
 def get_command(hook_entry):
-    """Extract the command value from a hook entry for deduplication."""
+    """Extract the command value from a hook entry."""
     return hook_entry.get("command", "")
 
 
+def script_basename(cmd):
+    """Return the filename of a command path, used as the dedup key."""
+    return os.path.basename(cmd) if cmd else ""
+
+
 def merge_hooks(plugin_hooks, settings_hooks):
-    """Merge plugin hook events into settings hooks, deduplicating by command."""
+    """Merge plugin hook events into settings hooks.
+
+    Deduplicates by script basename: if an existing entry already has a hook
+    with the same filename (e.g. session-start.sh), its command path is updated
+    in-place rather than adding a duplicate. This means re-running install after
+    moving the repo updates paths cleanly.
+    """
     result = dict(settings_hooks)
 
     for event_type, plugin_entries in plugin_hooks.items():
@@ -41,28 +54,33 @@ def merge_hooks(plugin_hooks, settings_hooks):
 
         existing = result[event_type]
 
-        # Collect all command paths already in settings for this event
-        existing_commands = set()
-        for group in existing:
-            for hook in group.get("hooks", []):
-                cmd = get_command(hook)
-                if cmd:
-                    existing_commands.add(cmd)
+        # Build a map of basename -> (group_index, hook_index) for existing hooks
+        basename_index = {}
+        for gi, group in enumerate(existing):
+            for hi, hook in enumerate(group.get("hooks", [])):
+                bn = script_basename(get_command(hook))
+                if bn:
+                    basename_index[bn] = (gi, hi)
 
-        # Add plugin entries whose commands aren't already present
+        # Merge incoming plugin entries
         for plugin_group in plugin_entries:
-            new_hooks = [
-                h for h in plugin_group.get("hooks", [])
-                if get_command(h) not in existing_commands
-            ]
-            if new_hooks:
+            hooks_to_add = []
+            for hook in plugin_group.get("hooks", []):
+                cmd = get_command(hook)
+                bn = script_basename(cmd)
+                if bn in basename_index:
+                    # Update the path in-place
+                    gi, hi = basename_index[bn]
+                    existing[gi]["hooks"][hi]["command"] = cmd
+                else:
+                    hooks_to_add.append(hook)
+                    if bn:
+                        basename_index[bn] = None  # placeholder, will be set when appended
+
+            if hooks_to_add:
                 new_group = dict(plugin_group)
-                new_group["hooks"] = new_hooks
+                new_group["hooks"] = hooks_to_add
                 existing.append(new_group)
-                for h in new_hooks:
-                    cmd = get_command(h)
-                    if cmd:
-                        existing_commands.add(cmd)
 
         result[event_type] = existing
 
