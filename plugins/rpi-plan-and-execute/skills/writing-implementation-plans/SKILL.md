@@ -6,9 +6,7 @@ user-invocable: false
 
 ## Overview
 
-Write comprehensive implementation plans assuming the engineer has zero context for our codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to verify it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. Frequent commits.
-
-Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
+Write comprehensive implementation plans for engineers with zero context. Document which files to touch, code examples, testing, and verification steps. Use bite-sized tasks, DRY, and YAGNI principles. Assume the engineer is skilled but unfamiliar with the domain.
 
 **Announce at start:** "I'm using the writing-implementation-plans skill to create the implementation plan."
 
@@ -136,8 +134,6 @@ Set dependencies: NA ← (N-1)D, NB ← NA, NC ← NB, ND ← NC.
 - [ ] Mark Test Requirements task as completed
 - [ ] Proceed to execution handoff
 
-## Plan Validation (Finalization Task)
-
 ## Common Rationalizations - STOP
 
 These are violations of the skill requirements:
@@ -186,10 +182,18 @@ These are violations of the skill requirements:
 **All of these mean: STOP. Follow the requirements exactly.**
 
 
-## When You Don't Know How to Proceed
+## Templates and Detailed Process
 
-Dispatch a subagent to investigate. Do NOT invent answers. Ask.
-
-## Detailed Guidance
-
-Read `plugins/rpi-plan-and-execute/skills/writing-implementation-plans/REFERENCE.md` for all templates, examples, and detailed processes.
+Read `plugins/rpi-plan-and-execute/skills/writing-implementation-plans/REFERENCE.md` for:
+- Full codebase verification guidance (NEVER/ALWAYS write rules, dispatch examples)
+- External dependency research tiers
+- Task granularity guidance with examples
+- Infrastructure vs Functionality task type details
+- Phase file frontmatter format
+- Plan Document Header template
+- Task and Subcomponent Marker format with examples
+- Infrastructure and Functionality task templates
+- Finalization (code-reviewer dispatch) process
+- Test Requirements generation process
+- Execution Handoff instructions
+- "When You Don't Know How to Proceed" — worked example
