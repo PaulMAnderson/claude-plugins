@@ -248,35 +248,6 @@ Then look at the **Implementation Phases and brainstorming details** for additio
 
 ### Writing Criteria
 
-
-## After Body: Generating and Validating Acceptance Criteria
-
-After appending the body, generate Acceptance Criteria and get human validation BEFORE Summary/Glossary.
-
-Acceptance Criteria translate the Definition of Done into specific, verifiable items that become the basis for test requirements during implementation. You have full context from just writing the phases—do this inline, no subagent needed.
-
-### What Acceptance Criteria Must Cover
-
-For **each Definition of Done item**, think through:
-
-1. **Success cases**: What are all the ways this can succeed? List each distinctly.
-   - Happy path: the normal, expected flow
-   - Variations: different valid inputs, configurations, user types
-   - Edge cases: boundary values, empty inputs, maximum sizes
-
-2. **Important failure cases**: What should the system reject or handle gracefully?
-   - Invalid inputs (malformed, out of range, wrong type)
-   - Unauthorized access attempts
-   - Resource exhaustion or unavailability
-   - Concurrent access conflicts
-
-Then look at the **Implementation Phases and brainstorming details** for additional cases:
-- Integration points between phases (data flows correctly between components)
-- Behavior implied by architectural decisions (caching, retries, timeouts)
-- Edge cases surfaced during design discussion
-
-### Writing Criteria
-
 Each criterion must be **observable and testable**:
 
 **Good:** "API returns 401 when token is expired"

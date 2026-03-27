@@ -10,28 +10,23 @@ user-invocable: false
 
 Comprehensive TypeScript coding standards emphasizing type safety, immutability, and integration with Functional Core, Imperative Shell (FCIS) pattern.
 
-**Core principles:**
-- Types as documentation and constraints
-- Immutability by default prevents bugs
-- Explicit over implicit (especially in function signatures)
-- Functional Core returns Results, Imperative Shell may throw
-- Configuration over decoration/magic
-
 ## Quick Self-Check (Use Under Pressure)
 
 When under deadline pressure or focused on other concerns (performance, accuracy, features), STOP and verify:
 
-- [ ] Using `Array<T>` not `T[]`
-- [ ] Using `type` not `interface` (unless class contract)
-- [ ] Using math.js for money/currencies/complex math
-- [ ] Parameters are `readonly` or `Readonly<T>`
-- [ ] Using `unknown` not `any`
-- [ ] Using `null` for absent values (not `undefined`)
-- [ ] Using function declarations (not const arrow) for top-level functions
-- [ ] Using named exports (not default exports)
-- [ ] Using `===` not `==`
-- [ ] Using `.sort((a, b) => a - b)` for numeric arrays
-- [ ] Using `parseInt(x, 10)` with explicit radix
+| Rule | Standard / Violation |
+|------|---------------------|
+| Array syntax | Use `Array<T>` not `T[]` |
+| Type vs Interface | Use `type` not `interface` (unless class contract) |
+| Currencies/Money | Use math.js for money/currencies/complex math |
+| Immutability | Parameters are `readonly` or `Readonly<T>` |
+| Type Safety | Use `unknown` not `any` |
+| Absence | Use `null` for absent values (not `undefined`) |
+| Top-level functions | Use function declarations (not const arrow) |
+| Exports | Use named exports (not default exports) |
+| Equality | Use `===` not `==` |
+| Numeric Sort | Use `.sort((a, b) => a - b)` for numeric arrays |
+| Number Parsing | Use `parseInt(x, 10)` with explicit radix |
 
 **Why this matters:** Under pressure, you'll default to muscle memory. These checks catch the most common violations.
 

@@ -9,7 +9,19 @@ Complete the design document by appending validated design from brainstorming to
 
 **Core principle:** Append body to existing document. Generate Summary and Glossary. Commit for permanence.
 
+## Level of Detail: Design vs Implementation
 
+**Design plans are directional and archival.** They can be checked into git and referenced months later. Other design plans may depend on contracts specified here.
+
+**Implementation plans are tactical and just-in-time.** They verify current codebase state and generate executable code immediately before execution.
+
+**What belongs in design plans:**
+
+| Include | Exclude |
+|---------|---------|
+| Module and directory structure | Task-level breakdowns |
+| Component names and responsibilities | Implementation code |
+| File paths (from investigation) | Function bodies |
 | Dependencies between components | Step-by-step instructions |
 | "Done when" verification criteria | Test code |
 
