@@ -6,30 +6,25 @@ Replaces context-monitor.sh. Preserves threshold warning behaviour and adds:
 - journal.json creation on first tool call of any session (AC2.1)
 - modifiedFiles tracking on file-writing tool calls (AC2.2)
 - SESSION.md regeneration after each file modification (AC2.3)
-
-journal.json schema:
-  {
-    "version": 1,
-    "sessionIntent": "",        # set manually or by future tooling
-    "startedAt": "<ISO 8601>",
-    "modifiedFiles": [],        # appended on each file-writing tool call
-    "decisions": [],            # list of {"description": str, "rationale": str}
-    "currentState": "",         # set manually or by future tooling
-    "nextSteps": []             # list of strings
-  }
+- Smart context monitoring using real usage percentage and natural breaks (AC3)
 """
 
 import json
 import os
 import sys
+import time
 from datetime import datetime, timezone
 
 # ── Configuration ─────────────────────────────────────────────────────────────
-WARN_THRESHOLD = int(os.environ.get("RPI_CONTEXT_WARN_THRESHOLD", "40"))
-URGENT_THRESHOLD = int(os.environ.get("RPI_CONTEXT_URGENT_THRESHOLD", "70"))
+SOFT_THRESHOLD = int(os.environ.get("RPI_CONTEXT_SOFT_THRESHOLD", "50"))
+HARD_THRESHOLD = int(os.environ.get("RPI_CONTEXT_HARD_THRESHOLD", "75"))
+
+# Fallback thresholds based on tool counts (if real percentage is unavailable)
+WARN_COUNT_THRESHOLD = int(os.environ.get("RPI_CONTEXT_WARN_THRESHOLD", "40"))
+URGENT_COUNT_THRESHOLD = int(os.environ.get("RPI_CONTEXT_URGENT_THRESHOLD", "70"))
 
 # Claude Code tool names that write to the filesystem
-FILE_MODIFYING_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit", "replace", "write_file"}
+FILE_MODIFYING_TOOLS = {"Edit", "Write", "MultiEdit", "NotebookEdit", "replace", "write_file", "replace"}
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 project_dir = os.environ.get("CLAUDE_PROJECT_DIR", ".")
@@ -39,6 +34,7 @@ os.makedirs(rpi_dir, exist_ok=True)
 COUNTER_FILE = os.path.join(rpi_dir, "context-monitor-count")
 JOURNAL_FILE = os.path.join(rpi_dir, "journal.json")
 SESSION_FILE = os.path.join(rpi_dir, "SESSION.md")
+USAGE_FILE = os.path.join(rpi_dir, "context-usage.json")
 
 # ── Parse hook payload from stdin ─────────────────────────────────────────────
 try:
@@ -50,7 +46,31 @@ except (json.JSONDecodeError, ValueError):
 tool_name = payload.get("tool_name", "")
 tool_input = payload.get("tool_input", {})
 
-# ── Counter (preserved from context-monitor.sh) ───────────────────────────────
+# ── Real Context Usage (AC3) ──────────────────────────────────────────────────
+used_percentage = None
+usage_fresh = False
+
+if os.path.exists(USAGE_FILE):
+    try:
+        with open(USAGE_FILE) as f:
+            usage_data = json.load(f)
+            used_percentage = usage_data.get("used_percentage")
+            timestamp = usage_data.get("timestamp", 0)
+            if time.time() - timestamp < 60:
+                usage_fresh = True
+    except (json.JSONDecodeError, ValueError):
+        pass
+
+# ── Natural Break Detection (AC3.5) ───────────────────────────────────────────
+is_natural_break = False
+if tool_name == "TaskUpdate" and tool_input.get("status") == "completed":
+    is_natural_break = True
+elif tool_name == "Bash" or tool_name == "run_shell_command":
+    cmd = tool_input.get("command", "") or tool_input.get("cmd", "")
+    if any(x in cmd for x in ["pytest", "Rscript", "matlab -batch"]):
+        is_natural_break = True
+
+# ── Counter Fallback ──────────────────────────────────────────────────────────
 count = 0
 try:
     with open(COUNTER_FILE) as f:
@@ -133,10 +153,27 @@ if tool_name in FILE_MODIFYING_TOOLS:
     with open(SESSION_FILE, "w") as f:
         f.write(session_md)
 
-# ── Threshold output ──────────────────────────────────────────────────────────
+# ── Threshold output (AC3.3, AC3.4) ───────────────────────────────────────────
 result: dict = {}
+trigger_urgent = False
+trigger_warning = False
+current_usage_str = ""
 
-if count >= URGENT_THRESHOLD:
+if usage_fresh and used_percentage is not None:
+    current_usage_str = f"{used_percentage}% context usage"
+    if used_percentage >= HARD_THRESHOLD:
+        trigger_urgent = True
+    elif used_percentage >= SOFT_THRESHOLD and is_natural_break:
+        trigger_warning = True
+else:
+    # Fallback to tool counts
+    current_usage_str = f"{count} tool calls"
+    if count >= URGENT_COUNT_THRESHOLD:
+        trigger_urgent = True
+    elif count >= WARN_COUNT_THRESHOLD:
+        trigger_warning = True
+
+if trigger_urgent:
     with open(COUNTER_FILE, "w") as f:
         f.write("0")
     result = {
@@ -144,7 +181,7 @@ if count >= URGENT_THRESHOLD:
             "hookEventName": "PostToolUse",
             "additionalContext": (
                 f'<CONTEXT_PRESSURE level="URGENT">\n'
-                f"⚠️ URGENT: This session has accumulated significant context ({count}+ tool calls). "
+                f"⚠️ URGENT: High context pressure detected ({current_usage_str}). "
                 f"Context quality is degrading. You MUST run the compressing-context skill NOW before "
                 f"continuing, then use /compress-context to write the summary to .rpi/CONTEXT.md. "
                 f"After that, prompt the user to /clear and restart with fresh context.\n"
@@ -152,7 +189,7 @@ if count >= URGENT_THRESHOLD:
             ),
         }
     }
-elif count >= WARN_THRESHOLD:
+elif trigger_warning:
     with open(COUNTER_FILE, "w") as f:
         f.write("0")
     result = {
@@ -160,8 +197,8 @@ elif count >= WARN_THRESHOLD:
             "hookEventName": "PostToolUse",
             "additionalContext": (
                 f'<CONTEXT_PRESSURE level="WARNING">\n'
-                f"📊 Context notice: This session has completed {count} tool calls. "
-                f"Context is building up. Consider running /compress-context soon to preserve "
+                f"📊 Context notice: Context pressure is rising ({current_usage_str}). "
+                f"At this natural break, consider running /compress-context soon to preserve "
                 f"state before a /clear. You can continue for now, but plan for a compression checkpoint.\n"
                 f"</CONTEXT_PRESSURE>"
             ),
@@ -171,4 +208,4 @@ else:
     with open(COUNTER_FILE, "w") as f:
         f.write(str(count))
 
-print(json.dumps(result))
+sys.stdout.write(json.dumps(result))

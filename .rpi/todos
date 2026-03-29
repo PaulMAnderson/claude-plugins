@@ -1,0 +1,38 @@
+- [x] Branch setup
+- [x] Create implementation plan
+- [ ] Re-read starting-an-implementation-plan skill (restore context)
+- [ ] Execution handoff
+      → blocked by: Re-read skill
+
+---
+
+- [x] Phase 1A: Read House Style Cleanup from /Users/paul/Claude/claude-plugins/docs/design-plans/2026-03-28-rpi-datasci.md
+- [x] Phase 1B: Investigate codebase for Phase 1 and activate relevant skills
+- [x] Phase 1C: Research external deps (Phase 1) (N/A)
+- [x] Phase 1D: Write /Users/paul/Claude/claude-plugins/docs/implementation-plans/2026-03-29-rpi-datasci/phase_01.md
+- [x] Phase 2A: Read Language-Specific House Style Skills from /Users/paul/Claude/claude-plugins/docs/design-plans/2026-03-28-rpi-datasci.md
+- [x] Phase 2B: Investigate codebase for Phase 2 and activate relevant skills
+- [x] Phase 2C: Research external deps (Phase 2) (N/A)
+- [x] Phase 2D: Write /Users/paul/Claude/claude-plugins/docs/implementation-plans/2026-03-29-rpi-datasci/phase_02.md
+- [x] Phase 3A: Read Smart Context Monitoring from /Users/paul/Claude/claude-plugins/docs/design-plans/2026-03-28-rpi-datasci.md
+- [x] Phase 3B: Investigate codebase for Phase 3 and activate relevant skills
+- [x] Phase 3C: Research external deps (Phase 3) (N/A)
+- [x] Phase 3D: Write /Users/paul/Claude/claude-plugins/docs/implementation-plans/2026-03-29-rpi-datasci/phase_03.md
+- [x] Phase 4A: Read Project-Level Progress Log from /Users/paul/Claude/claude-plugins/docs/design-plans/2026-03-28-rpi-datasci.md
+- [x] Phase 4B: Investigate codebase for Phase 4 and activate relevant skills
+- [x] Phase 4C: Research external deps (Phase 4) (N/A)
+- [x] Phase 4D: Write /Users/paul/Claude/claude-plugins/docs/implementation-plans/2026-03-29-rpi-datasci/phase_04.md
+- [x] Phase 5A: Read Tiered Workflow Entry Points from /Users/paul/Claude/claude-plugins/docs/design-plans/2026-03-28-rpi-datasci.md
+- [x] Phase 5B: Investigate codebase for Phase 5 and activate relevant skills
+- [x] Phase 5C: Research external deps (Phase 5) (N/A)
+- [x] Phase 5D: Write /Users/paul/Claude/claude-plugins/docs/implementation-plans/2026-03-29-rpi-datasci/phase_05.md
+- [x] Phase 6A: Read Model Tiering from /Users/paul/Claude/claude-plugins/docs/design-plans/2026-03-28-rpi-datasci.md
+- [x] Phase 6B: Investigate codebase for Phase 6 and activate relevant skills
+- [x] Phase 6C: Research external deps (Phase 6) (N/A)
+- [x] Phase 6D: Write /Users/paul/Claude/claude-plugins/docs/implementation-plans/2026-03-29-rpi-datasci/phase_06.md
+- [x] Phase 7A: Read Workspace Monitoring Integration from /Users/paul/Claude/claude-plugins/docs/design-plans/2026-03-28-rpi-datasci.md
+- [x] Phase 7B: Investigate codebase for Phase 7 and activate relevant skills
+- [x] Phase 7C: Research external deps (Phase 7) (N/A)
+- [x] Phase 7D: Write /Users/paul/Claude/claude-plugins/docs/implementation-plans/2026-03-29-rpi-datasci/phase_07.md
+- [x] Finalization: Run code-reviewer over all phase files, fix ALL issues including minor ones
+- [x] Test Requirements: Generate test-requirements.md from Acceptance Criteria

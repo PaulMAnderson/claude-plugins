@@ -1,6 +1,6 @@
 ---
 name: writing-for-a-technical-audience
-description: Use when writing documentation, guides, API references, or technical content for developers - enforces clarity, conciseness, and authenticity while avoiding AI writing patterns that signal inauthenticity
+description: Use when writing documentation, guides, API references, or technical content for scientists and engineers - enforces clarity, conciseness, and authenticity while avoiding AI writing patterns that signal inauthenticity
 user-invocable: false
 ---
 
@@ -9,16 +9,16 @@ user-invocable: false
 ## Overview
 
 **Core principle:** Technical writing must be clear, concise, and authentic. Clarity and technical depth are not opposites - you can have both. Avoid AI writing patterns that make content feel robotic or inauthentic.
-￼
-**Why this matters:** Developers value their time. Clear documentation builds trust. AI-like writing patterns (identified through research) make content feel generic and untrustworthy. Technical depth without clarity frustrates users. Clarity without depth leaves them stuck.
+
+**Why this matters:** Researchers and engineers value their time. Clear documentation builds trust. AI-like writing patterns (identified through research) make content feel generic and untrustworthy. Technical depth without clarity frustrates users. Clarity without depth leaves them stuck.
 
 ## When to Use
 
 **Use this skill when:**
-- Writing API documentation or references
-- Creating guides, tutorials, or how-to content
-- Documenting code, features, or architecture
-- Writing technical blog posts or articles
+- Writing API documentation for analysis libraries
+- Creating guides, tutorials, or how-to content for data pipelines
+- Documenting code, algorithms, or architecture
+- Writing technical reports or documentation for experiments
 - Reviewing technical content for clarity
 
 **Trigger symptoms:**
@@ -32,7 +32,7 @@ user-invocable: false
 
 ### 1. Clarity
 
-Developers should understand on first read. No re-reading required.
+The reader should understand on first read. No re-reading required.
 
 **Techniques:**
 - Short sentences (15-20 words average)
@@ -56,9 +56,9 @@ Every word serves a purpose. Remove noise and filler.
 Same terminology, structure, and voice throughout.
 
 **Techniques:**
-- Pick one term and stick to it (not "endpoint," "URL," "route" interchangeably)
-- Use consistent code formatting
-- Maintain same tone across all content
+- Pick one term and stick to it (don't use "dataset," "session," and "recording" interchangeably if they mean the same thing)
+- Use consistent code formatting (e.g., PEP 8 for Python)
+- Maintain the same tone across all content
 - Follow established patterns for similar content types
 
 ## Avoid AI Writing Patterns
@@ -104,20 +104,6 @@ Research shows specific phrases and structures that readers identify as AI-gener
 
 **Why hedging fails:** Makes you sound uncertain even when you're correct. State facts directly.
 
-### Transition Word Overuse
-
-AI defaults to formal Victorian-era connectors. Use simpler alternatives or break paragraphs.
-
-| Overused AI | Better |
-|------------|--------|
-| Moreover / Furthermore | Plus, also, and |
-| However / Nevertheless | But, though, still |
-| Additionally | And, plus |
-| Consequently / As a result | So, then |
-| That being said | But (or delete) |
-| Indeed / Interestingly | Often delete entirely |
-| In conclusion | End cleanly without announcing it |
-
 ## Technical Writing Patterns
 
 ### Explain WHY for These Cases
@@ -125,20 +111,20 @@ AI defaults to formal Victorian-era connectors. Use simpler alternatives or brea
 **ALWAYS explain why when:**
 
 1. **Design decisions with tradeoffs**
-   - Good: "We use pagination instead of cursors because it's simpler for most use cases and maintains consistent ordering"
-   - Bad: "We use pagination" (no context for when to deviate)
+   - Good: "We use HDF5 instead of MAT files because it allows for lazy loading of large datasets, which is critical when memory is limited."
+   - Bad: "We use HDF5." (no context for when to deviate)
 
 2. **Non-obvious patterns**
-   - Good: "Row Level Security must be enabled on all tables exposed via the Data API because it enforces security at the database level, preventing bypass through direct SQL access"
-   - Bad: "Enable RLS on all tables" (why?)
+   - Good: "Always validate array shapes before applying the filter because the underlying C implementation will segfault if dimensions don't match exactly."
+   - Bad: "Validate array shapes." (why?)
 
 3. **Breaking from conventions**
-   - Good: "This API uses POST for reads because GET requests can't include request bodies in some HTTP clients"
-   - Bad: "Use POST to fetch data" (violates REST conventions without justification)
+   - Good: "This function uses 1-based indexing for channel numbers to match the physical labeling on the hardware, despite Python's 0-based convention."
+   - Bad: "Use 1-based indexing for channels." (violates Python conventions without justification)
 
 **When "how" alone suffices:**
 - Mechanical steps with no alternatives ("Click Save")
-- Standard practices ("Use npm install")
+- Standard practices ("Use `pip install`")
 - When you genuinely don't know why (document behavior, note uncertainty)
 
 ### Code Examples: One Excellent Example
@@ -150,7 +136,7 @@ AI defaults to formal Victorian-era connectors. Use simpler alternatives or brea
 
 **Do:**
 - One complete, runnable example
-- Include error handling
+- Include error handling (especially for I/O and data validation)
 - Show realistic usage
 - Comment WHY, not what
 
@@ -158,24 +144,32 @@ AI defaults to formal Victorian-era connectors. Use simpler alternatives or brea
 
 ```python
 # Good: Complete, realistic, explains why
-try:
-    response = await fetch_user(user_id)
-    # Check status before assuming success - API returns 200 for "not found"
-    if response.status != 200:
-        raise APIError(f"Failed to fetch user: {response.status}")
-    return response.json()
-except NetworkError as e:
-    # Network failures are retryable - log and re-raise for retry logic
-    logger.warning(f"Network error fetching user {user_id}: {e}")
-    raise
+import numpy as np
+
+def apply_bandpass(signal, low, high, fs):
+    """Applies a bandpass filter to the signal."""
+    try:
+        # Validate sampling rate - negative FS causes unstable filters
+        if fs <= 0:
+            raise ValueError(f"Sampling frequency must be positive, got {fs}")
+            
+        # Ensure signal is 1D - the filter expects a single channel
+        if signal.ndim != 1:
+            signal = signal.flatten()
+            logger.warning("Flattened multi-dimensional signal for filtering")
+            
+        return some_filter_impl(signal, low, high, fs)
+    except Exception as e:
+        logger.error(f"Filtering failed: {e}")
+        raise
 ```
 
 **Bad Example Pattern:**
 
 ```python
 # Bad: Perfect world, no context, brittle
-response = await fetch_user(user_id)
-return response.json()
+result = apply_bandpass(signal, 10, 100, 1000)
+return result
 ```
 
 ### Progressive Disclosure
@@ -190,24 +184,24 @@ Layer complexity. Simple first, then depth.
 
 **Good:**
 ```markdown
-## Authentication
+## Spike Detection
 
-All API requests require an API key in the Authorization header:
+Detect threshold crossings in a 1D signal:
 
-```bash
-curl -H "Authorization: Bearer YOUR_API_KEY" https://api.example.com/users
+```python
+indices = detect_spikes(signal, threshold=5.0)
 ```
 
-### Advanced: Token Rotation
+### Advanced: Handling Refractory Periods
 
-For production systems, rotate API keys every 90 days...
+To avoid multiple detections of the same spike, use the `refractory_ms` parameter...
 ```
 
 **Bad:**
 ```markdown
-## Authentication
+## Spike Detection
 
-Authentication can be performed using several methods including API keys, OAuth 2.0, or JWT tokens. The choice depends on your security requirements, user experience goals, and architectural constraints. Let's explore each option...
+Spike detection can be performed using several methods including threshold crossing, template matching, or wavelets. The choice depends on your signal-to-noise ratio, computational constraints, and the specific neuron type...
 ```
 
 (Too much upfront. Start simple.)
@@ -217,61 +211,35 @@ Authentication can be performed using several methods including API keys, OAuth 
 ### 1. Assumes Too Much
 
 **Bad:**
-> "Simply connect your ETLOrchestrator to the HydraNode endpoint. Once a connection is established, instantiate a DataStream by passing your KinesisConfiguration."
+> "Simply connect your SpikeOrchestrator to the NiDAQ endpoint. Once a connection is established, instantiate a DataStream by passing your BufferConfiguration."
 
 **Why it fails:** Jargon firehose with no definitions, no links, no onramp for beginners.
 
-**Fix:** Define terms, link to prerequisites, provide Getting Started guide.
+**Fix:** Define terms, link to hardware setup guides, provide a "Quick Start" script.
 
 ### 2. Perfect World Examples
 
 **Bad:**
-```javascript
-const myFile = document.getElementById('file-input').files[0];
-const response = await uploadFile('/api/upload', myFile);
-console.log('File uploaded successfully!');
+```python
+data = load_mat_file('session_1.mat')
+result = run_analysis(data)
+print('Analysis complete!')
 ```
 
-**Why it fails:** No error handling, ignores edge cases (no file selected, network failure, file too large).
+**Why it fails:** No error handling, ignores edge cases (file missing, file corrupted, data not in expected format).
 
-**Fix:** Wrap in try-catch, check response status, handle undefined files.
+**Fix:** Use `try-except`, check for dataset existence in the file, handle empty results.
 
 ### 3. Vague and Unhelpful
 
 **Bad:**
-- `getUser(userId)`: "Gets a user by their ID."
+- `get_channel(id)`: "Gets a channel by its ID."
 - `class DataProcessor`: "A class for processing data."
-- `processData(data)`: "Processes the data."
+- `process_data(data)`: "Processes the data."
 
 **Why it fails:** Tautological. Says nothing beyond the function name.
 
-**Fix:** Describe behavior, parameters, return values, exceptions. "Fetches user record from database, returns null if user doesn't exist. Throws AuthError if API key lacks read permissions."
-
-## Pro-Examples from Industry Leaders
-
-### Supabase (Clarity + Depth)
-
-> "Row Level Security (RLS) is a PostgreSQL feature that allows you to control which rows a user can access in a table. When you enable RLS on a table, all SELECT, INSERT, UPDATE, and DELETE operations are subject to a security policy. A policy is a SQL expression that returns a boolean value. If the expression returns true, the operation is allowed to proceed. If it returns false or null, the operation is denied."
-
-**Why it works:** Defines RLS, explains scope (CRUD operations), defines mechanism (policy = SQL boolean expression). Dense with information, perfectly clear.
-
-### Stripe (Predictable Contract)
-
-> "Stripe uses conventional HTTP response codes to indicate the success or failure of an API request. In general: Codes in the 2xx range indicate success. Codes in the 4xx range indicate an error that failed given the information provided. Codes in the 5xx range indicate an error with Stripe's servers."
-
-**Why it works:** Establishes predictable contract for fundamental API behavior. Technical, precise, immediately useful.
-
-### Astro (Anticipates Questions)
-
-> "You can run create-astro anywhere on your machine, so you don't have to create an empty directory for your project first. If you don't have an empty directory yet, the wizard will help you create one."
-
-**Why it works:** Anticipates common beginner question ("Do I need to make a folder first?") and answers it proactively.
-
-### Tailwind CSS (Teaches Philosophy)
-
-> "The biggest maintainability concern when using a utility-first approach is managing commonly repeated utility combinations. The traditional approach is to extract repeated utilities into a component class. We believe that @apply should be used sparingly. The best way to manage repeated utility combinations is to create reusable components with a templating language."
-
-**Why it works:** Identifies problem, presents common solution, explains why that solution is suboptimal, guides toward better approach. Teaches philosophy, not just features.
+**Fix:** Describe behavior, parameters, return values, exceptions. "Fetches raw voltage data for a specific channel index. Returns a 1D numpy array. Throws ValueError if the index is out of bounds for the current recording."
 
 ## Writing That Feels Human
 
@@ -302,8 +270,8 @@ Short sentences create emphasis. Longer sentences provide context, explanation, 
 - Humor
 
 **Human includes:**
-- "We tried the obvious solution first and it failed"
-- "I found this approach more practical because..."
+- "We tried the standard filter first and found it introduced too much phase lag."
+- "I recommend using the HDF5 format for sessions longer than 2 hours."
 - Opinions grounded in experience
 - Self-aware observations
 
@@ -321,12 +289,12 @@ Short sentences create emphasis. Longer sentences provide context, explanation, 
 ### Be Specific
 
 **AI writes vaguely:**
-- "This approach offers significant benefits"
-- "Companies have seen improved results"
+- "This algorithm offers significant performance gains."
+- "Researchers have seen improved results using this method."
 
 **Human writes specifically:**
-- "We reduced latency from 450ms to 120ms"
-- "Three team members raised concerns about X"
+- "We reduced processing time from 10 minutes to 45 seconds using vectorization."
+- "This method correctly identified 98% of spikes in the benchmark dataset."
 
 ## Code Comments and Documentation
 
@@ -334,9 +302,9 @@ Short sentences create emphasis. Longer sentences provide context, explanation, 
 
 Always use periods at the end of code comments.
 
-```typescript
-// Good: Validates user input before processing.
-// Bad: validates user input before processing
+```python
+# Good: Validates array shape before processing.
+# Bad: validates array shape before processing
 ```
 
 ### Headings
@@ -344,11 +312,11 @@ Always use periods at the end of code comments.
 Use sentence case in all headings. Never title case.
 
 ```markdown
-Good: ## Error handling patterns
-Bad:  ## Error Handling Patterns
+Good: ## Spike detection patterns
+Bad:  ## Spike Detection Patterns
 
-Good: ### When to use async
-Bad:  ### When To Use Async
+Good: ### When to use wavelets
+Bad:  ### When To Use Wavelets
 ```
 
 ### Error Messages
@@ -356,44 +324,11 @@ Bad:  ### When To Use Async
 Format error messages as lowercase sentence fragments. They compose naturally when chained.
 
 ```
-Good: failed to parse configuration: invalid JSON at line 42
-Bad:  Failed to Parse Configuration: Invalid JSON at Line 42
+Good: failed to parse metadata: invalid JSON at line 42
+Bad:  Failed to Parse Metadata: Invalid JSON at Line 42
 ```
 
-The lowercase format works because errors often chain: `"operation failed: " + innerError.message` reads correctly.
-
-## Red Flags - Review Checklist
-
-Before publishing, check for these issues:
-
-- [ ] No AI phrases ("delve," "leverage," "robust," "at its core")
-- [ ] No throat-clearing openings ("Let me explain," "It's important to note")
-- [ ] No hedging language ("basically," "generally speaking")
-- [ ] No marketing fluff ("powerful," "revolutionary," "cutting-edge")
-- [ ] Sentence length varies (not all 15-20 words)
-- [ ] Paragraph length varies (not all 3-4 sentences)
-- [ ] Contractions used naturally ("it's" not "it is")
-- [ ] Active voice, clear actors (not "it can be seen that")
-- [ ] Code examples include error handling
-- [ ] WHY explained for design decisions
-- [ ] Technical terms defined on first use
-- [ ] Specific numbers/names/details (not vague claims)
-- [ ] Read aloud test - does it sound natural?
-- [ ] Code comments end with periods
-- [ ] Headings use sentence case (not Title Case)
-- [ ] Error messages are lowercase sentence fragments
-
-## Common Mistakes and Fixes
-
-| Mistake | Reality | Fix |
-|---------|---------|-----|
-| "Just being thorough with explanations" | You're explaining obvious things. | Delete explanations of what developers already know. |
-| "Keeping it professional with formal language" | Formal = robotic. | Use contractions, conversational tone, natural language. |
-| "Covering all the edge cases upfront" | Overwhelms reader. | Basic case first, advanced section for edge cases. |
-| "Using precise technical terminology" | Jargon without definitions loses readers. | Define terms on first use, link to glossary. |
-| "Being careful with hedging language" | Hedging makes you sound uncertain. | State facts directly. Remove qualifiers. |
-| "Perfect code examples look cleaner" | Perfect world examples are brittle in practice. | Include error handling, show realistic usage. |
-| "More examples = more helpful" | Too many examples = noise. | One excellent, complete example beats five shallow ones. |
+The lowercase format works because errors often chain: `"analysis failed: " + inner_error.message` reads correctly.
 
 ## Summary
 
@@ -406,7 +341,5 @@ Before publishing, check for these issues:
 **Avoid AI markers:** No "delve," "leverage," "robust." No throat-clearing. No hedging. No formal transitions.
 
 **One excellent example** beats five mediocre ones. Include error handling. Show realistic usage.
-
-**Technical depth + clarity are not opposites.** You can have both. Supabase, Stripe, and Cloudflare prove this daily.
 
 **Read aloud test:** If it sounds robotic or overly formal, rewrite it.

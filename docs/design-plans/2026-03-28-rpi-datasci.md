@@ -2,9 +2,11 @@
 
 ## Summary
 
-This design reshapes two existing Claude Code plugins — `rpi-house-style` and `rpi-plan-and-execute` — to better serve a data science and neuroscience context rather than the TypeScript/React web development workflows they were originally built around. The motivation is practical: the tooling no longer reflects the languages and patterns used in the target work (Python, MATLAB, R), and the context-management machinery relies on a crude proxy metric (tool-call count) instead of the real context window fill level. The redesign removes the web stack entirely from the house style plugin, replaces it with three language-specific guides, and upgrades several language-agnostic skills with scientifically relevant examples.
+This design reshapes two existing Claude Code plugins — `rpi-house-style` and `rpi-plan-and-execute` — to better serve a data science and neuroscience context rather than the TypeScript/React web development workflows they were originally built around. The motivation is practical: the tooling no longer reflects the languages and patterns used in the target work (Python, MATLAB, R), and the context-management machinery relies on a crude proxy metric (tool-call count) instead of the real context window fill level. 
 
-The implementation approach is layered across six phases, each building on the last. A new StatusLine hook feeds real context-window percentages into a shared JSON file on disk, which the existing session-monitor script then reads to decide when to fire compression directives — at natural break points (task completions, test runs) for soft-threshold crossings, and unconditionally for hard-threshold crossings. A persistent `PROJECT.md` file, generated at compression time from git history and session notes, lets agents resume work across context windows without losing track of what has been decided and what remains. Two lighter-weight entry points (`/quick-analysis` and `/helper-function`) are added alongside the existing full planning loop so that small tasks do not require the overhead of a full design-and-execute cycle. Finally, model assignment is tightened so that expensive Opus calls are reserved for design and planning, while implementation, review, and testing agents default to Sonnet.
+The implementation approach is layered across seven phases, each building on the last. A new StatusLine hook feeds real context-window percentages into a shared JSON file on disk, which the existing session-monitor script then reads to decide when to fire compression directives — at natural break points (task completions, test runs) for soft-threshold crossings, and unconditionally for hard-threshold crossings. A persistent `PROJECT.md` file, generated at compression time from git history and session notes, lets agents resume work across context windows without losing track of what has been decided and what remains. 
+
+Crucially, this design now integrates workspace-wide project monitoring. By porting logic from the `Monitor` project, the `rpi-plan-and-execute` plugin gains the ability to scan the entire `/Users/paul/Claude/` workspace, classify projects into lifecycle phases (e.g., `design`, `implementing`, `active`), and maintain a central `DASHBOARD.md`. Two lighter-weight entry points (`/quick-analysis` and `/helper-function`) are added alongside the existing full planning loop so that small tasks do not require the overhead of a full design-and-execute cycle. Finally, model assignment is tightened so that expensive Opus calls are reserved for design and planning, while implementation, review, and testing agents default to Sonnet.
 
 ## 🗂 Memory Tier Index
 
@@ -21,7 +23,8 @@ The implementation approach is layered across six phases, each building on the l
 3. Three tiered workflow entry points implemented: `quick-analysis` (no planning, just execute), `helper-function` (lightweight plan + implement), and the existing full RPI loop (for large-scale packages)
 4. Fully automated context management: auto-compresses and triggers a fresh session when thresholds are hit (by context size OR progress checkpoint); compress-to-disk-only option also available without session restart
 5. Persistent project-level progress log that tracks implementation status and decisions across sessions, designed for resuming work with an agent in a new context window
-6. This design supersedes and integrates the existing work-in-progress on the `context-optimization` branch
+6. **Workspace-wide monitoring:** Integrated scanner that classifies all projects in `/Users/paul/Claude/` into 10 phases, generates per-project JSON stubs, and maintains a central `DASHBOARD.md`.
+7. This design supersedes and integrates the existing work-in-progress on the `context-optimization` branch and the standalone `Monitor` project design.
 
 ## 🔴 Acceptance Criteria
 
@@ -71,6 +74,14 @@ The implementation approach is layered across six phases, each building on the l
 - **rpi-datasci.AC6.2 Success:** `starting-a-design-plan` and `starting-an-implementation-plan` skill docs note that Opus is appropriate for design/planning phases
 - **rpi-datasci.AC6.3 Failure:** Any implementation agent (`task-implementor-fast`, `code-reviewer`, `task-bug-fixer`, `test-analyst`) specifies Opus as its default model
 
+### rpi-datasci.AC7 — Workspace Monitoring
+
+- **rpi-datasci.AC7.1 Success:** `plugins/rpi-plan-and-execute/scripts/monitor.py` exists; correctly identifies projects in `/Users/paul/Claude/` and classifies them into one of 10 lifecycle phases (empty, scaffold, static-complete, design, design-complete, implementing, active, upstream-sync, maintenance, unknown).
+- **rpi-datasci.AC7.2 Success:** `plugins/rpi-plan-and-execute/commands/workspace-dashboard.md` exists; `/workspace-dashboard` command displays the current `DASHBOARD.md` from the workspace root.
+- **rpi-datasci.AC7.3 Success:** `compressing-context` skill optionally triggers `monitor.py` after writing `PROJECT.md`, ensuring the dashboard reflects the latest project state.
+- **rpi-datasci.AC7.4 Success:** `.monitor/<project>.json` stubs are generated for each project, following the schema defined in the Monitor design.
+- **rpi-datasci.AC7.5 Failure:** `monitor.py` fails to exclude itself or hidden directories from the scan.
+
 ## 🔵 Glossary
 
 - **RPI loop / full RPI loop**: The existing multi-phase workflow implemented by the `rpi-plan-and-execute` plugin, covering design, planning, implementation, and review.
@@ -94,6 +105,8 @@ The implementation approach is layered across six phases, each building on the l
 - **Model tiering**: Assigning different Claude model sizes to task types by reasoning demand: Opus for design/planning, Sonnet for implementation/review, Haiku for mechanical hooks.
 - **`task-implementor-fast`**: An agent definition in `rpi-plan-and-execute` for implementation subagents; already targets a smaller/faster model.
 - **Quarto**: A scientific publishing system built on R Markdown, used for reproducible reporting in R and Python workflows.
+- **Workspace Dashboard**: A central `DASHBOARD.md` file at the workspace root (`/Users/paul/Claude/`) that provides a high-level overview of all projects, their phases, and recent activity.
+- **`monitor.py`**: A Python script integrated into the `rpi-plan-and-execute` plugin that scans the workspace and generates monitoring data.
 
 ## 🟡 Architecture
 
@@ -118,6 +131,11 @@ The redesign modifies two existing plugins: `rpi-house-style` and `rpi-plan-and-
 - **SessionStart hook** (enhanced): reads `.rpi/CONTEXT.md` and `.rpi/PROJECT.md` and injects both into session context on every start/clear/resume
 
 *Project-level log:* `compressing-context` skill enhanced to also generate/update `.rpi/PROJECT.md` by reading `git log` and `git status` output — accumulates implementation status, decision log, and current branch state across sessions.
+
+*Workspace Monitoring Integration:* 
+- **`scripts/monitor.py`**: A ported version of the workspace scanner. It uses `GitInfo`, `FileInfo`, and `RpiInfo` to classify projects.
+- **`commands/workspace-dashboard.md`**: Invokes a simple skill that displays `cat /Users/paul/Claude/DASHBOARD.md`.
+- **Automated Updates**: `compressing-context` triggers `monitor.py` for the current project only (or the whole workspace) to keep the dashboard current.
 
 *Model tiering:* Agent `.md` files and skill prompts updated to default subagents to Sonnet; Opus reserved for design/planning phases only; hook scripts use Haiku where model selection applies.
 
@@ -232,6 +250,22 @@ The redesign modifies two existing plugins: `rpi-house-style` and `rpi-plan-and-
 
 **Done when:** Agent files reflect intended models; code-reviewer, bug-fixer, and test-analyst default to Sonnet; design/planning skill docs note Opus rationale
 <!-- END_PHASE_6 -->
+
+<!-- START_PHASE_7 -->
+### Phase 7: Workspace Monitoring Integration
+
+**Goal:** Integrate the workspace monitoring scanner and dashboard from the `Monitor` project.
+
+**Components:**
+- Port: `plugins/rpi-plan-and-execute/scripts/monitor.py` from the `Monitor` project. It will use the Pydantic models and classification logic defined in the `Monitor` design.
+- Create: `plugins/rpi-plan-and-execute/commands/workspace-dashboard.md` and a corresponding skill to display the workspace `DASHBOARD.md`.
+- Enhance: `plugins/rpi-plan-and-execute/skills/compressing-context/SKILL.md` to run `monitor.py` as a final step, ensuring the central dashboard stays current.
+- Configure: Workspace root is fixed to `/Users/paul/Claude/`. Hidden directories and the `Monitor/` directory are excluded from scanning.
+
+**Dependencies:** Phase 4 (compression skill infrastructure complete).
+
+**Done when:** `monitor.py` correctly scans all projects and generates `.monitor/*.json` stubs and `DASHBOARD.md`; `/workspace-dashboard` command displays the dashboard; `compressing-context` successfully triggers a scan.
+<!-- END_PHASE_7 -->
 
 ## 🔵 Additional Considerations
 

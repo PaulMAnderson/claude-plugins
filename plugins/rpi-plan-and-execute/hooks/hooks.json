@@ -16,8 +16,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/context-monitor.sh",
-            "timeout": 5
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/session-monitor.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "StatusLine": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ${CLAUDE_PLUGIN_ROOT}/hooks/statusline.py"
           }
         ]
       }

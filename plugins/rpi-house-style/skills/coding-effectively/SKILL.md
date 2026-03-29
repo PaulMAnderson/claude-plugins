@@ -13,11 +13,8 @@ user-invocable: false
 - `defense-in-depth` - Validate at every layer data passes through
 
 **CONDITIONAL:** Use these sub-skills when applicable:
-- `howto-code-in-typescript` - TypeScript code
-- `howto-develop-with-postgres` - PostgreSQL database code
-- `programming-in-react` - React frontend code
+- `howto-develop-with-mysql` - MySQL database code
 - `writing-good-tests` - Writing or reviewing tests
-- `property-based-testing` - Tests for serialization, validation, normalization, pure functions
 
 ## Property-Driven Design
 
@@ -29,7 +26,7 @@ When designing features, think about properties upfront. This surfaces design ga
 |----------|---------------|---------|
 | Does it have an inverse operation? | Roundtrip | `decode(encode(x)) == x` |
 | Is applying it twice the same as once? | Idempotence | `f(f(x)) == f(x)` |
-| What quantities are preserved? | Invariants | Length, sum, count unchanged |
+| What quantities are preserved? | Invariants | Array shape, sum, count unchanged |
 | Is order of arguments irrelevant? | Commutativity | `f(a, b) == f(b, a)` |
 | Can operations be regrouped? | Associativity | `f(f(a,b), c) == f(a, f(b,c))` |
 | Is there a neutral element? | Identity | `f(x, 0) == x` |
@@ -37,10 +34,10 @@ When designing features, think about properties upfront. This surfaces design ga
 | Can output be easily verified? | Easy to verify | `is_sorted(sort(x))` |
 
 **Common design questions these reveal:**
-- "What about deleted/deactivated entities?"
-- "Case-sensitive or not?"
-- "Stable sort or not? Tie-breaking rules?"
-- "Which algorithm? Configurable?"
+- "How should we handle NaNs in the signal data?"
+- "What happens if the sample rates don't match?"
+- "Is the array order [channels, samples] or [samples, channels]?"
+- "Stable filter or not? Edge effect handling?"
 
 Surface these during design, not during debugging.
 
@@ -51,14 +48,14 @@ Surface these during design, not during debugging.
 Model the full error space. No shortcuts.
 
 - Handle all edge cases: race conditions, timing issues, partial failures
-- Use the type system to encode correctness constraints
-- Prefer compile-time guarantees over runtime checks where possible
+- Use the type system (or schema) to encode correctness constraints
+- Prefer explicit validation over implicit assumptions
 - When uncertain, explore and iterate rather than assume
 
 **Don't:**
 - Simplify error handling to save time
 - Ignore edge cases because "they probably won't happen"
-- Use `any` or equivalent to bypass type checking
+- Use loose types (like `any` in Python type hints) to bypass checks
 
 ### Error Handling Philosophy
 
@@ -95,30 +92,30 @@ Lowercase fragments compose naturally: `"operation failed: " + error.message` re
 Name files by what they contain, not by generic categories.
 
 **Don't create:**
-- `utils.ts` - Becomes a dumping ground for unrelated functions
-- `helpers.ts` - Same problem
-- `common.ts` - What isn't common?
-- `misc.ts` - Actively unhelpful
+- `utils.py` - Becomes a dumping ground for unrelated functions
+- `helpers.m` - Same problem
+- `common.R` - What isn't common?
+- `misc.py` - Actively unhelpful
 
 **Do create:**
-- `string-formatting.ts` - String manipulation utilities
-- `date-arithmetic.ts` - Date calculations
-- `api-error-handling.ts` - API error utilities
-- `user-validation.ts` - User input validation
+- `signal_processing.py` - Signal manipulation utilities
+- `spike_sorting.py` - Spike sorting algorithms
+- `data_io.py` - HDF5/MAT file reading utilities
+- `array_validation.py` - Array shape and type validation
 
 **Why this matters:**
 - Discoverability: Developers find code by scanning file names
 - Cohesion: Related code stays together
-- Prevents bloat: Hard to add unrelated code to `string-formatting.ts`
-- Import clarity: `import { formatDate } from './date-arithmetic'` is self-documenting
+- Prevents bloat: Hard to add unrelated code to `signal_processing.py`
+- Import clarity: `from signal_processing import bandpass_filter` is self-documenting
 
-**When you're tempted to create utils.ts:** Stop. Ask what the functions have in common. Name the file after that commonality.
+**When you're tempted to create utils.py:** Stop. Ask what the functions have in common. Name the file after that commonality.
 
 ### Module Organization
 
 - Keep module boundaries strict with restricted visibility
-- Platform-specific code in separate files: `unix.ts`, `windows.ts`, `posix.ts`
-- Use conditional compilation or runtime checks for platform branching
+- Platform-specific code in separate files: `unix.py`, `windows.py`
+- Use runtime checks for platform branching
 - Test helpers in dedicated modules/files, not mixed with production code
 
 ## Cross-Platform Principles
@@ -131,13 +128,16 @@ Don't emulate Unix on Windows or vice versa. Use each platform's native patterns
 
 **Good:** Accept platform differences, handle them explicitly.
 
-```typescript
-// Platform-specific behavior
-if (process.platform === 'win32') {
-  // Windows-native approach
-} else {
-  // POSIX approach
-}
+```python
+import sys
+
+# Platform-specific behavior
+if sys.platform == 'win32':
+    # Windows-native approach
+    pass
+else:
+    # POSIX approach
+    pass
 ```
 
 ### Platform-Specific Files
@@ -145,20 +145,23 @@ if (process.platform === 'win32') {
 When platform differences are significant, use separate files:
 
 ```
-process-spawn.ts        // Shared interface and logic
-process-spawn-unix.ts   // Unix-specific implementation
-process-spawn-windows.ts // Windows-specific implementation
+process_spawn.py        # Shared interface and logic
+process_spawn_unix.py   # Unix-specific implementation
+process_spawn_windows.py # Windows-specific implementation
 ```
 
 ### Document Platform Differences
 
 When behavior differs by platform, document it in comments:
 
-```typescript
-// On Windows, this returns CRLF line endings.
-// On Unix, this returns LF line endings.
-// Callers should normalize if consistent output is needed.
-function readTextFile(path: string): string { ... }
+```python
+def read_text_file(path: str) -> str:
+    """
+    On Windows, this returns CRLF line endings.
+    On Unix, this returns LF line endings.
+    Callers should normalize if consistent output is needed.
+    """
+    ...
 ```
 
 ### Test on All Target Platforms
@@ -172,19 +175,20 @@ Don't assume Unix behavior works on Windows. Test explicitly:
 
 | Mistake | Reality | Fix |
 |---------|---------|-----|
-| "Just put it in utils for now" | utils.ts becomes 2000 lines of unrelated code | Name files by purpose from the start |
+| "Just put it in utils for now" | utils.py becomes 2000 lines of unrelated code | Name files by purpose from the start |
 | "Edge cases are rare" | Edge cases cause production incidents | Handle them. Model the full error space. |
 | "We might need this abstraction later" | Premature abstraction is harder to remove than add | Wait for the third use case |
 | "It works on my Mac" | It may not work on Windows or Linux | Test on target platforms |
-| "The type system is too strict" | Strictness catches bugs at compile time | Fix the type error, don't bypass it |
+| "Array shape is always [time, channels]" | Someone will eventually pass [channels, time] | Validate array shapes explicitly |
+| "NaNs won't propagate that far" | NaNs will contaminate your entire analysis pipeline | Check for and handle NaNs early |
 
 ## Red Flags
 
 **Stop and refactor when you see:**
 
-- A `utils.ts` or `helpers.ts` file growing beyond 200 lines
+- A `utils.py` or `helpers.m` file growing beyond 200 lines
 - Error handling that swallows errors or uses generic messages
 - Platform-specific code mixed with cross-platform code
 - Abstractions created for single use cases
-- Type assertions (`as any`) to bypass the type system
+- Hardcoded array dimension indices (e.g., `data[0, :]`) without context
 - Code that "works on my machine" but isn't tested cross-platform
