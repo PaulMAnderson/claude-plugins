@@ -14,6 +14,10 @@ Orchestrate the transition from design document to executable implementation thr
 
 **Announce at start:** "I'm using the starting-an-implementation-plan skill to create the implementation plan from your design."
 
+## Model Usage
+
+The **Opus** model is recommended for complex implementation planning to ensure tasks are granular and accurately reflect the design intent.
+
 ## REQUIRED: Design Plan Path
 
 **DO NOT GUESS.** If the user has not provided a path to a design plan, you MUST ask for it.

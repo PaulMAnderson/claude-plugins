@@ -1,6 +1,6 @@
 ---
 name: writing-good-tests
-description: Use when writing or reviewing tests - covers test philosophy, condition-based waiting, mocking strategy, and test isolation
+description: Use when writing or reviewing tests - covers test philosophy, condition-based waiting, mocking strategy, and test isolation for scientific computing
 user-invocable: false
 ---
 
@@ -8,332 +8,169 @@ user-invocable: false
 
 ## Philosophy
 
-**"Write tests. Not too many. Mostly integration."** — Kent C. Dodds
+**"Write tests. Not too many. Mostly integration."** — adapted from Kent C. Dodds
 
-Tests verify real behavior, not implementation details. The goal is confidence that your code works, not coverage numbers.
+In scientific computing, tests verify that your analysis produces the correct results and remains reproducible. The goal is confidence in your findings, not just code coverage.
 
 **Core principles:**
-1. Test behavior, not implementation — refactoring shouldn't break tests
-2. Integration tests provide better confidence-to-cost ratio than unit tests
-3. Wait for actual conditions, not arbitrary timeouts
-4. Mock strategically — real dependencies when feasible, mocks for external systems
-5. Don't pollute production code with test-only methods
+1. Test scientific outcomes, not implementation details — refactoring an algorithm shouldn't break its tests if the result is the same.
+2. Integration tests (running a full pipeline on a small dataset) provide better confidence than unit testing individual math functions in isolation.
+3. Use known-good "gold standard" data for regression testing.
+4. Mock strategically — use real data files when feasible, mocks for hardware interfaces or slow database writes.
+5. Prioritize reproducibility — ensure tests pass across different environments and versions of libraries (numpy, scipy, etc.).
 
 ## Test Structure
 
 Use **Arrange-Act-Assert** (or Given-When-Then):
 
-```typescript
-test('user can cancel reservation', async () => {
-  // Arrange
-  const reservation = await createReservation({ userId: 'user-1', roomId: 'room-1' });
+```python
+import numpy as np
+from my_analysis import detect_spikes
 
-  // Act
-  const result = await cancelReservation(reservation.id);
+def test_spike_detection_on_synthetic_data():
+    # Arrange: Create a synthetic signal with known spikes
+    fs = 1000  # 1kHz
+    t = np.linspace(0, 1, fs)
+    signal = np.sin(2 * np.pi * 10 * t)  # 10Hz sine wave
+    signal[500] = 10  # Insert a spike at 500ms
+    threshold = 5
 
-  // Assert
-  expect(result.status).toBe('cancelled');
-  expect(await getReservation(reservation.id)).toBeNull();
-});
+    # Act: Run the detection algorithm
+    spike_indices = detect_spikes(signal, threshold)
+
+    # Assert: Verify the spike was detected at the correct index
+    assert len(spike_indices) == 1
+    assert spike_indices[0] == 500
 ```
 
-**One action per test.** Multiple assertions are fine if they verify the same behavior.
+**One scientific question per test.** Multiple assertions are fine if they verify different aspects of the same phenomenon (e.g., spike time and spike amplitude).
 
-## Condition-Based Waiting
+## Handling Data Dependencies
 
-Flaky tests often guess at timing. This creates race conditions where tests pass locally but fail in CI.
+### Managed vs Unmanaged Dependencies
+
+In data science, your "dependencies" are often data files or external hardware.
+
+| Dependency Type | Example | Strategy |
+|-----------------|---------|----------|
+| **Managed** (you control it) | Small test HDF5/MAT files, local MySQL test DB | Use REAL files/instances |
+| **Unmanaged** (external) | Live data streams from hardware, remote APIs | Use MOCKS or RECORDED data |
+
+**Rule:** Always prefer using a small, version-controlled "test dataset" over mocking data structures. Real data surfaces edge cases (NaNs, precision issues) that manual mocks often miss.
+
+## Condition-Based Waiting (for Real-time/Async)
+
+If testing async data collection or long-running simulations, don't use arbitrary `sleep()`.
 
 **Wait for conditions, not time:**
 
-```typescript
-// BAD: Guessing at timing
-await new Promise(r => setTimeout(r, 50));
-const result = getResult();
+```python
+import time
 
-// GOOD: Waiting for condition
-await waitFor(() => getResult() !== undefined);
-const result = getResult();
-```
+def wait_for_condition(condition_func, timeout=5, poll_interval=0.1):
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        if condition_func():
+            return True
+        time.sleep(poll_interval)
+    raise TimeoutError("Condition not met within timeout")
 
-### Generic Polling Function
-
-```typescript
-async function waitFor<T>(
-  condition: () => T | undefined | null | false,
-  description: string,
-  timeoutMs = 5000
-): Promise<T> {
-  const startTime = Date.now();
-
-  while (true) {
-    const result = condition();
-    if (result) return result;
-
-    if (Date.now() - startTime > timeoutMs) {
-      throw new Error(`Timeout waiting for ${description} after ${timeoutMs}ms`);
-    }
-
-    await new Promise(r => setTimeout(r, 10)); // Poll every 10ms
-  }
-}
-```
-
-### Quick Patterns
-
-| Scenario | Pattern |
-|----------|---------|
-| Wait for event | `waitFor(() => events.find(e => e.type === 'DONE'))` |
-| Wait for state | `waitFor(() => machine.state === 'ready')` |
-| Wait for count | `waitFor(() => items.length >= 5)` |
-
-### When Arbitrary Timeout IS Correct
-
-Only when testing actual timing behavior (debounce, throttle, intervals):
-
-```typescript
-// Testing tool that ticks every 100ms
-await waitForEvent(manager, 'TOOL_STARTED'); // First: wait for condition
-await new Promise(r => setTimeout(r, 200));   // Then: wait for 2 ticks
-// Comment explains WHY: 200ms = 2 ticks at 100ms intervals
+def test_data_acquisition_starts():
+    recorder.start()
+    # GOOD: Wait for the buffer to fill
+    wait_for_condition(lambda: recorder.buffer_size > 0)
+    assert recorder.is_recording
 ```
 
 ## Mocking Strategy
 
-> "You don't hate mocks; you hate side-effects." — J.B. Rainsberger
-
-Mocks reveal where side-effects complicate your code. Use them strategically, not reflexively.
-
 ### Don't Mock What You Don't Own
 
-Create thin wrappers around third-party libraries. Mock YOUR wrapper, not the library.
+Create thin wrappers around hardware drivers or complex libraries. Mock YOUR wrapper, not the driver.
 
-```typescript
-// BAD: Mock the HTTP client directly
-const mockClient = vi.mocked(httpx.Client);
+```python
+# BAD: Mocking the low-level NiDAQmx driver directly
+# GOOD: Mock your own HighLevelRecorder class
 
-// GOOD: Create your own wrapper
-class RegistryClient {
-  constructor(private client: HttpClient) {}
-  async getRepos() {
-    return this.client.get('https://registry.example.com/v2/_catalog');
-  }
-}
+class MyAnalysis:
+    def __init__(self, recorder):
+        self.recorder = recorder
 
-// Mock your wrapper
-vi.mock('./registry-client');
+def test_analysis_starts_recorder():
+    mock_recorder = MagicMock()
+    analysis = MyAnalysis(mock_recorder)
+    analysis.run()
+    mock_recorder.start.assert_called_once()
 ```
 
-This simplifies tests AND improves your design.
+### Anti-Pattern: Incomplete Data Mocks
 
-### Managed vs Unmanaged Dependencies
+When mocking data structures (like numpy arrays or pandas DataFrames), ensure they have realistic shapes and types.
 
-| Dependency Type | Example | Strategy |
-|-----------------|---------|----------|
-| **Managed** (you control it) | Your database, your file system | Use REAL instances |
-| **Unmanaged** (external) | Third-party APIs, SMTP, message bus | Use MOCKS |
-
-Communications with managed dependencies are implementation details — you can refactor them freely. Communications with unmanaged dependencies are observable behavior — mocking protects against external changes.
-
-### Anti-Pattern: Testing Mock Behavior
-
-```typescript
-// BAD: Testing that the mock exists
-test('renders sidebar', () => {
-  render(<Page />);
-  expect(screen.getByTestId('sidebar-mock')).toBeInTheDocument();
-});
-
-// GOOD: Test real behavior
-test('renders sidebar', () => {
-  render(<Page />);
-  expect(screen.getByRole('navigation')).toBeInTheDocument();
-});
+```python
+# BAD: Mocking a signal as a simple list
+# GOOD: Using a numpy array with the correct dtype and shape
+signal = np.random.randn(10, 1000).astype(np.float32) 
 ```
 
-**Gate:** Before asserting on any mock element, ask: "Am I testing real behavior or mock existence?"
-
-### Anti-Pattern: Mocking Without Understanding
-
-```typescript
-// BAD: Mock breaks test logic
-test('detects duplicate server', () => {
-  // Mock prevents config write that test depends on!
-  vi.mock('ToolCatalog', () => ({
-    discoverAndCacheTools: vi.fn().mockResolvedValue(undefined)
-  }));
-  await addServer(config);
-  await addServer(config);  // Should throw - but won't!
-});
-
-// GOOD: Mock at correct level
-test('detects duplicate server', () => {
-  vi.mock('MCPServerManager'); // Just mock slow server startup
-  await addServer(config);  // Config written
-  await addServer(config);  // Duplicate detected
-});
-```
-
-**Gate:** Before mocking, ask: "What side effects does this have? Does my test depend on them?"
-
-### Anti-Pattern: Incomplete Mocks
-
-Mock the COMPLETE data structure as it exists in reality:
-
-```typescript
-// BAD: Partial mock
-const mockResponse = {
-  status: 'success',
-  data: { userId: '123' }
-  // Missing: metadata that downstream code uses
-};
-
-// GOOD: Mirror real API
-const mockResponse = {
-  status: 'success',
-  data: { userId: '123', name: 'Alice' },
-  metadata: { requestId: 'req-789', timestamp: 1234567890 }
-};
-```
-
-### When Mocks Become Too Complex
-
-Warning signs:
-- Mock setup longer than test logic
-- Mocking everything to make test pass
-- Test breaks when mock changes
-
-> "As the number of mocks grows, the probability of testing the mock instead of the desired code goes up." — Codurance
-
-Consider integration tests with real components — often simpler than elaborate mocks.
-
-### Anti-Pattern: Test-Only Methods in Production
-
-```typescript
-// BAD: destroy() only used in tests
-class Session {
-  async destroy() { /* cleanup */ }
-}
-
-// GOOD: Test utilities handle cleanup
-// test-utils/session-helpers.ts
-export async function cleanupSession(session: Session) {
-  const workspace = session.getWorkspaceInfo();
-  if (workspace) {
-    await workspaceManager.destroyWorkspace(workspace.id);
-  }
-}
-```
-
-**Gate:** Before adding any method to production class, ask: "Is this only used by tests?" If yes, put it in test utilities.
-
-## Test Isolation
-
-Tests should not depend on execution order. But isolation doesn't mean cleaning up everything.
+## Test Isolation and Cleanup
 
 ### What to Clean Up
 
 **Long-lived resources MUST be cleaned up:**
-- Virtual machines, containers
-- Kubernetes jobs, pods, deployments
-- Cloud resources (instances, buckets)
-- Background processes, daemons
+- Temporary data files created during the test
+- Database connections or test tables
+- Hardware handles or background threads
 
-**Prefer product tools for cleanup** when possible:
-```typescript
-afterAll(async () => {
-  // Use the product's own cleanup mechanisms
-  await deployment.delete();
-  await job.terminate();
-});
-```
+Use `pytest` fixtures for automated cleanup:
 
-**Side-channel cleanup** when product tools aren't available:
-```typescript
-afterAll(async () => {
-  // Direct cleanup when product doesn't provide it
-  await exec('kubectl delete job test-job-123');
-});
+```python
+import pytest
+import os
+
+@pytest.fixture
+def temp_data_file():
+    path = "test_data.h5"
+    # Setup: create file
+    yield path
+    # Teardown: delete file
+    if os.path.exists(path):
+        os.remove(path)
+
+def test_analysis(temp_data_file):
+    # Run test using temp_data_file
+    ...
 ```
 
 ### What's OK to Leave
 
-**Database artifacts are fine to leave around.** Trying to clean up test data perfectly is a fool's errand and makes multi-step integration tests nearly impossible.
-
-- Test records in databases
-- Log entries
-- Cached data that expires
-
-The database should handle its own lifecycle. Tests that require pristine state should create unique identifiers, not depend on cleanup.
-
-### Preventing Order Dependencies
-
-```typescript
-// Use unique identifiers instead of depending on clean state
-const testId = `test-${Date.now()}-${Math.random()}`;
-const user = await createUser({ email: `${testId}@test.com` });
-```
+**Logs and database records are fine to leave in dedicated test environments.**
+- Don't spend effort perfectly cleaning a test MySQL database; just ensure each test uses unique IDs or a fresh schema.
 
 ## Quick Reference
 
 | Problem | Fix |
 |---------|-----|
-| Arbitrary setTimeout in tests | Use condition-based waiting |
-| Assert on mock elements | Test real component or unmock |
-| Mock third-party directly | Create wrapper, mock wrapper |
-| Test-only methods in production | Move to test utilities |
-| Mock without understanding | Understand dependencies first |
-| Incomplete mocks | Mirror real API completely |
-| Over-complex mocks | Consider integration tests |
-| Long-lived resources left running | Clean up VMs, k8s jobs, cloud resources |
+| `time.sleep()` in tests | Use `wait_for_condition` |
+| Mocking complex math | Use synthetic data with known ground truth |
+| Test-only methods in production | Move to `conftest.py` or test utility modules |
+| Tests slow due to large files | Create "tiny" versions of your datasets for testing |
+| Flaky tests on different machines | Check for floating point precision (use `pytest.approx`) |
 
 ## Red Flags
 
 **Stop and reconsider when you see:**
-- Arbitrary `setTimeout`/`sleep` without justification
-- Assertions on mock elements or test IDs
-- Methods only called in test files
-- Mock setup is >50% of test code
-- "Mocking just to be safe"
-- Test depends on another test running first
-- Long-lived resources not cleaned up
+- `time.sleep()` without a specific timing-related reason.
+- Mocking `np.ndarray` or `pd.DataFrame` behavior instead of just using small arrays/frames.
+- Tests that only pass on one person's machine because of hardcoded paths.
+- "Golden" data files that are several gigabytes (should be megabytes).
+- `assert a == b` for floating point numbers (use `np.allclose` or `pytest.approx`).
 
-## TDD Connection
+## TDD for Science
 
-TDD prevents most testing anti-patterns:
-- Write test first → forces thinking about what you're testing
-- Watch it fail → confirms test tests real behavior, not mocks
-- Minimal implementation → no test-only methods creep in
-- Real dependencies first → you see what test needs before mocking
-
-## Property-Based Testing
-
-For certain patterns, property-based testing provides stronger coverage than example-based tests. See `property-based-testing` skill for complete reference.
-
-### When to Use PBT
-
-| Pattern | Example | Why PBT |
-|---------|---------|---------|
-| Serialization pairs | `encode`/`decode`, `toJSON`/`fromJSON` | Roundtrip property catches edge cases |
-| Normalizers | `sanitize`, `canonicalize`, `format` | Idempotence property ensures stability |
-| Validators | `is_valid`, `validate` | Valid-after-normalize property |
-| Pure functions | Business logic, calculations | Multiple properties verify contract |
-| Sorting/ordering | `sort`, `rank`, `compare` | Ordering + idempotence properties |
-
-### When NOT to Use PBT
-
-- Simple CRUD without transformation
-- UI/presentation logic
-- Integration tests requiring external setup
-- When specific examples suffice and edge cases are well-understood
-- Prototyping with fluid requirements
-
-### PBT Quality Gates
-
-Before committing property-based tests:
-
-- [ ] **Not tautological:** Assertion doesn't compare same expression (`sorted(xs) == sorted(xs)` tests nothing)
-- [ ] **Strong property:** Not just "no crash" - aim for roundtrip, idempotence, or invariants
-- [ ] **Not vacuous:** `assume()` calls don't filter out most inputs
-- [ ] **Edge cases explicit:** Include `@example([])`, `@example([1])` decorators
-- [ ] **No reimplementation:** Don't restate function logic in assertion (`assert add(a,b) == a+b`)
-- [ ] **Realistic constraints:** Strategy matches real-world input constraints
+TDD helps ensure your analysis is correct before you trust its results:
+1. Write a test with a trivial "known" result (e.g., a 10Hz sine wave).
+2. Watch the test fail (confirms the test is actually checking the output).
+3. Implement the algorithm.
+4. Verify the test passes.
+5. Add edge cases (NaNs, gaps in data, noise) and refine.

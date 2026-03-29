@@ -14,6 +14,10 @@ Orchestrate the complete design workflow from initial idea to implementation-rea
 
 **Announce at start:** "I'm using the starting-a-design-plan skill to guide us through the design process."
 
+## Model Usage
+
+The **Opus** model is recommended for high-reasoning tasks like initial design, requirements gathering, and complex brainstorming to ensure maximum architectural coherence.
+
 ## Quick Reference
 
 | Phase | Key Activities | Output |
