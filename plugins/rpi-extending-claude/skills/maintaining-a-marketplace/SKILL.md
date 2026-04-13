@@ -1,6 +1,6 @@
 ---
 name: maintaining-a-marketplace
-description: Use when creating, releasing, or maintaining a Claude Code Plugin Marketplace - covers marketplace.json schema, version management, release checklists, changelog conventions, and validation to prevent sync drift between plugin.json and marketplace.json
+description: Maintain a Claude Code Plugin Marketplace: versioning, releases, and validation
 ---
 
 # Maintaining a Marketplace

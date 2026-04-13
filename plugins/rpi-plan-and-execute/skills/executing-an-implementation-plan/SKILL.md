@@ -1,6 +1,6 @@
 ---
 name: executing-an-implementation-plan
-description: Use when executing implementation plans with independent tasks in the current session - dispatches fresh subagent for each task, reviews once per phase, loads phases just-in-time to minimize context usage
+description: Execute implementation plan tasks with fresh per-task subagents
 user-invocable: false
 ---
 
@@ -461,78 +461,6 @@ After final review passes:
     - Were any code-review issues left outstanding at any point?
 
 - Activate the `finishing-a-development-branch` skill. DO NOT activate it before this point.
-
-## Example Workflow
-
-```
-You: I'm using the `executing-an-implementation-plan` skill.
-
-[Discover phases: phase_01.md, phase_02.md, phase_03.md]
-[Read first 3 lines of each to get titles]
-
-[Create tasks with TaskCreate:]
-- [ ] Phase 1a: Read /path/to/phase_01.md — Project Setup
-- [ ] Phase 1b: Execute tasks
-- [ ] Phase 1c: Code review
-- [ ] Phase 2a: Read /path/to/phase_02.md — Token Service
-- [ ] Phase 2b: Execute tasks
-- [ ] Phase 2c: Code review
-- [ ] Phase 3a: Read /path/to/phase_03.md — API Middleware
-- [ ] Phase 3b: Execute tasks
-- [ ] Phase 3c: Code review
-
---- Phase 1 ---
-
-[Mark 1a in_progress, read phase_01.md]
-→ Contains 2 tasks: project setup, config files
-
-[Mark 1a complete, 1b in_progress]
-
-[Dispatch task-implementor-fast for Task 1]
-→ Created package.json, tsconfig.json.
-
-[Dispatch task-implementor-fast for Task 2]
-→ Created config files. Build succeeds.
-
-[Mark 1b complete, 1c in_progress]
-
-[Use requesting-code-review skill for phase 1]
-→ Zero issues.
-
-[Mark 1c complete]
-
---- Phase 2 ---
-
-[Mark 2a in_progress, read phase_02.md]
-→ Contains 3 tasks: types, service, tests
-
-[Mark 2a complete, 2b in_progress]
-
-[Execute all 3 tasks...]
-
-[Mark 2b complete, 2c in_progress]
-
-[Use requesting-code-review skill for phase 2]
-→ Important: 1, Minor: 1
-→ Dispatch bug-fixer, re-review
-→ Zero issues.
-
-[Mark 2c complete]
-
---- Phase 3 ---
-
-[Similar pattern...]
-
---- Finalize ---
-
-[Invoke project-claude-librarian subagent]
-→ Updated CLAUDE.md.
-
-[Use requesting-code-review skill for final review]
-→ All requirements met.
-
-[Transitioning to finishing-a-development-branch]
-```
 
 ## Common Rationalizations - STOP
 

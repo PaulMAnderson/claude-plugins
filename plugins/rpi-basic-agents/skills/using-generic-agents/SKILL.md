@@ -1,6 +1,6 @@
 ---
 name: using-generic-agents
-description: Use to decide what kind of generic agent you should use
+description: Choose the right generic agent type (haiku/sonnet/opus) for a task
 user-invocable: false
 ---
 

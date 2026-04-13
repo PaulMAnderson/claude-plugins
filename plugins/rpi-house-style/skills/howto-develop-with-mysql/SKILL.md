@@ -1,6 +1,6 @@
 ---
 name: howto-develop-with-mysql
-description: Use when writing database access code, creating schemas, or managing transactions with MySQL - enforces transaction safety with TX_ naming, read-write separation, and snake_case conventions to prevent data corruption and type errors
+description: Write MySQL code with transaction safety and naming conventions
 user-invocable: false
 ---
 

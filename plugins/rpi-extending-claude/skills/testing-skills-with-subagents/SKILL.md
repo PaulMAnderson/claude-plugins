@@ -1,6 +1,6 @@
 ---
 name: testing-skills-with-subagents
-description: Use when creating or editing skills, before deployment, to verify they work under pressure and resist rationalization - applies RED-GREEN-REFACTOR cycle to process documentation by running baseline without skill, writing to address failures, iterating to close loopholes
+description: Test skills under pressure with subagents before deployment
 user-invocable: false
 ---
 
@@ -371,30 +371,3 @@ Agents resist single pressure, break under multiple.
 Tests pass once ≠ bulletproof.
 ✅ Fix: Continue REFACTOR cycle until no new rationalizations.
 
-## Quick Reference (TDD Cycle)
-
-| TDD Phase | Skill Testing | Model | Success Criteria |
-|-----------|---------------|-------|------------------|
-| **RED** | Run scenario without skill | Production-level (default: Sonnet) | Agent fails, document rationalizations |
-| **Verify RED** | Capture exact wording | Same as RED | Verbatim documentation of failures |
-| **GREEN** | Write skill addressing failures | One tier down (default: Haiku) | Agent now complies with skill |
-| **Verify GREEN** | Re-test scenarios | Same as GREEN | Agent follows rule under pressure |
-| **REFACTOR** | Close loopholes | Same as GREEN | Add counters for new rationalizations |
-| **Stay GREEN** | Re-verify | Same as GREEN | Agent still complies after refactoring |
-
-## The Bottom Line
-
-**Skill creation IS TDD. Same principles, same cycle, same benefits.**
-
-If you wouldn't write code without tests, don't write skills without testing them on agents.
-
-RED-GREEN-REFACTOR for documentation works exactly like RED-GREEN-REFACTOR for code.
-
-## Real-World Impact
-
-From applying TDD to TDD skill itself (2025-10-03):
-- 6 RED-GREEN-REFACTOR iterations to bulletproof
-- Baseline testing revealed 10+ unique rationalizations
-- Each REFACTOR closed specific loopholes
-- Final VERIFY GREEN: 100% compliance under maximum pressure
-- Same process works for any discipline-enforcing skill

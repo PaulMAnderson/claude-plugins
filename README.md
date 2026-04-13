@@ -31,35 +31,70 @@ Rough Idea
 
 | Plugin | Description |
 |--------|-------------|
-| **`rpi-00-getting-started`** | Getting started guide and onboarding for rpi-plugins. Run `/getting-started` to see this README. |
+| **`rpi-getting-started`** | Getting started guide and onboarding for rpi-plugins. Run `/getting-started` to see this README. |
 | **`rpi-plan-and-execute`** | Planning and execution workflows for Claude Code. Feed it a decent-sized task and it'll help you get it done in a sustainable and thought-through way |
 | **`rpi-house-style`** | House style for software development; Very Opinionated |
 | **`rpi-basic-agents`** | Core agents for general-purpose tasks (haiku, sonnet, opus). Other plugins expect this to exist |
 | **`rpi-research-agents`** | Agents for research across multiple data sources (codebase, internet, combined); other plugins expect this to exist |
 | **`rpi-extending-claude`** | Knowledge skills for extending Claude Code: plugins, commands, agents, skills, hooks, MCP servers. Other plugins expect this to exist |
-| **`rpi-playwright`**| Playwright automation with subagents |
-| **`rpi-hook-skill-reinforcement`** | UserPromptSubmit hook that reinforces the need to activate skills—helps make sure skills actually get used. Requires `rpi-extending-claude` to work |
-| **`rpi-hook-claudemd-reminder`** | PostToolUse hook that reminds to update CLAUDE.md before committing |
+| **`rpi-hook-skill-reinforcement`** | UserPromptSubmit hook that reinforces skill usage — low-overhead reminder each turn |
+| **`rpi-hook-claudemd-reminder`** | PostToolUse hook that reminds to update CLAUDE.md before committing when git commands reveal relevant changes |
 
 ## Installation
 
-### Option A — GitHub (when the repo is published)
+This repo is a Claude Code **marketplace** — one registration gives you access to all plugins by name.
+
+### Step 1: Register the marketplace
+
+In Claude Code, run:
 ```
-/plugin marketplace add https://github.com/paulanderson/rpi-plugins.git
+/plugin marketplace add file:///absolute/path/to/rpi-plugins
+```
+
+Replace the path with the actual location you cloned the repo to, e.g.:
+```
+/plugin marketplace add file:///Users/yourname/code/rpi-plugins
+```
+
+### Step 2: Install plugins
+
+Install the core set (required by most workflows):
+```
+/plugin install rpi-basic-agents@rpi-plugins
+/plugin install rpi-research-agents@rpi-plugins
 /plugin install rpi-plan-and-execute@rpi-plugins
+/plugin install rpi-extending-claude@rpi-plugins
 ```
 
-### Option B — Local development (working directly in this repo)
-```bash
-./scripts/install.sh
+Optional extras:
 ```
-Installs `rpi-basic-agents`, `rpi-research-agents`, and `rpi-plan-and-execute`.
-Re-run after pulling changes or switching branches.
-Restart Claude Code or `/clear` for changes to take effect.
+/plugin install rpi-house-style@rpi-plugins
+/plugin install rpi-getting-started@rpi-plugins
+/plugin install rpi-hook-claudemd-reminder@rpi-plugins
+/plugin install rpi-hook-skill-reinforcement@rpi-plugins
+```
 
-To install specific plugins only:
+Or browse interactively:
+```
+/plugin browse
+```
+
+After installing, restart Claude Code or run `/clear` for changes to take effect.
+
+### Updating
+
+After pulling updates to this repo, reload plugins:
+```
+/plugin reload
+```
+
+### Alternative: shell script
+
+If the native plugin system is unavailable, a shell script installs by copying files directly to `~/.claude/`:
 ```bash
-./scripts/install.sh rpi-basic-agents rpi-plan-and-execute
+cd /path/to/rpi-plugins
+bash scripts/install.sh                              # installs core set
+bash scripts/install.sh rpi-house-style rpi-getting-started  # specific plugins
 ```
 
 ## Repository Structure
@@ -69,15 +104,17 @@ rpi-plugins/
 ├── .claude-plugin/
 │   └── marketplace.json
 ├── plugins/
-│   ├── rpi-00-getting-started/
+│   ├── rpi-getting-started/
 │   ├── rpi-plan-and-execute/
 │   ├── rpi-house-style/
 │   ├── rpi-basic-agents/
 │   ├── rpi-research-agents/
 │   ├── rpi-extending-claude/
-│   ├── rpi-playwright/
 │   ├── rpi-hook-skill-reinforcement/
 │   └── rpi-hook-claudemd-reminder/
+├── scripts/
+│   ├── install.sh
+│   └── _merge_hooks.py
 └── README.md
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: howto-code-in-r
-description: Use when writing or reviewing R code for statistical analysis - covers Tidyverse vs Base R, renv, ggplot2, RMarkdown, and object systems
+description: Write or review R code for statistical analysis
 user-invocable: false
 ---
 

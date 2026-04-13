@@ -1,6 +1,6 @@
 ---
 name: investigating-a-codebase
-description: Use when planning or designing features and need to understand current codebase state, find existing patterns, or verify assumptions about what exists; when design makes assumptions about file locations, structure, or existing code that need verification - prevents hallucination by grounding plans in reality
+description: Explore codebase state before planning features to prevent hallucination
 user-invocable: false
 ---
 

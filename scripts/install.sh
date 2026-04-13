@@ -8,7 +8,7 @@ DEFAULT_PLUGINS=(rpi-basic-agents rpi-research-agents rpi-plan-and-execute rpi-e
 PLUGINS=("${@:-${DEFAULT_PLUGINS[@]}}")
 
 # Ensure required Claude directories exist
-mkdir -p "$CLAUDE_DIR/skills" "$CLAUDE_DIR/agents" "$CLAUDE_DIR/commands" "$CLAUDE_DIR/plugins"
+mkdir -p "$CLAUDE_DIR/skills" "$CLAUDE_DIR/agents" "$CLAUDE_DIR/commands"
 
 for plugin in "${PLUGINS[@]}"; do
   PLUGIN_DIR="$REPO_ROOT/plugins/$plugin"
@@ -35,16 +35,11 @@ for plugin in "${PLUGINS[@]}"; do
     done
   fi
 
-  # Hooks — copy scripts to stable location, then merge into settings.json
+  # Hooks — merge into settings.json via Python helper (hooks run from repo)
   HOOKS_JSON="$PLUGIN_DIR/hooks/hooks.json"
   if [[ -f "$HOOKS_JSON" ]]; then
-    INSTALLED_HOOKS_DIR="$CLAUDE_DIR/plugins/$plugin/hooks"
-    mkdir -p "$INSTALLED_HOOKS_DIR"
-    for f in "$PLUGIN_DIR/hooks"/*.sh; do
-      [[ -f "$f" ]] && cp "$f" "$INSTALLED_HOOKS_DIR/$(basename "$f")" && chmod +x "$INSTALLED_HOOKS_DIR/$(basename "$f")"
-    done
     python3 "$REPO_ROOT/scripts/_merge_hooks.py" \
-      "$HOOKS_JSON" "$CLAUDE_DIR/settings.json" "$INSTALLED_HOOKS_DIR/.."
+      "$HOOKS_JSON" "$CLAUDE_DIR/settings.json" "$PLUGIN_DIR"
   fi
 
   echo "  ✓ $plugin"

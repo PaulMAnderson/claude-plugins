@@ -1,6 +1,6 @@
 ---
 name: howto-code-in-matlab
-description: Use when writing or reviewing MATLAB code for scientific analysis - covers argument validation, vectorization, OOP for stateful objects, and toolbox organization
+description: Write or review MATLAB code for scientific analysis
 user-invocable: false
 ---
 

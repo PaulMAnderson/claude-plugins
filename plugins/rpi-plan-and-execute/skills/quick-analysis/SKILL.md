@@ -1,6 +1,6 @@
 ---
 name: quick-analysis
-description: Use for one-off data analysis tasks that don't require persistent design plans or multi-phase implementation - bypasses the formal RPI loop for speed
+description: One-off analysis or investigation bypassing the full RPI planning loop
 user-invocable: true
 ---
 

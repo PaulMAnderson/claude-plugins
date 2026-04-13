@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use when creating or developing anything, before writing code or implementation plans - refines rough ideas into fully-formed designs through structured Socratic questioning, alternative exploration, and incremental validation
+description: Before writing code - refine rough ideas into designs through structured questioning
 user-invocable: false
 ---
 

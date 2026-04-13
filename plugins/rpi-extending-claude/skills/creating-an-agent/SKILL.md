@@ -1,6 +1,6 @@
 ---
 name: creating-an-agent
-description: Use when creating specialized subagents for Claude Code plugins or the Task tool - covers description writing for auto-delegation, tool selection, prompt structure, and testing agents
+description: Create specialized subagents: descriptions, tool selection, and testing
 user-invocable: false
 ---
 

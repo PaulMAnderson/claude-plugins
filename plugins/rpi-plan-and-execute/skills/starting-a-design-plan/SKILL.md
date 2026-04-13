@@ -1,6 +1,6 @@
 ---
 name: starting-a-design-plan
-description: Use when beginning any design process - orchestrates gathering context, clarifying requirements, brainstorming solutions, and documenting validated designs to create implementation-ready design documents
+description: Begin any design: gather context, clarify requirements, brainstorm, document
 user-invocable: false
 ---
 
@@ -356,29 +356,3 @@ You can and should go backward when:
 
 **Don't force forward linearly** when going backward gives better results.
 
-## Common Rationalizations - STOP
-
-| Excuse | Reality |
-|--------|---------|
-| "User provided details, can skip context gathering" | Always run Phase 1. Ask for what's missing. |
-| "Requirements are clear, skip clarification" | Clarification prevents misunderstandings. Always run Phase 2. |
-| "I know what done looks like, skip confirmation" | Confirm Definition of Done explicitly. Always run Phase 3. |
-| "Simple idea, skip brainstorming" | Brainstorming explores alternatives. Always run Phase 4. |
-| "Design is in conversation, don't need documentation" | Documentation is contract with writing-implementation-plans. Always run Phase 5. |
-| "Can invoke implementation planning directly" | Must /clear first. Provide copy-then-clear workflow. |
-| "I can combine phases for efficiency" | Each phase has distinct purpose. Run all six. |
-| "User knows what they want, less structure needed" | Structure ensures nothing is missed. Follow all phases. |
-
-**All of these mean: STOP. Run all six phases in order.**
-
-## Key Principles
-
-| Principle | Application |
-|-----------|-------------|
-| **Never skip brainstorming** | Even with detailed specs, always run Phase 4 (may be shorter) |
-| **Progressive prompting** | Ask for less if user already provided some context |
-| **Clarify before ideating** | Phase 2 prevents building the wrong thing |
-| **Lock in the goal before exploring** | Phase 3 confirms what "done" means before brainstorming the how |
-| **All brains in skills** | This skill orchestrates; sub-skills contain domain expertise |
-| **Task tracking** | YOU MUST create todos with TaskCreate and update with TaskUpdate for all phases (or TodoWrite in older versions) |
-| **Flexible progression** | Go backward when needed to fill gaps |

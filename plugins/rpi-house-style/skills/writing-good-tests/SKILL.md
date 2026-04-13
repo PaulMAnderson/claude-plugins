@@ -1,6 +1,6 @@
 ---
 name: writing-good-tests
-description: Use when writing or reviewing tests - covers test philosophy, condition-based waiting, mocking strategy, and test isolation for scientific computing
+description: Write or review tests: philosophy, mocking strategy, and isolation
 user-invocable: false
 ---
 

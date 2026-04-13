@@ -1,6 +1,6 @@
 ---
 name: functional-core-imperative-shell
-description: Use when writing or refactoring code, before creating files - enforces separation of pure business logic (Functional Core) from side effects (Imperative Shell) using FCIS pattern with mandatory file classification
+description: Before writing code - enforce Functional Core / Imperative Shell separation
 user-invocable: false
 ---
 

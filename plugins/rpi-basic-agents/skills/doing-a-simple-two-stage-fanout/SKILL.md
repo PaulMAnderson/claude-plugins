@@ -1,6 +1,6 @@
 ---
 name: doing-a-simple-two-stage-fanout
-description: Use when analyzing a large corpus of text, code, or data that exceeds a single agent's effective context - orchestrates parallel Worker subagents, Critic review subagents, and a final Summarizer subagent with task tracking and failure recovery
+description: Analyze large corpora with parallel Worker, Critic, and Summarizer subagents
 user-invocable: true
 ---
 

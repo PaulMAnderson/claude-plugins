@@ -1,6 +1,6 @@
 ---
 name: compressing-context
-description: Use when context window is filling up, at RPI phase boundaries, or when the context monitor hook fires — produces a session summary in .rpi/CONTEXT.md and a project-level log in .rpi/PROJECT.md to preserve state across sessions.
+description: Compress session context to .rpi/CONTEXT.md when context window fills up
 user-invocable: true
 ---
 

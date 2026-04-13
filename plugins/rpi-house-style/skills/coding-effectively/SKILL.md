@@ -1,6 +1,6 @@
 ---
 name: coding-effectively
-description: ALWAYS use this skill when writing or refactoring code. Includes context-dependent sub-skills to empower different coding styles across languages and runtimes.
+description: When writing or refactoring any code - language-specific style guidance
 user-invocable: false
 ---
 

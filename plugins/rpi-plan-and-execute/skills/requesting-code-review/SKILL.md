@@ -1,6 +1,6 @@
 ---
 name: requesting-code-review
-description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements - dispatches code-reviewer subagent, handles retries and timeouts, manages review-fix loop until zero issues
+description: Dispatch code-reviewer subagent; manage review-fix loop until zero issues
 user-invocable: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: researching-on-the-internet
-description: Use when planning features and need current API docs, library patterns, or external knowledge; when testing hypotheses about technology choices or claims; when verifying assumptions before design decisions - gathers well-sourced, current information from the internet to inform technical decisions
+description: Research current API docs, library patterns, or external knowledge online
 user-invocable: false
 ---
 

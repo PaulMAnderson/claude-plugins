@@ -1,6 +1,6 @@
 ---
 name: writing-design-plans
-description: Use after brainstorming completes - writes validated designs to docs/design-plans/ with structured format and discrete implementation phases required for creating detailed implementation plans
+description: After brainstorming - write validated design document with implementation phases
 user-invocable: false
 
 ## Overview

@@ -1,6 +1,6 @@
 ---
 name: asking-clarifying-questions
-description: Use after initial design context is gathered, before brainstorming - resolves contradictions in requirements, disambiguates terminology, clarifies scope boundaries, and verifies assumptions to prevent building the wrong solution
+description: Clarify requirements after design context is gathered, before brainstorming
 user-invocable: false
 ---
 
@@ -308,21 +308,3 @@ Stop and move to brainstorming when:
 
 If brainstorming reveals new ambiguities, you can return to clarification.
 
-## Integration with Design Workflow
-
-This skill sits between context gathering and brainstorming:
-
-```
-Context Gathering (starting-a-design-plan Phase 1)
-  -> User provides: "Build OAuth2 integration for our API"
-
-Clarification (this skill)
-  -> Disambiguate: Which OAuth2 flow? What scope? Why OAuth2?
-  -> Output: Service accounts, client credentials, PCI compliance
-
-Brainstorming (starting-a-design-plan Phase 3)
-  -> Explore: Architecture options, library choices, implementation phases
-  -> Uses clarified requirements as foundation
-```
-
-**Purpose:** Ensure brainstorming builds the right thing, not the wrong thing well.

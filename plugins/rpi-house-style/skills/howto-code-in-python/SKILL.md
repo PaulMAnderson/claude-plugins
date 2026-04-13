@@ -1,6 +1,6 @@
 ---
 name: howto-code-in-python
-description: Use when writing or reviewing Python code for data science and neuroscience - covers NumPy/SciPy/Pandas idioms, type hints, virtual environments, and plotting conventions
+description: Write or review Python code for data science and neuroscience
 user-invocable: false
 ---
 

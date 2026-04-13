@@ -1,6 +1,6 @@
 ---
 name: workspace-dashboard
-description: Displays the central workspace dashboard summarizing all Claude projects
+description: Show workspace dashboard summarizing all Claude projects
 user-invocable: true
 ---
 

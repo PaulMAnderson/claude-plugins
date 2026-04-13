@@ -1,6 +1,6 @@
 ---
 name: helper-function
-description: Use for adding single helper functions or small utilities that don't require persistent design plans or multi-phase implementation - bypasses the formal RPI loop for speed
+description: Add a single helper function or small utility, bypassing the RPI loop
 user-invocable: true
 ---
 

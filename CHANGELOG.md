@@ -1,5 +1,19 @@
 # Changelog
 
+## [rpi-plan-and-execute] 1.11.0
+
+Context usage optimisation: reduce per-session and per-turn token overhead.
+
+**Changed:**
+- `using-plan-and-execute` skill body compressed from ~1100 tokens to ~80 tokens; removes verbose rationalization lists while preserving all rules
+- `session-start.sh` no longer injects the full skill body at startup — only restores `.rpi/CONTEXT.md` and `.rpi/PROJECT.md` when present; emits nothing on a clean session
+- All 39 skill `description` fields shortened to ≤15 words (was up to 50+), reducing the per-turn skills list overhead by ~40%
+
+## [rpi-hook-skill-reinforcement] 1.1.0
+
+**Changed:**
+- `hook-reminder.sh` now exits silently — the per-message EXTREMELY_IMPORTANT injection (~100 tokens × N turns) has been removed; skill discovery is covered by the skills list already present in system context
+
 ## [All plugins] Rebranded ed3d-* → rpi-*
 
 Fork now ships as Paul Anderson's independent RPI plugin suite. All plugin names updated from `ed3d-` prefix to `rpi-` prefix. This is a breaking change for any marketplace or CLAUDE.md that references `ed3d-*` plugin names.
