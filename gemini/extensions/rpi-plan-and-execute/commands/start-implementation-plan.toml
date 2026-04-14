@@ -1,0 +1,87 @@
+description = "Create a detailed implementation plan from a design document"
+prompt = """
+Create a detailed implementation plan from an existing design document.
+
+## Process
+
+### Step 1: Load Context
+
+1. Check for `.rpi/implementation-plan-guidance.md` — if it exists, read it for coding standards, testing requirements, and project-specific patterns.
+
+2. Find the design plan document. If the user hasn't specified which design plan to implement, list available plans in `docs/design-plans/` and ask them to choose.
+
+3. Read the design plan completely.
+
+### Step 2: Clarify Scope
+
+Before writing tasks, confirm:
+- Which phases of the design are in scope for this implementation plan?
+- Are there any constraints on order or dependencies?
+- Are there existing components to reuse or integrate with?
+
+### Step 3: Write Implementation Plan
+
+Create a directory at `docs/implementation-plans/<plan-name>/` containing phase files:
+
+**Phase file format** (`phase_01.md`, `phase_02.md`, etc.):
+
+```markdown
+# Phase N: [Phase Name]
+
+## Overview
+[What this phase accomplishes]
+
+## Tasks
+
+### Task N.1: [Task Name]
+
+**Goal:** [What this task achieves]
+
+**Files to create/modify:**
+- `path/to/file.ts` — [what changes]
+
+**Implementation steps:**
+1. [Specific step]
+2. [Specific step]
+
+**Tests required:**
+- [Test description]
+
+**Acceptance criteria:**
+- [ ] [Measurable criterion]
+
+---
+```
+
+### Task Requirements
+
+Each task must be:
+- **Independently executable** — a subagent can complete it without reading other tasks
+- **Testable** — has clear acceptance criteria
+- **Sized appropriately** — completable in one focused work session
+- **Ordered** — dependencies explicit, tasks in dependency order
+
+### Step 4: Create test-requirements.md
+
+In the plan directory, create `test-requirements.md`:
+
+```markdown
+# Test Requirements: [Feature Name]
+
+## Automated Test Coverage Required
+
+| Criterion | Expected Test File | What to Verify |
+|-----------|-------------------|----------------|
+
+## Human Verification Required
+
+| Criterion | Why Manual | Verification Steps |
+|-----------|------------|-------------------|
+```
+
+### Step 5: Confirm
+
+Show the user the plan structure and confirm before writing files.
+
+{{args}}
+"""

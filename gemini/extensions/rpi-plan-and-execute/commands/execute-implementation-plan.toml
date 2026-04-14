@@ -1,0 +1,59 @@
+description = "Execute implementation plan task-by-task. Usage: /execute-implementation-plan <absolute-plan-dir> <absolute-working-dir>"
+prompt = """
+# Execute Implementation Plan
+
+**Implementation plan directory:** {{args[0]}}
+**Working directory:** {{args[1]}}
+
+This execution workflow uses:
+- Just-in-time phase loading (reads one phase at a time)
+- Task/subcomponent markers for structure
+- Per-phase code review (not per-task)
+
+## Before Starting
+
+Both arguments MUST be absolute paths. Verify they exist:
+
+1. Verify the working directory exists and is a git repository:
+   ```bash
+   test -d "{{args[1]}}" && git -C "{{args[1]}}" rev-parse --git-dir
+   ```
+
+2. Verify the plan directory exists and contains phase files:
+   ```bash
+   ls "{{args[0]}}"/phase_*.md
+   ```
+
+If either verification fails, stop and report the error to the user.
+
+## Execute
+
+1. **Change working directory** to `{{args[1]}}` before any other work
+
+2. **Load phase files just-in-time** — read only the current phase file before starting that phase, not all phases upfront
+
+3. **For each phase:**
+   a. Read the phase file (e.g., `phase_01.md`, `phase_02.md`)
+   b. Execute each task in the phase sequentially
+   c. After all tasks in the phase complete, run a code review:
+      - Run the test suite and build
+      - Check for regressions
+      - Verify plan alignment
+      - Only proceed to next phase when review passes
+
+4. **Task execution for each task:**
+   - Read the task specification completely
+   - Follow TDD: write failing test first, then implementation
+   - Run verification commands (tests, build, linter)
+   - Commit changes with descriptive message
+   - Report completion with evidence
+
+5. **Continue** until all phases in `{{args[0]}}` are complete
+
+## Completion
+
+When all phases complete:
+- Run final verification across all changes
+- Summarize what was implemented
+- List all commits made
+"""

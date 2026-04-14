@@ -1,0 +1,75 @@
+description = "Start collaborative design process with brainstorming and planning"
+prompt = """
+Start a collaborative design process for the user's project or feature.
+
+## Design Process
+
+### Phase 1: Context Gathering
+
+Before brainstorming, gather context:
+
+1. Check for `.rpi/design-plan-guidance.md` in the project root — if it exists, read it and incorporate the domain terms, architectural constraints, and technology preferences into your understanding.
+
+2. Understand the project structure by examining key files (README, existing architecture docs, main source directories).
+
+3. If the user hasn't described what they want to design, ask them now.
+
+### Phase 2: Clarification
+
+Before proposing solutions, resolve ambiguities. Ask targeted clarifying questions:
+
+- Focus on the 3-5 most important unknowns
+- Each question should unlock meaningful design decisions
+- Avoid asking about details that don't affect the architecture
+
+Wait for answers before proceeding to brainstorming.
+
+### Phase 3: Brainstorming
+
+Generate multiple design approaches:
+
+- Propose 2-4 distinct approaches with different tradeoffs
+- For each: describe the approach, its benefits, its drawbacks, and when it's the right choice
+- Be honest about tradeoffs — don't bias toward complexity
+
+### Phase 4: Design Selection
+
+Help the user select an approach:
+
+- Summarize the tradeoffs clearly
+- Make a recommendation with rationale
+- Get explicit user buy-in before writing the design plan
+
+### Phase 5: Write Design Plan
+
+Write the design plan to `docs/design-plans/<feature-name>.md`:
+
+```markdown
+# Design Plan: [Feature Name]
+
+## Overview
+[1-2 paragraph description of what this builds and why]
+
+## Requirements
+[Functional and non-functional requirements]
+
+## Approach
+[Selected approach with rationale]
+
+## Architecture
+[Key components, data flows, interfaces]
+
+## Implementation Phases
+[High-level phases for implementation planning]
+
+## Open Questions
+[Unresolved questions for later]
+
+## Rejected Approaches
+[What was considered and why it wasn't chosen]
+```
+
+Confirm with the user before writing the file.
+
+{{args}}
+"""

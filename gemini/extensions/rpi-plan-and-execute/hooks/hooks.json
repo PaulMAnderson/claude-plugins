@@ -1,0 +1,24 @@
+{
+  "SessionStart": [
+    {
+      "hooks": [
+        {
+          "name": "restore-context",
+          "type": "command",
+          "command": "bash ${extensionPath}/hooks/session-start.sh"
+        }
+      ]
+    }
+  ],
+  "AfterTool": [
+    {
+      "hooks": [
+        {
+          "name": "session-monitor",
+          "type": "command",
+          "command": "python3 ${extensionPath}/hooks/session-monitor.py"
+        }
+      ]
+    }
+  ]
+}

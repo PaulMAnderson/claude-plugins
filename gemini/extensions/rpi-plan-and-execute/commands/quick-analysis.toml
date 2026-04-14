@@ -1,0 +1,31 @@
+description = "Run a one-off data analysis task without persistent design plans or multi-phase implementation"
+prompt = """
+Run a focused data analysis task.
+
+## Process
+
+1. **Clarify the question** — if the user hasn't provided enough detail, ask:
+   - What data are you analyzing? (file paths, database tables, API responses, etc.)
+   - What question do you want answered?
+   - What format should the output be in?
+
+2. **Examine the data** — read or query the relevant data sources
+
+3. **Analyze** — apply appropriate techniques:
+   - Statistical summaries (counts, distributions, outliers)
+   - Pattern identification
+   - Comparisons and correlations
+   - Trend analysis
+
+4. **Report findings** — present results clearly:
+   - Answer the stated question directly
+   - Show supporting evidence
+   - Call out surprises or anomalies
+   - Suggest follow-up questions if relevant
+
+## Output Format
+
+Prefer structured output (tables, lists) over prose where it aids clarity. Include the actual data/numbers, not just conclusions.
+
+{{args}}
+"""

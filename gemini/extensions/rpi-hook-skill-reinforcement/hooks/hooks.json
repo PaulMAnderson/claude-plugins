@@ -1,0 +1,13 @@
+{
+  "BeforeModel": [
+    {
+      "hooks": [
+        {
+          "name": "skill-reinforcement",
+          "type": "command",
+          "command": "bash ${extensionPath}/hooks/hook-reminder.sh"
+        }
+      ]
+    }
+  ]
+}

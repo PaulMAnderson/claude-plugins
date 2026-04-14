@@ -1,0 +1,93 @@
+description = "Validate test coverage against acceptance criteria and generate a human test plan"
+prompt = """
+Validate that acceptance criteria have automated test coverage, then generate a human test plan.
+
+## Inputs
+
+Locate these files:
+- **test-requirements.md** — acceptance criteria tables (check the plan directory or project root)
+- **Working directory** — project root for running tests
+
+{{args}}
+
+## Phase 1: Coverage Validation
+
+Read test-requirements.md. If the file doesn't exist or is malformed (missing expected tables, unlabeled criteria), stop and return an error asking the user to fix the source document.
+
+Extract the "Automated Test Coverage Required" table.
+
+For each criterion:
+1. Check the expected test file exists
+2. Read the test file
+3. Confirm the test verifies the criterion's behavior — file existence alone is not enough
+
+**PASS** when all automatable criteria have tests that verify them.
+**FAIL** when any criterion lacks coverage or tests don't verify the right behavior.
+
+**Coverage Report:**
+
+```markdown
+## Coverage Validation
+
+**Automated Criteria:** N | **Covered:** N | **Missing:** N
+
+### Covered
+| Criterion | Test File | Verifies |
+|-----------|-----------|----------|
+
+### Missing (if any)
+| Criterion | Issue | Required Action |
+|-----------|-------|-----------------|
+
+**Result: PASS / FAIL**
+```
+
+If FAIL, stop and return the coverage report. The user should address gaps before proceeding.
+
+## Phase 2: Human Test Plan
+
+Only if Phase 1 passed.
+
+Translate your test analysis into human-executable verification steps. Use what you learned reading the tests to write specific actions: URLs, inputs, expected outputs.
+
+Include:
+- Items from "Human Verification Required" table
+- End-to-end scenarios spanning multiple phases
+- Edge cases benefiting from human judgment
+
+Be concrete: "Navigate to /login, enter 'test@example.com', click Submit, verify redirect to /dashboard" — not "test the login flow."
+
+**Human Test Plan:**
+
+```markdown
+## Human Test Plan
+
+### Prerequisites
+- Environment setup
+- `[test command]` passing
+
+### Phase N: [Name]
+| Step | Action | Expected |
+|------|--------|----------|
+
+### End-to-End: [Scenario]
+Purpose: [what this validates]
+Steps: [specific actions and results]
+
+### Human Verification Required
+| Criterion | Why Manual | Steps |
+|-----------|------------|-------|
+
+### Traceability
+| Acceptance Criterion | Automated Test | Manual Step |
+|----------------------|----------------|-------------|
+```
+
+## Key Behaviors
+
+- Read test files to understand them — existence alone doesn't prove coverage
+- Use Phase 1 analysis to make Phase 2 steps specific
+- Report exact gaps so they can be fixed
+- Write steps concrete enough for someone unfamiliar with the code
+- Map every acceptance criterion to either an automated test or a manual step
+"""

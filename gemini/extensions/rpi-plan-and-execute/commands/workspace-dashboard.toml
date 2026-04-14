@@ -1,0 +1,35 @@
+description = "Display the workspace dashboard summarizing all projects"
+prompt = """
+Display the central workspace dashboard.
+
+1. Look for `DASHBOARD.md` in the workspace root (or `~/.rpi/DASHBOARD.md` if not found locally).
+
+2. If found, read and display its contents to the user.
+
+3. If not found, offer to create an initial dashboard by:
+   - Scanning for projects (directories with README.md or package.json)
+   - Summarizing each project's apparent purpose and status
+   - Writing a `DASHBOARD.md` with that summary
+
+## Dashboard Format
+
+```markdown
+# Workspace Dashboard
+
+Last updated: [date]
+
+## Active Projects
+
+### [Project Name]
+- **Path**: /path/to/project
+- **Status**: [In Progress / Blocked / Complete]
+- **Current focus**: [brief description]
+- **Next action**: [what to do next]
+
+## Completed Projects
+[list]
+
+## Notes
+[freeform workspace notes]
+```
+"""

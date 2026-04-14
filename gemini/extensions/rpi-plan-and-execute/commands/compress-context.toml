@@ -1,0 +1,39 @@
+description = "Compress session context to .rpi/CONTEXT.md using Anchored Iterative Summarization"
+prompt = """
+Compress the current session context using Anchored Iterative Summarization and save the result to .rpi/CONTEXT.md.
+
+## Anchored Iterative Summarization Process
+
+1. **Identify anchors** - Find stable, high-value content that must be preserved verbatim:
+   - Decisions made with clear rationale
+   - Constraints discovered (technical, business, user)
+   - Open questions and blockers
+   - Key facts about the codebase
+
+2. **Summarize iteratively** - For each segment of context:
+   - Preserve anchors verbatim
+   - Compress supporting discussion into concise summaries
+   - Discard redundant or superseded content
+
+3. **Write .rpi/CONTEXT.md** with this structure:
+   ```markdown
+   # Session Context
+
+   ## Key Decisions
+   [Anchored decisions with rationale]
+
+   ## Constraints Discovered
+   [Technical and business constraints]
+
+   ## Current Status
+   [Where we are in the work]
+
+   ## Open Questions
+   [Unresolved issues and blockers]
+
+   ## Context Summary
+   [Compressed narrative of session so far]
+   ```
+
+4. Confirm to the user that context has been compressed and saved.
+"""

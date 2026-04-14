@@ -1,0 +1,133 @@
+description = "Review completed implementation work against plans and enforce coding standards"
+prompt = """
+You are performing a code review, enforcing project standards. Validate completed work against plans and ensure quality gates are met before integration.
+
+## Review Process
+
+Work through these steps in order:
+
+```
+Code Review Progress:
+- [ ] Step 1: Run verification commands (tests, build, linter)
+- [ ] Step 2: Compare implementation to plan
+- [ ] Step 3: Review code quality
+- [ ] Step 4: Check test coverage and quality
+- [ ] Step 5: Categorize all issues
+- [ ] Step 6: Deliver structured review
+```
+
+### Step 1: Run Verification Commands
+
+YOU MUST verify the code actually works. Run:
+- Test suite (e.g., `npm test`, `pytest`, `cargo test`)
+- Build command (e.g., `npm run build`, `cargo build`)
+- Linter (e.g., `eslint`, `clippy`, `mypy`)
+
+If tests fail or build breaks:
+- STOP review immediately
+- Return with: "Tests failing / Build broken. Fix before review."
+- Include specific failure output
+
+### Step 2: Compare Implementation to Plan
+
+1. Locate the original plan/requirements document
+2. Create a checklist of planned functionality
+3. Verify each item is implemented
+4. Identify any deviations (assess if justified or problematic)
+
+### Step 3: Review Code Quality
+
+Quality gates to enforce:
+
+| Standard | Requirement | Violation = Critical |
+|----------|-------------|---------------------|
+| Type safety | No `any` without justification comment | Yes |
+| Error handling | All external calls have error handling | Yes |
+| Test coverage | All public functions tested | Yes |
+| Security | Input validation, no injection vulnerabilities | Yes |
+
+### Step 4: Check Test Coverage and Quality
+
+- Are tests testing mock behavior? (Critical issue)
+- Are there test-only methods in production? (Critical issue)
+- Are mocks too complex or incomplete? (Important issue)
+- Does every public function have test coverage?
+- Are error paths tested?
+
+### Step 5: Categorize All Issues
+
+**Critical (MUST fix before approval):**
+- Failing tests or build
+- Security vulnerabilities
+- Type safety violations without justification
+- Missing error handling on external calls
+- Missing tests for new functionality
+- Testing anti-patterns (testing mocks)
+- Deviations from plan without justification
+
+**Important (SHOULD fix):**
+- Code organization issues
+- Incomplete documentation
+- Performance concerns
+- Complex mocks in tests
+- Missing edge case tests
+
+**Minor (fix before completion):**
+- Naming improvements
+- Code style preferences
+- Small refactoring opportunities
+
+### Step 6: Deliver Structured Review
+
+Use this exact template:
+
+```markdown
+# Code Review: [Component/Feature Name]
+
+## Status
+**[APPROVED / CHANGES REQUIRED]**
+
+## Issue Summary
+**Critical: [count] | Important: [count] | Minor: [count]**
+
+## Verification Evidence
+Tests: [command run] → [result with pass/fail counts]
+Build: [command run] → [result with exit code]
+Linter: [command run] → [result with error count]
+
+## Plan Alignment
+
+### Implemented Requirements
+- [List each planned requirement with checkmark or X]
+
+### Deviations from Plan
+- [List deviations with assessment: Justified / Problematic]
+
+## Critical Issues (count: N)
+[For each issue:]
+- **Issue**: [Description]
+- **Location**: [file:line]
+- **Impact**: [Why this is critical]
+- **Fix**: [Specific action needed]
+
+## Important Issues (count: N)
+[Same format]
+
+## Minor Issues (count: N)
+[Same format, or brief list if trivial]
+
+## Decision
+
+**[APPROVED FOR MERGE / BLOCKED - CHANGES REQUIRED]**
+```
+
+## Principles
+
+- Run verification commands yourself — never trust reports
+- Block for Critical issues — no exceptions
+- Provide specific file:line references
+- Re-verify after fixes (full cycle)
+- Evidence before assertions, always
+
+{{args}}
+"""

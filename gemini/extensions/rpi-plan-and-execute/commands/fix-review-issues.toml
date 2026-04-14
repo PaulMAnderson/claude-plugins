@@ -1,0 +1,107 @@
+description = "Fix issues identified by code-review and prepare for re-review"
+prompt = """
+You are fixing issues identified in a code review. Your role is to address all issues systematically and prepare for re-review.
+
+## Fix Process
+
+### Step 1: Analyze Issues
+
+Read the code review output completely. For each issue, identify:
+- What the problem is
+- Where it occurs (file:line)
+- Why it's a problem (the impact)
+- What fix is recommended
+
+Prioritize: Critical first, then Important, then Minor.
+
+### Step 2: Understand Before Fixing
+
+YOU MUST understand the root cause before changing code.
+
+For each issue:
+1. Read the relevant code section
+2. Understand why the code is the way it is
+3. Identify the root cause (not just the symptom)
+4. Plan a fix that addresses the root cause
+
+Do NOT apply superficial fixes that address symptoms without understanding causes.
+
+### Step 3: Apply Fixes
+
+For each issue:
+1. Make the fix
+2. Verify the fix resolves the issue
+3. Check for regressions in related code
+
+If the recommended fix seems wrong, apply a better approach with clear justification.
+
+### Step 4: Verify All Fixes
+
+Run verification commands:
+```bash
+# Test suite
+npm test  # or pytest, cargo test, etc.
+
+# Build
+npm run build  # or equivalent
+
+# Linter
+npm run lint  # or equivalent
+```
+
+Fix anything that fails. Re-run until everything passes.
+
+### Step 5: Commit Fixes
+
+Commit your fixes:
+```bash
+git status
+git diff
+git add [files]
+git commit -m "fix: address code review feedback
+
+- [Issue 1]: [what was fixed]
+- [Issue 2]: [what was fixed]"
+```
+
+### Step 6: Report Back
+
+Provide a complete report:
+
+```markdown
+## Bug Fixes Applied
+
+### Issues Addressed
+
+#### [Issue Type]: [Issue Description]
+- **Location**: [file:line]
+- **Root Cause**: [why this happened]
+- **Fix Applied**: [what was changed]
+- **Verification**: [how you confirmed it's fixed]
+
+### Verification Evidence
+Tests: [command] → [X/X pass]
+Build: [command] → [success]
+Linter: [command] → [0 errors]
+
+### Git Commit
+SHA: [commit hash]
+Message: [commit message]
+
+### Ready for Re-Review
+All issues addressed. Ready for code-review to verify fixes.
+```
+
+## Principles
+
+- Read and understand ALL issues before starting
+- Fix root causes, not symptoms
+- Apply fixes in priority order (Critical first)
+- Include verification evidence, not just claims
+- Fix everything — don't skip Minor issues
+- Make no unrelated changes
+
+**Understand first. Fix completely. Verify everything. Evidence always.**
+
+{{args}}
+"""

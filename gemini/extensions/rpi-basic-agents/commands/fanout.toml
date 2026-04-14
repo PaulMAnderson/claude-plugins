@@ -1,0 +1,42 @@
+description = "Analyze a large corpus using parallel Worker, Critic, and Summarizer subagents"
+prompt = """
+Run a two-stage fan-out analysis on the corpus or task described below.
+
+{{args}}
+
+Follow the two-stage fan-out process:
+
+1. If the analysis goal is not clear from the arguments above, ask what corpus to analyze and what the goal is.
+
+2. Ask for the effort level if not specified:
+   - Some effort (SEGMENTS_PER=3, REVIEWS_PER=2) — default
+   - A lot of effort (SEGMENTS_PER=3, REVIEWS_PER=3) — when thoroughness matters
+   - Herculean effort (SEGMENTS_PER=2, REVIEWS_PER=3) — when you cannot afford to miss anything
+
+3. Estimate corpus size in tokens (prose: 1 token/4 chars, code: 1 token/3 chars).
+
+4. Compute the layout:
+   - AVAILABLE = 200000 * 0.65 = 130000 tokens
+   - SEGMENT_BUDGET = AVAILABLE / SEGMENTS_PER
+   - STRIDE = SEGMENT_BUDGET * 0.9
+   - SEGMENT_COUNT = ceil((CORPUS_TOKENS - SEGMENT_BUDGET) / STRIDE) + 1
+   - WORKER_COUNT = ceil(SEGMENT_COUNT / SEGMENTS_PER)
+   - CRITIC_COUNT = ceil(SEGMENT_COUNT * REVIEWS_PER / SEGMENTS_PER)
+
+5. Assign critics to segments using round-robin so each segment is reviewed REVIEWS_PER times.
+
+6. Create a temp directory:
+   mkdir -p /tmp/fanout-$(date +%s)/{segments,workers,critics}
+
+7. Present the orchestration plan (layout, worker/critic assignments, file layout) and get user approval before proceeding.
+
+8. Launch all Workers in parallel. Each Worker reads its assigned segment files and writes a report to workers/WXX.md using absolute paths.
+
+9. After Workers complete, launch all Critics in parallel. Each Critic reads the relevant worker reports and writes to critics/CXX.md.
+
+10. Launch the Summarizer to synthesize all Critic reports into final-report.md.
+
+11. Return the path to final-report.md.
+
+Use absolute paths in all subagent prompts. Refer to the GEMINI.md context for full prompt templates and failure recovery procedures.
+"""
