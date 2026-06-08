@@ -1,5 +1,31 @@
 # Changelog
 
+## [rpi-plan-and-execute] 1.12.0
+
+Agent and skill updates; hooks and deprecated workspace-dashboard removed.
+
+**Changed:**
+- Agent prompts updated across code-reviewer, task-bug-fixer, task-implementor-fast, test-analyst
+- `starting-an-implementation-plan` and `executing-an-implementation-plan` skills revised
+- `writing-design-plans` and `writing-implementation-plans` skills updated
+- `compressing-context` skill updated
+
+**Removed:**
+- `workspace-dashboard` skill and command
+- `session-monitor.py`, `statusline.py`, and `scripts/monitor.py` hooks/scripts
+
+## [rpi-basic-agents] 1.1.1
+
+Agent prompt updates for haiku, sonnet, and opus general-purpose agents.
+
+## [rpi-research-agents] 1.0.2
+
+Agent prompt updates for all four research agents.
+
+## [rpi-extending-claude] 1.1.1
+
+Agent prompt update for project-claude-librarian.
+
 ## [rpi-plan-and-execute] 1.11.0
 
 Context usage optimisation: reduce per-session and per-turn token overhead.
