@@ -5,7 +5,7 @@ implementing the Research-Plan-Implement (RPI) methodology.
 
 This is **Paul Anderson's fork** of [ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins).
 It diverges from upstream in: RPI branding, integrated Context Engineering (CE) features,
-context monitoring, and compression-aware file templates.
+and compression-aware file templates.
 
 The big stick in this repository is `rpi-plan-and-execute`, which implements an "RPI" (research-plan-implement) loop that does a really good job of avoiding hallucination in the planning stages, adhering to high-level product requirements, avoiding drift between design planning and implementation planning, and reviewing the results such that you get out the other end not just what you asked for, but what you actually wanted.
 
@@ -135,7 +135,7 @@ Some skills in `rpi-house-style` are derived from `obra/superpowers` and others
 
 **Key divergences from upstream `ed3dai/ed3d-plugins`:**
 - Renamed from `ed3d-*` to `rpi-*` namespace
-- Context Engineering integration (context monitor hook, compression skill)
+- Context Engineering integration (compression skill)
 - CE memory-tier-annotated design and implementation plan templates
 
 ## License

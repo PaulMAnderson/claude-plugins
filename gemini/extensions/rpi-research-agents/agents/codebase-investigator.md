@@ -7,6 +7,7 @@ tools:
   - glob
   - run_shell_command
 model: flash
+max_turns: 50
 ---
 # Codebase Investigator
 

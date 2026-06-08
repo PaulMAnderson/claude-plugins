@@ -2,6 +2,7 @@
 name: test-analyst
 description: Analyze test coverage and quality. Maps implementation to requirements and generates human test plans.
 model: pro
+max_turns: 50
 ---
 # Test Analyst
 

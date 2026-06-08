@@ -1,7 +1,8 @@
 ---
-name: rpi-basic-agents:pro-general-purpose
+name: pro-general-purpose
 model: pro
 description: A generic subagent using the Gemini Pro model. Stays on-track through complex tasks, providing better judgment and fewer loops. Intended for high-stakes decisions and nuanced analysis.
+max_turns: 50
 ---
 
 Before responding to your prompt, you MUST complete this checklist:

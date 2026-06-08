@@ -22,12 +22,14 @@ The **Opus** model is recommended for complex implementation planning to ensure 
 
 **DO NOT GUESS.** If the user has not provided a path to a design plan, you MUST ask for it.
 
-Use AskUserQuestion:
+Use ask_user:
 ```
 Question: "Which design plan should I create an implementation plan for?"
-Options:
+type: "choice"
+header: "Design Plan"
+options:
   - [list any design plans you find in docs/design-plans/]
-  - "Let me provide the path"
+  - { "label": "Other", "description": "Let me provide the path" }
 ```
 
 If `docs/design-plans/` doesn't exist or is empty, ask the user to provide the path directly.
@@ -44,28 +46,27 @@ This skill has three steps:
 
 **Step 0: Create orchestration task tracker**
 
-Use TaskCreate to track the orchestration steps:
+Use write_todos to track the orchestration steps:
 
-```
-TaskCreate: "Branch setup"
-(conditional) TaskCreate: "Read project implementation guidance from [absolute path]"
-  → TaskUpdate: addBlockedBy: [Branch setup]
-  → (only if .rpi/implementation-plan-guidance.md exists)
-TaskCreate: "Create implementation plan"
-  → TaskUpdate: addBlockedBy: [Branch setup] (or [Read guidance] if it exists)
-TaskCreate: "Re-read starting-an-implementation-plan skill (restore context)"
-  → (DO NOT set blockedBy yet - will be updated after granular tasks are created)
-TaskCreate: "Execution handoff"
-  → TaskUpdate: addBlockedBy: [Re-read skill]
+```json
+write_todos({
+  "todos": [
+    { "description": "Branch setup", "status": "in_progress" },
+    { "description": "Read project implementation guidance", "status": "pending" },
+    { "description": "Create implementation plan", "status": "blocked" },
+    { "description": "Re-read starting-an-implementation-plan skill (restore context)", "status": "blocked" },
+    { "description": "Execution handoff", "status": "blocked" }
+  ]
+})
 ```
 
-**CRITICAL: The "Re-read skill" task must be re-pointed AFTER writing-implementation-plans creates the Finalization task.** See "After Planning: Update Dependencies" below.
+**CRITICAL: The "Re-read skill" task must be unblocked AFTER writing-implementation-plans creates the Finalization task.** See "After Planning: Update Dependencies" below.
 
 The "Create implementation plan" task wraps the granular tasks created by writing-implementation-plans. The "Re-read skill" step ensures context is restored after potential compaction before handoff.
 
 ### Branch Setup
 
-Mark "Branch setup" task as in_progress.
+Mark "Branch setup" task as in_progress using write_todos.
 
 Before planning, set up the branch and workspace for implementation work.
 
@@ -80,29 +81,40 @@ The slug ensures AC identifiers are globally unique across multiple plan-and-exe
 
 **Step 1: Ask about worktree**
 
-**REQUIRED: Use AskUserQuestion tool**
+**REQUIRED: Use ask_user tool**
 
 Ask:
 ```
-Question: "Do you want to use a git worktree for this implementation?"
-Options:
-  - "Yes - create worktree" (isolated workspace in .worktrees/[friendly-name])
-  - "No - work in current directory" (standard branch workflow)
+ask_user({
+  "questions": [{
+    "question": "Do you want to use a git worktree for this implementation?",
+    "type": "choice",
+    "header": "Worktree",
+    "options": [
+      { "label": "Yes", "description": "create worktree (isolated workspace in .worktrees/[friendly-name])" },
+      { "label": "No", "description": "work in current directory (standard branch workflow)" }
+    ]
+  }]
+})
 ```
 
 **Step 2: Set up workspace based on choice**
 
-**If user chooses "Yes - create worktree":**
+**If user chooses "Yes":**
 
 1. **REQUIRED SUB-SKILL:** Use rpi-plan-and-execute:using-git-worktrees
 2. **CONDITIONAL SKILLS:** Activate any project-specific git worktree skills if they exist
 3. Announce: "I'm using the using-git-worktrees skill to create an isolated workspace."
 4. Ask user which branch to use for the worktree:
    ```
-   Question: "Which branch should I use for this worktree?"
-   Options:
-     - "[friendly-name]" (e.g., oauth2-svc-authn)
-     - "$(whoami)/[friendly-name]" (e.g., ed/oauth2-svc-authn)
+   ask_user({
+     "questions": [{
+       "question": "Which branch should I use for this worktree?",
+       "type": "text",
+       "header": "Branch",
+       "placeholder": "[friendly-name]"
+     }]
+   })
    ```
 5. Create worktree:
    - Default location (unless directed otherwise): `$repoRoot/.worktrees/[friendly-name]`
@@ -111,17 +123,24 @@ Options:
 6. Change to worktree directory
 7. Announce: "Worktree created at `.worktrees/[friendly-name]` on branch `[branch-name]`"
 
-**If user chooses "No - work in current directory":**
+**If user chooses "No":**
 
 1. Ask user which branch to use:
    ```
-   Question: "Which branch should I use for this implementation?"
-   Options:
-     - "Use current branch" (stay on current branch, no branch creation)
-     - "[friendly-name]" (e.g., oauth2-svc-authn)
-     - "$(whoami)/[friendly-name]" (e.g., ed/oauth2-svc-authn)
+   ask_user({
+     "questions": [{
+       "question": "Which branch should I use for this implementation?",
+       "type": "choice",
+       "header": "Branch",
+       "options": [
+         { "label": "Current", "description": "stay on current branch, no branch creation" },
+         { "label": "Friendly", "description": "[friendly-name]" },
+         { "label": "Personal", "description": "$(whoami)/[friendly-name]" }
+       ]
+     }]
+   })
    ```
-2. **If "Use current branch":** Continue with current branch (no git commands)
+2. **If "Current":** Continue with current branch (no git commands)
 3. **If branch name provided:**
    - Determine main branch name: Check if `main` or `master` exists
    - Create new branch from main/master: `git checkout -b [branch-name] origin/[main-or-master]`
@@ -129,7 +148,7 @@ Options:
    - Announce: "Created and checked out branch `[branch-name]` from `origin/[main-or-master]`"
 4. **If branch creation fails:** Report error to user and ask if they want to use current branch instead
 
-Mark "Branch setup" task as completed. **THEN proceed to Planning.**
+Mark "Branch setup" task as completed using write_todos. **THEN proceed to Planning.**
 
 ### Check for Implementation Guidance
 
@@ -137,21 +156,18 @@ After branch setup, check for project-specific implementation guidance.
 
 **Check if `.rpi/implementation-plan-guidance.md` exists:**
 
-Use the Read tool to check if `.rpi/implementation-plan-guidance.md` exists in the session's working directory.
+Use the read_file tool to check if `.rpi/implementation-plan-guidance.md` exists in the session's working directory.
 
 **If the file exists:**
 
-1. Use TaskCreate to add: "Read project implementation guidance from [absolute path to .rpi/implementation-plan-guidance.md]"
-   - Set this task as blocked by "Branch setup"
-   - Update "Create implementation plan" to be blocked by this new task
-2. Mark the task in_progress
-3. Read the file and incorporate the guidance into your understanding
-4. Mark the task completed
-5. Proceed to Planning
+1. Mark the "Read project implementation guidance" task as in_progress using write_todos.
+2. Read the file and incorporate the guidance into your understanding
+3. Mark the task completed
+4. Proceed to Planning
 
 **If the file does not exist:**
 
-Proceed directly to Planning. Do not create a task or mention the missing file.
+Mark the "Read project implementation guidance" task as cancelled using write_todos and proceed directly to Planning. Do not mention the missing file to the user.
 
 **What implementation guidance provides:**
 - Coding standards and conventions
@@ -161,7 +177,7 @@ Proceed directly to Planning. Do not create a task or mention the missing file.
 
 ### Planning
 
-Mark "Create implementation plan" task as in_progress.
+Mark "Create implementation plan" task as in_progress using write_todos.
 
 **REQUIRED SUB-SKILL:** Use rpi-plan-and-execute:writing-implementation-plans
 
@@ -176,34 +192,29 @@ The writing-implementation-plans skill will:
 
 **Output:** Complete implementation plan written to files, on appropriate branch.
 
-Mark "Create implementation plan" task as completed.
+Mark "Create implementation plan" task as completed using write_todos.
 
 ### After Planning: Update Dependencies
 
-**CRITICAL: Update the "Re-read skill" task to be blocked by Finalization.**
+**CRITICAL: Update the "Re-read skill" task to be pending.**
 
-The granular tasks are now created. Find the Finalization task ID and update dependencies:
+The granular tasks are now created. Update todos using write_todos:
 
-```
-TaskUpdate: "Re-read starting-an-implementation-plan skill"
-  → addBlockedBy: [Finalization task ID]
+```json
+write_todos({
+  "todos": [
+    // ... previous tasks as completed ...
+    { "description": "Re-read starting-an-implementation-plan skill (restore context)", "status": "pending" },
+    { "description": "Execution handoff", "status": "blocked" }
+  ]
+})
 ```
 
-This ensures the task list shows the correct order:
-```
-✔ #1 Branch setup
-✔ #2 Create implementation plan
-✔ #5 Phase 1A: Read [Phase Name] from /path/to/design.md
-✔ #6 Phase 1B: Investigate codebase for Phase 1
-...
-✔ #N Finalization: Run code-reviewer...
-◻ #3 Re-read skill › blocked by #N
-◻ #4 Execution handoff › blocked by #3
-```
+This ensures the task list shows the correct order and dependencies.
 
 ### Restore Context (Before Handoff)
 
-Mark "Re-read starting-an-implementation-plan skill (restore context)" task as in_progress.
+Mark "Re-read starting-an-implementation-plan skill (restore context)" task as in_progress using write_todos.
 
 **CRITICAL: Re-read this skill before proceeding to handoff.**
 
@@ -211,18 +222,18 @@ After potentially long planning work (especially if context compaction occurred)
 
 ```bash
 # Re-read this skill to restore context
-cat /path/to/plugins/rpi-plan-and-execute/skills/starting-an-implementation-plan/SKILL.md
+cat /path/to/gemini/extensions/rpi-plan-and-execute/skills/starting-an-implementation-plan/SKILL.md
 ```
 
-Or use the Read tool on the skill file path.
+Or use the read_file tool on the skill file path.
 
 **Why this matters:** After compaction, you may have lost details about the handoff process. Re-reading ensures you provide correct absolute paths and instructions.
 
-Mark "Re-read starting-an-implementation-plan skill" task as completed.
+Mark "Re-read starting-an-implementation-plan skill" task as completed using write_todos.
 
 ### Execution Handoff
 
-Mark "Execution handoff" task as in_progress.
+Mark "Execution handoff" task as in_progress using write_todos.
 
 After planning is complete, hand off to execution.
 
@@ -230,7 +241,7 @@ After planning is complete, hand off to execution.
 
 Before clearing context, preserve this session's implementation planning state.
 
-**REQUIRED:** Use your Skill tool to invoke `compressing-context`.
+**REQUIRED:** Use the activate_skill tool to invoke `compressing-context`.
 
 Ensure the summary captures:
 - Which phase files were created and their paths
@@ -291,14 +302,14 @@ read it to restore context about what was accomplished.
 
 **Use the real paths from Step 1, not placeholders.** The example above shows the format — substitute your actual verified paths.
 
-**Why absolute paths:** After /clear, Claude Code returns to the original session directory (often the repo root, not the worktree). Absolute paths ensure execution happens in the correct directory regardless of where /clear returns.
+**Why absolute paths:** After /clear, Gemini returns to the original session directory (often the repo root, not the worktree). Absolute paths ensure execution happens in the correct directory regardless of where /clear returns.
 
 **Why /clear instead of continuing:**
 - Execution needs fresh context to work effectively
 - Long conversations accumulate context that degrades quality
 - /clear gives the execution phase a clean slate
 
-Mark "Execution handoff" task as completed.
+Mark "Execution handoff" task as completed using write_todos.
 
 ## Common Mistakes
 
@@ -312,8 +323,8 @@ Mark "Execution handoff" task as completed.
 | Passing phase_01.md instead of directory | Pass the directory so all phases execute |
 | Forgetting to mention /clear | Always tell user to /clear before execute |
 | Skipping "Re-read skill" step before handoff | Always re-read this skill to restore context post-compaction |
-| Not creating orchestration tasks at start | Create Branch setup, Planning, Re-read, Handoff tasks in Step 0 |
-| Not re-pointing "Re-read skill" after planning | Must update addBlockedBy to Finalization task, not "Create implementation plan" |
+| Not creating orchestration tasks at start | Create todos at start with write_todos |
+| Not re-pointing "Re-read skill" after planning | Must update status to pending after Finalization task |
 
 ## Integration with Workflow
 
@@ -324,32 +335,32 @@ Design Plan (in docs/design-plans/)
   -> User runs /start-implementation-plan with design path
 
 Starting Implementation Plan (this skill)
-  -> Step 0: Create orchestration tasks
+  -> Step 0: Create orchestration tasks with write_todos
     -> [ ] Branch setup
     -> [ ] Create implementation plan
     -> [ ] Re-read skill (restore context)
     -> [ ] Execution handoff
 
-  -> Branch Setup [tracked task]
-    -> Ask if user wants worktree
+  -> Branch Setup [tracked todo]
+    -> Ask if user wants worktree with ask_user
     -> If yes: invoke using-git-worktrees
     -> If no: ask which branch, create if needed
 
-  -> Planning [tracked task wrapping granular tasks]
+  -> Planning [tracked todo wrapping granular tasks]
     -> Invoke writing-implementation-plans
     -> Creates granular tasks per phase (NA, NB, NC, ND)
     -> Creates Finalization task (code review, fix ALL issues)
     -> Write to docs/implementation-plans/
 
   -> After Planning: Update Dependencies
-    -> Re-point "Re-read skill" to be blocked by Finalization task
-    -> Ensures correct execution order in task list
+    -> Re-point "Re-read skill" to pending status
+    -> Ensures correct execution order in todo list
 
-  -> Restore Context [tracked task, blocked by Finalization]
+  -> Restore Context [tracked todo]
     -> Re-read this skill file
     -> Ensures handoff instructions are accurate post-compaction
 
-  -> Execution Handoff [tracked task]
+  -> Execution Handoff [tracked todo]
     -> Run `git rev-parse --show-toplevel` for absolute paths
     -> Verify plan directory exists
     -> Output command with verified absolute paths
@@ -361,4 +372,4 @@ Execute Implementation Plan (next step)
   -> Code review between tasks
 ```
 
-**Purpose:** Bridge design and execution with appropriate branch isolation, granular task tracking that survives compaction, and context restoration.
+**Purpose:** Bridge design and execution with appropriate branch isolation, granular todo tracking that survives compaction, and context restoration.

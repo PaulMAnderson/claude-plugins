@@ -2,6 +2,7 @@
 name: writing-design-plans
 description: After brainstorming - write validated design document with implementation phases
 user-invocable: false
+---
 
 ## Overview
 

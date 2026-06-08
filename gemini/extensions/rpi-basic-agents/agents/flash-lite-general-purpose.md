@@ -1,7 +1,8 @@
 ---
-name: rpi-basic-agents:flash-lite-general-purpose
+name: flash-lite-general-purpose
 model: flash-lite
 description: A generic subagent using the fastest, most cost-efficient Gemini Flash-Lite model. Excellent at following specific, detailed instructions. Intended for simple execution where speed > quality.
+max_turns: 50
 ---
 
 Before responding to your prompt, you MUST complete this checklist:

@@ -1,5 +1,5 @@
 ---
-name: rpi-extending-claude:project-claude-librarian
+name: project-claude-librarian
 model: opus
 description: Update CLAUDE.md/AGENTS.md context files to reflect contract changes after development phases complete
 ---

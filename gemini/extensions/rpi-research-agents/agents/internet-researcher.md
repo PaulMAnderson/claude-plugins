@@ -5,6 +5,7 @@ tools:
   - web_fetch
   - google_web_search
 model: flash
+max_turns: 50
 ---
 # Internet Researcher
 

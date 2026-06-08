@@ -2,6 +2,7 @@
 name: task-implementor-fast
 description: Execute a specific task from an implementation plan. Follows TDD, applies house styles, and verifies completion.
 model: flash
+max_turns: 50
 ---
 # Task Implementor
 

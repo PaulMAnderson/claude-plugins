@@ -2,6 +2,7 @@
 name: code-reviewer
 description: Review completed plan steps or features; validates code quality, test coverage, and plan alignment. Blocks on any issues.
 model: pro
+max_turns: 50
 ---
 # Code Reviewer
 

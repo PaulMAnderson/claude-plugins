@@ -1,14 +1,16 @@
 {
-  "AfterTool": [
-    {
-      "matcher": "run_shell_command",
-      "hooks": [
-        {
-          "name": "git-command-reminder",
-          "type": "command",
-          "command": "python3 ${extensionPath}/hooks/git-command-reminder.py"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "AfterTool": [
+      {
+        "matcher": "run_shell_command",
+        "hooks": [
+          {
+            "name": "git-command-reminder",
+            "type": "command",
+            "command": "python3 ${extensionPath}/hooks/git-command-reminder.py"
+          }
+        ]
+      }
+    ]
+  }
 }

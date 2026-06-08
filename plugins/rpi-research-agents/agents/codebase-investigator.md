@@ -1,5 +1,5 @@
 ---
-name: rpi-research-agents:codebase-investigator
+name: codebase-investigator
 model: haiku
 color: pink
 description: Investigate current codebase state, find existing patterns, verify assumptions about structure before designing or planning

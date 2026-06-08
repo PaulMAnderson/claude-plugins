@@ -15,7 +15,7 @@ An **agent** is a specialized Claude instance with:
 - Specific responsibilities (code review, security audit, research)
 - A focused system prompt
 
-Agents are spawned via the Task tool or defined in plugin `agents/` directories.
+Agents are spawned via the subagent tool or defined in plugin `agents/` directories.
 
 ## When to Create an Agent
 
@@ -100,7 +100,7 @@ Choose tools based on agent responsibilities:
 | Edit | Modifying existing files |
 | Write | Creating new files |
 | Bash | Running commands, git, tests |
-| TaskCreate/TaskUpdate | Tracking multi-step workflows (TodoWrite in older versions) |
+| write_todos/write_todos | Tracking multi-step workflows  |
 | Task | Spawning sub-agents |
 | WebFetch/WebSearch | Research tasks |
 
@@ -282,7 +282,7 @@ You are a research specialist gathering and synthesizing information.
 ---
 name: task-implementor
 description: Use when implementing specific tasks from plans - writes code, runs tests, commits changes following TDD workflow
-tools: Read, Edit, Write, Bash, Grep, Glob, TaskCreate, TaskUpdate, TaskList
+tools: Read, Edit, Write, Bash, Grep, Glob, write_todos, write_todos, write_todos
 model: sonnet
 ---
 

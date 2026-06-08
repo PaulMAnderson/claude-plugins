@@ -9,6 +9,7 @@ tools:
   - google_web_search
   - run_shell_command
 model: flash
+max_turns: 50
 ---
 # Combined Researcher
 

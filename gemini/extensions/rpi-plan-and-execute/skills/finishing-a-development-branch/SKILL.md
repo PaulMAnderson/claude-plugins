@@ -49,7 +49,7 @@ Or ask: "This branch split from main - is that correct?"
 
 ### Step 3: Present Options
 
-Present exactly these 4 options in `AskUserQuestion`.
+Present exactly these 4 options in `ask_user`.
 
 ```
 Implementation complete. What would you like to do?

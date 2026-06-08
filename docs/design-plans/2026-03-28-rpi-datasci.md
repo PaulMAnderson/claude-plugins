@@ -4,9 +4,8 @@
 
 This design reshapes two existing Claude Code plugins — `rpi-house-style` and `rpi-plan-and-execute` — to better serve a data science and neuroscience context rather than the TypeScript/React web development workflows they were originally built around. The motivation is practical: the tooling no longer reflects the languages and patterns used in the target work (Python, MATLAB, R), and the context-management machinery relies on a crude proxy metric (tool-call count) instead of the real context window fill level. 
 
-The implementation approach is layered across seven phases, each building on the last. A new StatusLine hook feeds real context-window percentages into a shared JSON file on disk, which the existing session-monitor script then reads to decide when to fire compression directives — at natural break points (task completions, test runs) for soft-threshold crossings, and unconditionally for hard-threshold crossings. A persistent `PROJECT.md` file, generated at compression time from git history and session notes, lets agents resume work across context windows without losing track of what has been decided and what remains. 
-
-Crucially, this design now integrates workspace-wide project monitoring. By porting logic from the `Monitor` project, the `rpi-plan-and-execute` plugin gains the ability to scan the entire `/Users/paul/Claude/` workspace, classify projects into lifecycle phases (e.g., `design`, `implementing`, `active`), and maintain a central `DASHBOARD.md`. Two lighter-weight entry points (`/quick-analysis` and `/helper-function`) are added alongside the existing full planning loop so that small tasks do not require the overhead of a full design-and-execute cycle. Finally, model assignment is tightened so that expensive Opus calls are reserved for design and planning, while implementation, review, and testing agents default to Sonnet.
+The implementation approach is layered across several phases, each building on the last. A persistent `PROJECT.md` file, generated at compression time from git history and session notes, lets agents resume work across context windows without losing track of what has been decided and what remains.
+Two lighter-weight entry points (`/quick-analysis` and `/helper-function`) are added alongside the existing full planning loop so that small tasks do not require the overhead of a full design-and-execute cycle. Finally, model assignment is tightened so that expensive Opus calls are reserved for design and planning, while implementation, review, and testing agents default to Sonnet.
 
 ## 🗂 Memory Tier Index
 
@@ -23,7 +22,6 @@ Crucially, this design now integrates workspace-wide project monitoring. By port
 3. Three tiered workflow entry points implemented: `quick-analysis` (no planning, just execute), `helper-function` (lightweight plan + implement), and the existing full RPI loop (for large-scale packages)
 4. Fully automated context management: auto-compresses and triggers a fresh session when thresholds are hit (by context size OR progress checkpoint); compress-to-disk-only option also available without session restart
 5. Persistent project-level progress log that tracks implementation status and decisions across sessions, designed for resuming work with an agent in a new context window
-6. **Workspace-wide monitoring:** Integrated scanner that classifies all projects in `/Users/paul/Claude/` into 10 phases, generates per-project JSON stubs, and maintains a central `DASHBOARD.md`.
 7. This design supersedes and integrates the existing work-in-progress on the `context-optimization` branch and the standalone `Monitor` project design.
 
 ## 🔴 Acceptance Criteria
@@ -43,16 +41,6 @@ Crucially, this design now integrates workspace-wide project monitoring. By port
 - **rpi-datasci.AC2.2 Success:** `plugins/rpi-house-style/skills/howto-code-in-matlab/SKILL.md` exists; covers `arguments` validation blocks, OOP for stateful analysis objects, vectorisation, toolbox organisation
 - **rpi-datasci.AC2.3 Success:** `plugins/rpi-house-style/skills/howto-code-in-r/SKILL.md` exists; covers tidyverse vs base R, `renv`, ggplot2, S3/S4 objects, Rmarkdown/Quarto
 - **rpi-datasci.AC2.4 Failure:** Any language skill contains examples or patterns specific to a language other than its target
-
-### rpi-datasci.AC3 — Smart Context Monitoring
-
-- **rpi-datasci.AC3.1 Success:** `plugins/rpi-plan-and-execute/hooks/statusline.py` exists; registered in `hooks.json` as a StatusLine hook; outputs a visual bar string
-- **rpi-datasci.AC3.2 Success:** StatusLine hook writes `context_window.used_percentage` to `.rpi/context-usage.json` on each invocation
-- **rpi-datasci.AC3.3 Success:** `session-monitor.py` reads real % from `.rpi/context-usage.json`; emits WARNING `additionalContext` when ≥ soft threshold (default 50%) at a natural break event
-- **rpi-datasci.AC3.4 Success:** `session-monitor.py` emits URGENT `additionalContext` when ≥ hard threshold (default 75%) regardless of break type
-- **rpi-datasci.AC3.5 Success:** Natural break detection triggers on: `TaskUpdate` with `status: completed`; Bash calls containing `pytest`, `Rscript`, or `matlab -batch`
-- **rpi-datasci.AC3.6 Success:** Thresholds configurable via `RPI_CONTEXT_SOFT_THRESHOLD` and `RPI_CONTEXT_HARD_THRESHOLD` environment variables
-- **rpi-datasci.AC3.7 Failure:** `session-monitor.py` uses tool-call counter as primary signal when `.rpi/context-usage.json` exists and is fresh (< 60 seconds old)
 
 ### rpi-datasci.AC4 — Project-Level Progress Log
 
@@ -74,28 +62,17 @@ Crucially, this design now integrates workspace-wide project monitoring. By port
 - **rpi-datasci.AC6.2 Success:** `starting-a-design-plan` and `starting-an-implementation-plan` skill docs note that Opus is appropriate for design/planning phases
 - **rpi-datasci.AC6.3 Failure:** Any implementation agent (`task-implementor-fast`, `code-reviewer`, `task-bug-fixer`, `test-analyst`) specifies Opus as its default model
 
-### rpi-datasci.AC7 — Workspace Monitoring
+## 🏗 Architecture
 
-- **rpi-datasci.AC7.1 Success:** `plugins/rpi-plan-and-execute/scripts/monitor.py` exists; correctly identifies projects in `/Users/paul/Claude/` and classifies them into one of 10 lifecycle phases (empty, scaffold, static-complete, design, design-complete, implementing, active, upstream-sync, maintenance, unknown).
-- **rpi-datasci.AC7.2 Success:** `plugins/rpi-plan-and-execute/commands/workspace-dashboard.md` exists; `/workspace-dashboard` command displays the current `DASHBOARD.md` from the workspace root.
-- **rpi-datasci.AC7.3 Success:** `compressing-context` skill optionally triggers `monitor.py` after writing `PROJECT.md`, ensuring the dashboard reflects the latest project state.
-- **rpi-datasci.AC7.4 Success:** `.monitor/<project>.json` stubs are generated for each project, following the schema defined in the Monitor design.
-- **rpi-datasci.AC7.5 Failure:** `monitor.py` fails to exclude itself or hidden directories from the scan.
-
-## 🔵 Glossary
 
 - **RPI loop / full RPI loop**: The existing multi-phase workflow implemented by the `rpi-plan-and-execute` plugin, covering design, planning, implementation, and review.
 - **Hot/Cold split**: A skill file organisation pattern where `SKILL.md` holds concise "hot" content loaded on every invocation, and `REFERENCE.md` holds verbose reference material loaded only when needed.
-- **StatusLine hook**: A Claude Code hook type that fires on UI status-bar updates. Provides access to `context_window.used_percentage` — the real fill level of the context window.
-- **`additionalContext`**: The JSON field in a hook's stdout payload that Claude Code injects into the model's context. Used by session-monitor directives and session-start injection.
-- **Natural break event**: A moment in an agent session judged suitable for compression — specifically a `TaskUpdate` with `status: completed`, or a Bash call invoking `pytest`, `Rscript`, or `matlab -batch`.
-- **Soft threshold / hard threshold**: Two configurable context-fill levels. Soft (default 50%) triggers a compression warning only at natural break events; hard (default 75%) triggers unconditionally. Configurable via `RPI_CONTEXT_SOFT_THRESHOLD` and `RPI_CONTEXT_HARD_THRESHOLD`.
-- **`.rpi/` directory**: A project-local state directory (gitignored) used to persist files across sessions: `SESSION.md`, `CONTEXT.md`, `PROJECT.md`, `context-usage.json`.
+- **`additionalContext`**: The JSON field in a hook's stdout payload that Claude Code injects into the model's context. Used by session-start injection.
+- **`.rpi/` directory**: A project-local state directory (gitignored) used to persist files across sessions: `SESSION.md`, `CONTEXT.md`, `PROJECT.md`.
 - **`PROJECT.md`**: A persistent file written by the `compressing-context` skill recording current branch, recent commits, implementation status table, and decisions log. Designed for cross-session resumption.
 - **`CONTEXT.md`**: A compressed summary of the current session written by the `compressing-context` skill and injected on session start.
 - **`SESSION.md`**: A running log of outcomes within a session. `quick-analysis` and `helper-function` skills append brief notes to it on completion.
 - **`compressing-context` skill**: An existing skill that summarises context to disk, allowing a fresh session to resume without overflow.
-- **`session-monitor.py`**: An existing hook script that monitors session state and emits compression directives. Phase 3 upgrades it to use real context percentages.
 - **`session-start.sh` / SessionStart hook**: A hook that fires on session start, clear, or resume. Enhanced to inject both `CONTEXT.md` and `PROJECT.md`.
 - **Drizzle ORM**: A TypeScript-native database ORM previously referenced in the Postgres skill; removed as part of TypeScript cleanup.
 - **`arguments` validation blocks**: A MATLAB language feature (R2019b+) for declarative input validation in functions, replacing manual `narginchk`/`validateattributes` calls.
@@ -105,8 +82,6 @@ Crucially, this design now integrates workspace-wide project monitoring. By port
 - **Model tiering**: Assigning different Claude model sizes to task types by reasoning demand: Opus for design/planning, Sonnet for implementation/review, Haiku for mechanical hooks.
 - **`task-implementor-fast`**: An agent definition in `rpi-plan-and-execute` for implementation subagents; already targets a smaller/faster model.
 - **Quarto**: A scientific publishing system built on R Markdown, used for reproducible reporting in R and Python workflows.
-- **Workspace Dashboard**: A central `DASHBOARD.md` file at the workspace root (`/Users/paul/Claude/`) that provides a high-level overview of all projects, their phases, and recent activity.
-- **`monitor.py`**: A Python script integrated into the `rpi-plan-and-execute` plugin that scans the workspace and generates monitoring data.
 
 ## 🟡 Architecture
 
@@ -125,23 +100,16 @@ The redesign modifies two existing plugins: `rpi-house-style` and `rpi-plan-and-
 - `commands/quick-analysis.md` + `skills/quick-analysis/SKILL.md` — single-shot, no docs, writes brief note to `.rpi/SESSION.md`
 - `commands/helper-function.md` + `skills/helper-function/SKILL.md` — in-context plan + implement + test, writes intent/outcome to `.rpi/SESSION.md`
 
-*Context monitoring stack* (layered, all writing to `.rpi/`):
-- **StatusLine hook** (`hooks/statusline.py`): reads real `context_window.used_percentage` from hook stdin; writes to `.rpi/context-usage.json`; renders visual bar in terminal status line
-- **session-monitor.py** (enhanced): reads `.rpi/context-usage.json` for real %; detects natural break events (TaskUpdate completed, test tool calls, code review invocations); fires compress directive when above 50% at a break OR above 75% at any time
+*Context state* (layered, all writing to `.rpi/`):
 - **SessionStart hook** (enhanced): reads `.rpi/CONTEXT.md` and `.rpi/PROJECT.md` and injects both into session context on every start/clear/resume
 
 *Project-level log:* `compressing-context` skill enhanced to also generate/update `.rpi/PROJECT.md` by reading `git log` and `git status` output — accumulates implementation status, decision log, and current branch state across sessions.
-
-*Workspace Monitoring Integration:* 
-- **`scripts/monitor.py`**: A ported version of the workspace scanner. It uses `GitInfo`, `FileInfo`, and `RpiInfo` to classify projects.
-- **`commands/workspace-dashboard.md`**: Invokes a simple skill that displays `cat /Users/paul/Claude/DASHBOARD.md`.
-- **Automated Updates**: `compressing-context` triggers `monitor.py` for the current project only (or the whole workspace) to keep the dashboard current.
 
 *Model tiering:* Agent `.md` files and skill prompts updated to default subagents to Sonnet; Opus reserved for design/planning phases only; hook scripts use Haiku where model selection applies.
 
 ## 🔵 Existing Patterns
 
-**Hooks:** `hooks/hooks.json` registers hook types with a `command` field pointing to a script path using `${CLAUDE_PLUGIN_ROOT}`. Scripts write JSON to stdout. `session-monitor.py` already follows this pattern; `statusline.py` extends it for the new StatusLine event type.
+**Hooks:** `hooks/hooks.json` registers hook types with a `command` field pointing to a script path using `${CLAUDE_PLUGIN_ROOT}`. Scripts write JSON to stdout.
 
 **Skills:** Each skill is a directory under `skills/{name}/` containing `SKILL.md`. The Hot/Cold split (`SKILL.md` + `REFERENCE.md`) introduced in the context-optimization branch is an established pattern — language skills follow it where appropriate.
 
@@ -188,21 +156,6 @@ The redesign modifies two existing plugins: `rpi-house-style` and `rpi-plan-and-
 **Done when:** All three skills exist with language-appropriate examples; MATLAB skill explicitly covers argument blocks and OOP state patterns; Python skill covers scientific stack conventions
 <!-- END_PHASE_2 -->
 
-<!-- START_PHASE_3 -->
-### Phase 3: Smart Context Monitoring
-
-**Goal:** Replace tool-call-count proxy with real context percentage; add natural-break detection; add visual StatusLine display.
-
-**Components:**
-- Create: `plugins/rpi-plan-and-execute/hooks/statusline.py` — reads `context_window.used_percentage` from StatusLine hook stdin; writes to `.rpi/context-usage.json`; outputs visual bar string (e.g. `[████████░░░░░░░░] 52% · ⚠ compress at next break`)
-- Register: StatusLine hook entry in `plugins/rpi-plan-and-execute/hooks/hooks.json`
-- Enhance: `plugins/rpi-plan-and-execute/hooks/session-monitor.py` — read real % from `.rpi/context-usage.json` instead of tool count; detect natural break events (TaskUpdate with `status: completed`, Bash calls matching test patterns: `pytest`, `Rscript`, `matlab -batch`; code review invocations); fire WARNING directive above 50% at a break; fire URGENT directive above 75% at any time; configurable via `RPI_CONTEXT_SOFT_THRESHOLD` (default 50) and `RPI_CONTEXT_HARD_THRESHOLD` (default 75)
-
-**Dependencies:** Phase 1 (hooks infrastructure unchanged, extends existing)
-
-**Done when:** StatusLine shows visual bar with real %; `.rpi/context-usage.json` is written on each StatusLine event; session-monitor triggers correctly at soft threshold on natural breaks and hard threshold unconditionally
-<!-- END_PHASE_3 -->
-
 <!-- START_PHASE_4 -->
 ### Phase 4: Project-Level Progress Log
 
@@ -211,8 +164,6 @@ The redesign modifies two existing plugins: `rpi-house-style` and `rpi-plan-and-
 **Components:**
 - Enhance: `plugins/rpi-plan-and-execute/skills/compressing-context/SKILL.md` — add instruction to generate/update `.rpi/PROJECT.md` by reading `git log --oneline -10` and `git status` output; format as: current branch, recent commits, implementation status table (manually maintained section), decisions log (appended from session journal), open questions
 - Enhance: `plugins/rpi-plan-and-execute/hooks/session-start.sh` — read `.rpi/CONTEXT.md` and `.rpi/PROJECT.md` (if they exist) and include their content in the `additionalContext` payload alongside the existing skill injection
-
-**Dependencies:** Phase 3 (session-monitor and compression infrastructure stable)
 
 **Done when:** Compressing context produces both `.rpi/CONTEXT.md` and `.rpi/PROJECT.md`; SessionStart injects both files when present; new session after `/clear` begins with project state visible
 <!-- END_PHASE_4 -->
@@ -251,26 +202,10 @@ The redesign modifies two existing plugins: `rpi-house-style` and `rpi-plan-and-
 **Done when:** Agent files reflect intended models; code-reviewer, bug-fixer, and test-analyst default to Sonnet; design/planning skill docs note Opus rationale
 <!-- END_PHASE_6 -->
 
-<!-- START_PHASE_7 -->
-### Phase 7: Workspace Monitoring Integration
-
-**Goal:** Integrate the workspace monitoring scanner and dashboard from the `Monitor` project.
-
-**Components:**
-- Port: `plugins/rpi-plan-and-execute/scripts/monitor.py` from the `Monitor` project. It will use the Pydantic models and classification logic defined in the `Monitor` design.
-- Create: `plugins/rpi-plan-and-execute/commands/workspace-dashboard.md` and a corresponding skill to display the workspace `DASHBOARD.md`.
-- Enhance: `plugins/rpi-plan-and-execute/skills/compressing-context/SKILL.md` to run `monitor.py` as a final step, ensuring the central dashboard stays current.
-- Configure: Workspace root is fixed to `/Users/paul/Claude/`. Hidden directories and the `Monitor/` directory are excluded from scanning.
-
-**Dependencies:** Phase 4 (compression skill infrastructure complete).
-
-**Done when:** `monitor.py` correctly scans all projects and generates `.monitor/*.json` stubs and `DASHBOARD.md`; `/workspace-dashboard` command displays the dashboard; `compressing-context` successfully triggers a scan.
-<!-- END_PHASE_7 -->
+<!-- END_PHASE_6 -->
 
 ## 🔵 Additional Considerations
 
-**Superseding context-optimization branch work:** The existing untracked files under `docs/implementation-plans/2026-03-26-context-optimization/` describe Phase 1 (Hot/Cold skill split) work. Phase 1 of this design supersedes that — the TypeScript skill being split is now removed entirely. The session-monitor enhancements in Phase 3 here supersede the Phase 2-4 work described in those plans. Those files should be removed before implementing this design.
-
-**StatusLine hook timing:** The StatusLine hook fires on UI updates, not on every tool call. There may be a brief lag between a tool completing and `.rpi/context-usage.json` reflecting the updated percentage. `session-monitor.py` should handle a missing or stale `context-usage.json` gracefully (fall back to tool-count proxy if file is absent or older than 60 seconds).
+**Superseding context-optimization branch work:** The existing untracked files under `docs/implementation-plans/2026-03-26-context-optimization/` describe Phase 1 (Hot/Cold skill split) work. Phase 1 of this design supersedes that — the TypeScript skill being split is now removed entirely.
 
 **`.rpi/PROJECT.md` implementation status table:** The "Implementation Status" table in `PROJECT.md` cannot be fully auto-generated from git alone — it requires Claude to maintain it. The compression skill should instruct Claude to update the table based on recent commits and session journal, not just copy git log.

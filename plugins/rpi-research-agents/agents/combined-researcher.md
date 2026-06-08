@@ -1,5 +1,5 @@
 ---
-name: rpi-research-agents:combined-researcher
+name: combined-researcher
 model: haiku
 color: pink
 description: Research both local codebase and internet sources when planning features that need external API or library knowledge

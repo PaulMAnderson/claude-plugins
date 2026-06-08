@@ -8,6 +8,7 @@ tools:
   - grep_search
   - glob
 model: flash
+max_turns: 50
 ---
 # Remote Code Researcher
 

@@ -40,7 +40,7 @@ After EVERY subagent completes (task-implementor, bug-fixer, code-reviewer), you
 
 **DO NOT GUESS.** If the user has not provided a path to an implementation plan directory, you MUST ask for it.
 
-Use AskUserQuestion:
+Use ask_user:
 ```
 Question: "Which implementation plan should I execute?"
 Options:
@@ -109,16 +109,19 @@ If the file exists, note its **absolute path** for use during final review. The 
 
 ### 2. Create Phase-Level Task List
 
-Use TaskCreate to create **three task entries per phase** (or TodoWrite in older Claude Code versions). Include the title from the header:
+Use write_todos to create **three task entries per phase**. Include the title from the header:
 
-```
-- [ ] Phase 1a: Read /absolute/path/to/phase_01.md — Document Infrastructure Implementation Plan
-- [ ] Phase 1b: Execute tasks
-- [ ] Phase 1c: Code review
-- [ ] Phase 2a: Read /absolute/path/to/phase_02.md — API Integration
-- [ ] Phase 2b: Execute tasks
-- [ ] Phase 2c: Code review
-...
+```json
+write_todos({
+  "todos": [
+    { "description": "Phase 1a: Read /absolute/path/to/phase_01.md — Document Infrastructure Implementation Plan", "status": "pending" },
+    { "description": "Phase 1b: Execute tasks", "status": "blocked" },
+    { "description": "Phase 1c: Code review", "status": "blocked" },
+    { "description": "Phase 2a: Read /absolute/path/to/phase_02.md — API Integration", "status": "blocked" },
+    { "description": "Phase 2b: Execute tasks", "status": "blocked" },
+    { "description": "Phase 2c: Code review", "status": "blocked" }
+  ]
+})
 ```
 
 **Why absolute paths in task entries:** After compaction, context may be summarized. The absolute path in the task entry ensures you always know exactly which file to read.
@@ -246,14 +249,16 @@ The phase changed too much for a single review. Chunk the review:
 
 **When issues are found:**
 
-1. **Create a task for EACH issue** (survives compaction):
-   ```
-   TaskCreate: "Phase N fix [Critical]: <VERBATIM issue description from reviewer>"
-   TaskCreate: "Phase N fix [Important]: <VERBATIM issue description from reviewer>"
-   TaskCreate: "Phase N fix [Minor]: <VERBATIM issue description from reviewer>"
-   ...one task per issue...
-   TaskCreate: "Phase N: Re-review after fixes"
-   TaskUpdate: set "Re-review" blocked by all fix tasks
+1. **Create a todo for EACH issue** (survives compaction):
+   ```json
+   write_todos({
+     "todos": [
+       { "description": "Phase N fix [Critical]: <VERBATIM issue description from reviewer>", "status": "pending" },
+       { "description": "Phase N fix [Important]: <VERBATIM issue description from reviewer>", "status": "pending" },
+       { "description": "Phase N fix [Minor]: <VERBATIM issue description from reviewer>", "status": "pending" },
+       { "description": "Phase N: Re-review after fixes", "status": "blocked" }
+     ]
+   })
    ```
 
    **Copy issue descriptions VERBATIM**, even if long. After compaction, the task description is all that remains — it must contain the full issue details for the bug-fixer to understand what to fix.

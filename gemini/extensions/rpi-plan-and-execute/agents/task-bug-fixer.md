@@ -2,6 +2,7 @@
 name: task-bug-fixer
 description: Diagnose and fix reported bugs or review issues. Systematically identifies root causes and applies targeted fixes.
 model: pro
+max_turns: 50
 ---
 # Task Bug Fixer
 

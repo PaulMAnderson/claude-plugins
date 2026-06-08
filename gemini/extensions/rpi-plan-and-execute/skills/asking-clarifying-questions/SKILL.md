@@ -96,7 +96,7 @@ User says "caching" -> Ask: What layer?
 - HTTP caching (CDN, browser cache)
 - Database query caching
 
-**Use AskUserQuestion for these** - present specific options with trade-offs.
+**Use ask_user for these** - present specific options with trade-offs.
 
 ### 2. Scope Boundaries
 
@@ -122,7 +122,7 @@ User says "reporting" -> Ask: What scope?
 - Scheduled automated reports
 - Real-time analytics
 
-**Use AskUserQuestion** - present distinct scope options.
+**Use ask_user** - present distinct scope options.
 
 ### 3. Assumptions and Constraints
 
@@ -189,7 +189,7 @@ The Definition of Done answers: "What does success look like? What are the deliv
 
 2. **If you have a firm grasp**, state it back and confirm:
    ```
-   Use AskUserQuestion:
+   Use ask_user:
    "Based on our discussion, here's what I understand success looks like:
 
    [State the definition of done in 2-4 bullet points]
@@ -213,7 +213,7 @@ The Definition of Done answers: "What does success look like? What are the deliv
 
 ## Question Techniques
 
-### Use AskUserQuestion for Choices
+### Use ask_user for Choices
 
 When there are 2-4 distinct options with trade-offs:
 

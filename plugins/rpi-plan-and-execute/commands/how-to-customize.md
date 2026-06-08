@@ -42,7 +42,7 @@ Loaded when starting an implementation plan and again during the final all-phase
 # Design Guidance for MyProject
 
 ## Domain Terms
-- **Widget**: User-configurable dashboard component (not a generic UI element)
+- **Widget**: User-configurable UI component (not a generic element)
 - **Pipeline**: BullMQ-based async job system
 
 ## Architectural Constraints

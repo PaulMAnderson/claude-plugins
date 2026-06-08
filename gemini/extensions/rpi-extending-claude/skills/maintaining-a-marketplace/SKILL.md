@@ -53,7 +53,7 @@ my-marketplace/
   "plugins": [
     {
       "name": "my-plugin",
-      "source": "./plugins/my-plugin",
+      "source": "./my-plugin",
       "description": "What this plugin does",
       "version": "1.0.0",
       "author": {
@@ -85,7 +85,7 @@ my-marketplace/
 
 ```json
 // Relative path (monorepo — only works with git-based marketplace add)
-"source": "./plugins/my-plugin"
+"source": "./my-plugin"
 
 // GitHub repository
 "source": { "source": "github", "repo": "owner/repo" }
@@ -101,7 +101,7 @@ my-marketplace/
 
 When releasing a new plugin version, update these files **in this order**:
 
-1. **`plugins/<name>/.claude-plugin/plugin.json`** — Bump `version`
+1. **`../../.claude-plugin/plugin.json`** — Bump `version`
 2. **`.claude-plugin/marketplace.json`** — Update matching plugin entry's `version` to the same value
 3. **`CHANGELOG.md`** — Add entry at the top (after `# Changelog` heading)
 4. **Validate** — Run `claude plugin validate .` or `/plugin validate .` from the marketplace root
@@ -129,7 +129,7 @@ Only include sections that apply. Be specific — "Added `code-review-checklist`
 ### Version Sync Verification
 
 After editing, verify these match:
-- `plugins/<name>/.claude-plugin/plugin.json` → `version`
+- `../../.claude-plugin/plugin.json` → `version`
 - `.claude-plugin/marketplace.json` → plugin entry's `version`
 - `CHANGELOG.md` → entry header `## plugin-name X.Y.Z`
 

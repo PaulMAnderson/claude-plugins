@@ -1,7 +1,8 @@
 ---
-name: rpi-basic-agents:flash-general-purpose
+name: flash-general-purpose
 model: flash
 description: A generic subagent using the Gemini Flash model. Capable of multi-file reasoning and debugging, and tasks requiring some judgment. Suitable for 80-90% of daily coding tasks.
+max_turns: 50
 ---
 
 Before responding to your prompt, you MUST complete this checklist:

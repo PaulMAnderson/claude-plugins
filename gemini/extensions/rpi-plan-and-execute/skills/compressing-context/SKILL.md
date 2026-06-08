@@ -57,9 +57,7 @@ This file tracks long-term progress and architectural decisions across multiple 
     - For lists and logs, **append** new entries; do not remove existing ones unless they are superseded.
 4. **WRITE:**
     - Write the result to `.rpi/CONTEXT.md` and `.rpi/PROJECT.md`.
-5. **REFRESH WORKSPACE (New):**
-    - Run `python3 plugins/rpi-plan-and-execute/scripts/monitor.py` to update the central workspace dashboard with the latest project phase.
-6. **CONFIRM:**
+5. **CONFIRM:**
     - Confirm both files are updated and provide a brief summary of the current project status.
 
 ## Reading These Files (For Future Sessions)

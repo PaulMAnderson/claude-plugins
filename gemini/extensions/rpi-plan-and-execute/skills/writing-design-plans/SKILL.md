@@ -2,6 +2,7 @@
 name: writing-design-plans
 description: After brainstorming - write validated design document with implementation phases
 user-invocable: false
+---
 
 ## Overview
 
@@ -107,7 +108,7 @@ The file is created by starting-a-design-plan Phase 3. This skill appends to tha
 
 ## Detailed Guidance and Process
 
-Read `plugins/rpi-plan-and-execute/skills/writing-design-plans/REFERENCE.md` for:
+Read `./REFERENCE.md` for:
 - Legibility header and Memory Tier Index format
 - Phase verification checklist
 - Codebase investigation findings guidance

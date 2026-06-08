@@ -1,5 +1,5 @@
 ---
-name: rpi-plan-and-execute:code-reviewer
+name: code-reviewer
 description: Review completed plan steps or features; validates code quality, test coverage, and plan alignment. Blocks on any issues.
 model: sonnet
 color: cyan

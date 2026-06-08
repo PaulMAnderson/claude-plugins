@@ -1,5 +1,5 @@
 ---
-name: rpi-research-agents:internet-researcher
+name: internet-researcher
 model: haiku
 color: pink
 description: Research current API docs, library patterns, and external knowledge when planning or designing features

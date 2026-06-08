@@ -1,5 +1,5 @@
 ---
-name: rpi-research-agents:remote-code-researcher
+name: remote-code-researcher
 model: haiku
 color: cyan
 description: Examine source code from external repos by cloning — use to understand how libraries implement features internally

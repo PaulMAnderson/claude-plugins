@@ -2,6 +2,7 @@
 name: writing-implementation-plans
 description: Write detailed implementation tasks from a completed design document
 user-invocable: false
+---
 
 
 ## Overview
@@ -50,24 +51,26 @@ Tell the user:
 
 **After scope validation, ask how to handle phase reviews:**
 
-Use AskUserQuestion:
+Use ask_user:
 ```
 Question: "How would you like to review the implementation plan phases?"
-Options:
-  - "Write all phases to disk, I'll review afterwards"
-  - "Review each phase interactively before writing"
+type: "choice"
+header: "Review Mode"
+options:
+  - { "label": "Batch", "description": "Write all phases to disk, I'll review afterwards" }
+  - { "label": "Interactive", "description": "Review each phase interactively before writing" }
 ```
 
 
 ### 3. Codebase Verification
 
-Dispatch `codebase-investigator` before EACH phase with design assumptions. Read REFERENCE.md for full guidance and NEVER/ALWAYS write rules.
+Dispatch `codebase-investigator` before EACH phase with design assumptions. Read ./REFERENCE.md for full guidance and NEVER/ALWAYS write rules.
 
 **DO NOT verify codebase yourself.**
 
 ### 4. External Dependency Research
 
-Dispatch `internet-researcher` (docs) or `remote-code-researcher` (internals). Read REFERENCE.md for tier framework.
+Dispatch `internet-researcher` (docs) or `remote-code-researcher` (internals). Read ./REFERENCE.md for tier framework.
 
 ## Phase-by-Phase Implementation
 
@@ -75,11 +78,15 @@ Dispatch `internet-researcher` (docs) or `remote-code-researcher` (internals). R
 
 For each phase, capture absolute paths DESIGN_PATH and PLAN_DIR, then create:
 
-```markdown
-- [ ] Phase NA: Read [Phase Name] from {DESIGN_PATH}
-- [ ] Phase NB: Investigate codebase for Phase N and activate relevant skills
-- [ ] Phase NC: Research external deps (Phase N)
-- [ ] Phase ND: Write {PLAN_DIR}/phase_0N.md
+```json
+write_todos({
+  "todos": [
+    { "description": "Phase NA: Read [Phase Name] from {DESIGN_PATH}", "status": "pending" },
+    { "description": "Phase NB: Investigate codebase for Phase N and activate relevant skills", "status": "blocked" },
+    { "description": "Phase NC: Research external deps (Phase N)", "status": "blocked" },
+    { "description": "Phase ND: Write {PLAN_DIR}/phase_0N.md", "status": "blocked" }
+  ]
+})
 ```
 
 Set dependencies: NA ← (N-1)D, NB ← NA, NC ← NB, ND ← NC.
@@ -94,20 +101,20 @@ Set dependencies: NA ← (N-1)D, NB ← NA, NC ← NB, ND ← NC.
 
 **Before starting:**
 - [ ] Count phases - refuse if >8
-- [ ] Ask user for review mode (batch vs interactive)
+- [ ] Ask user for review mode (batch vs interactive) using ask_user
 - [ ] Capture absolute paths: DESIGN_PATH and PLAN_DIR
 - [ ] Read Acceptance Criteria section from design plan
-- [ ] Create granular task list with TaskCreate (NA, NB, NC, ND per phase + Finalization + Test Requirements)
-- [ ] Set up dependencies with TaskUpdate addBlockedBy (see Step 0)
+- [ ] Create granular task list with write_todos (NA, NB, NC, ND per phase + Finalization + Test Requirements)
+- [ ] Set up dependencies (status: blocked) in write_todos (see Step 0)
 - [ ] Task descriptions include absolute paths (not relative)
 
 **For each phase (tasks NA through ND):**
-- [ ] **Task NA:** Mark in_progress, read `<!-- START_PHASE_N -->` from design, mark completed
-- [ ] **Task NB:** Mark in_progress, dispatch codebase-investigator, review findings, mark completed
-- [ ] **Task NC:** Mark in_progress, research external deps if needed (or mark completed with "N/A"), mark completed
+- [ ] **Task NA:** Mark in_progress with write_todos, read `<!-- START_PHASE_N -->` from design, mark completed
+- [ ] **Task NB:** Mark in_progress with write_todos, dispatch codebase-investigator, review findings, mark completed
+- [ ] **Task NC:** Mark in_progress with write_todos, research external deps if needed (or mark completed with "N/A"), mark completed
 - [ ] Write complete tasks with exact paths and code based on investigator and research findings
-- [ ] **If interactive mode:** Output complete phase plan, use AskUserQuestion for approval
-- [ ] **Task ND:** Mark in_progress, write to absolute path in task description, mark completed
+- [ ] **If interactive mode:** Output complete phase plan, use ask_user for approval
+- [ ] **Task ND:** Mark in_progress with write_todos, write to absolute path in task description, mark completed
 
 **For each task in the plan:**
 - [ ] Exact file paths with line numbers for modifications
@@ -118,20 +125,20 @@ Set dependencies: NA ← (N-1)D, NB ← NA, NC ← NB, ND ← NC.
 - [ ] No conditional instructions ("if exists", "if needed")
 
 **Finalization (after all phase ND tasks completed):**
-- [ ] Mark Finalization task as in_progress
+- [ ] Mark Finalization task as in_progress using write_todos
 - [ ] Dispatch code-reviewer to validate plan against design
 - [ ] Fix ALL issues including Minor ones
 - [ ] Re-run code-reviewer until APPROVED with zero issues
-- [ ] Mark Finalization task as completed
+- [ ] Mark Finalization task as completed using write_todos
 - [ ] Proceed to Test Requirements
 
 **Test Requirements (after Finalization):**
-- [ ] Mark Test Requirements task as in_progress
-- [ ] Dispatch Opus subagent to generate test requirements from Acceptance Criteria
-- [ ] **If interactive mode:** Present to user, use AskUserQuestion for approval
+- [ ] Mark Test Requirements task as in_progress using write_todos
+- [ ] Dispatch Pro subagent to generate test requirements from Acceptance Criteria
+- [ ] **If interactive mode:** Present to user, use ask_user for approval
 - [ ] **If batch mode:** Write directly without asking
 - [ ] Write test-requirements.md to PLAN_DIR
-- [ ] Mark Test Requirements task as completed
+- [ ] Mark Test Requirements task as completed using write_todos
 - [ ] Proceed to execution handoff
 
 ## Common Rationalizations - STOP
@@ -149,7 +156,7 @@ These are violations of the skill requirements:
 | "Testing Phase 3 will fail but that's OK because it'll be fixed in Phase 4" | All phases must compile and pass tests before they conclude. |
 | "Phase validation slows me down" | Going off track wastes far more time. Validate each phase. |
 | "I'll batch all phases then validate at end" | Valid if user chose batch mode. Otherwise validate incrementally. |
-| "I'll just ask for approval, user can see the plan" | Output complete plan in message BEFORE AskUserQuestion. User must see it. |
+| "I'll just ask for approval, user can see the plan" | Output complete plan in message BEFORE ask_user. User must see it. |
 | "Plan looks complete enough to ask" | Show ALL tasks with ALL steps and code. Then ask. |
 | "This plan has 12 phases but they're small" | Limit is 8 phases. No exceptions. Refuse and redirect. |
 | "I can combine phases to fit in 8" | That's the user's decision, not yours. Refuse and explain options. |
@@ -162,7 +169,7 @@ These are violations of the skill requirements:
 | "Validation is overkill for simple plans" | Simple plans validate quickly. Complex plans need it more. Always validate. |
 | "Finalization task is done, minor issues can wait" | NO. Task says "fix ALL issues including minor ones." Not done until zero issues. |
 | "I'll skip creating granular tasks, one per phase is enough" | Granular tasks survive compaction. Create NA, NB, NC, ND per phase + Finalization. |
-| "Dependencies are obvious, don't need addBlockedBy" | Task list shows blocked status. Set dependencies explicitly with TaskUpdate. |
+| "Dependencies are obvious, don't need write_todos" | Task list shows blocked status. Set dependencies explicitly with write_todos. |
 | "Relative paths are fine in task descriptions" | After compaction, context is lost. Use absolute paths so tasks are self-contained. |
 | "I'll paraphrase the task name, same meaning" | NO. Task names are VERBATIM. "and activate relevant skills" triggers behavior post-compaction. |
 | "I know how this library works from training" | Research it. APIs change. Use internet-researcher for docs, remote-code-researcher for internals. |
@@ -184,7 +191,7 @@ These are violations of the skill requirements:
 
 ## Templates and Detailed Process
 
-Read `plugins/rpi-plan-and-execute/skills/writing-implementation-plans/REFERENCE.md` for:
+Read ./REFERENCE.md for:
 - Full codebase verification guidance (NEVER/ALWAYS write rules, dispatch examples)
 - External dependency research tiers
 - Task granularity guidance with examples

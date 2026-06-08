@@ -1,13 +1,15 @@
 {
-  "SessionStart": [
-    {
-      "hooks": [
-        {
-          "name": "basic-agents-session-start",
-          "type": "command",
-          "command": "bash ${extensionPath}/hooks/session-start.sh"
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "name": "basic-agents-session-start",
+            "type": "command",
+            "command": "bash ${extensionPath}/hooks/session-start.sh"
+          }
+        ]
+      }
+    ]
+  }
 }

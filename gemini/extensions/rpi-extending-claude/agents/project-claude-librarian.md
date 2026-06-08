@@ -2,6 +2,7 @@
 name: project-claude-librarian
 description: Update CLAUDE.md/AGENTS.md context files to reflect contract changes after development phases complete.
 model: pro
+max_turns: 50
 ---
 # Project Claude Librarian
 

@@ -2,7 +2,7 @@
 
 ## Summary
 
-This design covers two interlocking changes to the ed3d-plugins fork: (1) a full rebrand from `ed3d-*` to `rpi-*` naming with updated attribution and documentation, and (2) integration of Context Engineering (CE) principles into the RPI workflow via a context monitor hook, a compression skill, and upgraded CE-aware file templates. The result is an independent, clearly-attributed fork that actively manages context degradation rather than leaving it entirely to the user.
+This design covers two interlocking changes to the ed3d-plugins fork: (1) a full rebrand from `ed3d-*` to `rpi-*` naming with updated attribution and documentation, and (2) integration of Context Engineering (CE) principles into the RPI workflow via a compression skill, and upgraded CE-aware file templates. The result is an independent, clearly-attributed fork that actively manages context degradation rather than leaving it entirely to the user.
 
 ---
 
@@ -22,7 +22,6 @@ This design covers two interlocking changes to the ed3d-plugins fork: (1) a full
 ## 🔴 Definition of Done
 
 1. All `ed3d-*` plugin directories renamed to `rpi-*`; all internal references updated; `marketplace.json`, `CLAUDE.md`, `CHANGELOG.md`, and `README.md` updated; attribution to `ed3dai/ed3d-plugins` and `obra/superpowers` (Jesse Vincent) preserved and made explicit; all `.ed3d/` project-level configuration directory references renamed to `.rpi/` throughout all skill, command, and documentation files
-2. A `PostToolUse` context monitor hook fires after every tool call, debounced via a call-count file, and injects a context-pressure warning into Claude's context at configurable thresholds (default: warn at 40 tool calls, urgent at 70)
 3. A `compressing-context` skill produces an Anchored Iterative Summary written to `.rpi/CONTEXT.md`; a `/compress-context` command invokes it manually; the skill is called automatically at RPI phase-boundary transitions (design→plan, plan→execute)
 4. The `writing-design-plans` skill template is upgraded to include a Memory Tier Index section and hot/warm/cold annotations on each section; the `writing-implementation-plans` skill template is upgraded to annotate each phase file with a context budget estimate
 
@@ -39,15 +38,6 @@ This design covers two interlocking changes to the ed3d-plugins fork: (1) a full
 - **AC1.5**: All `.ed3d/` references in skill, command, and README files are updated to `.rpi/` — this covers the project-level guidance directories users create in their own repos (`.rpi/design-plan-guidance.md`, `.rpi/implementation-plan-guidance.md`)
 - **AC1.6 (failure)**: A grep for `ed3d-` across `plugins/` returns results → rebrand is incomplete
 - **AC1.7 (failure)**: A grep for `\.ed3d/` across `plugins/` returns results → directory rename is incomplete
-
-### rpi-context-engineering.AC2 — Context Monitor Hook
-
-- **AC2.1**: A `PostToolUse` hook is registered in `plugins/rpi-plan-and-execute/hooks/hooks.json`
-- **AC2.2**: The hook script reads or creates `.rpi/context-monitor-count` and increments it on each call
-- **AC2.3**: At threshold 1 (default: 40), the hook outputs JSON with `additionalContext` containing a moderate warning prompt
-- **AC2.4**: At threshold 2 (default: 70), the hook outputs JSON with `additionalContext` containing an urgent compression prompt
-- **AC2.5**: After outputting a warning, the counter resets (debounce) to avoid repeated alerts
-- **AC2.6 (failure)**: Counter file is not created or is not incremented → hook is not firing
 
 ### rpi-context-engineering.AC3 — Compression Skill & Command
 
@@ -68,32 +58,6 @@ This design covers two interlocking changes to the ed3d-plugins fork: (1) a full
 ---
 
 ## 🟡 Architecture
-
-### Feature 1: Context Monitor Hook
-
-**Mechanism:** Claude Code `PostToolUse` hooks receive a JSON payload on stdin describing the tool that fired. The hook script outputs a JSON response; if it includes `hookSpecificOutput.additionalContext`, that string is injected into Claude's visible context before it generates its next response.
-
-Since Claude Code does not currently expose a direct token-count API to hook scripts, we use **tool-call count** as a proxy for context growth. A counter file (`.rpi/context-monitor-count`) is maintained by the hook script and persists between calls within a session.
-
-```
-PostToolUse fires
-       ↓
-context-monitor.sh reads .rpi/context-monitor-count
-       ↓
-counter < warn_threshold → increment, exit quietly
-       ↓
-counter >= warn_threshold AND < urgent_threshold
-    → output moderate warning additionalContext, reset counter
-       ↓
-counter >= urgent_threshold
-    → output urgent warning additionalContext, reset counter
-```
-
-**Configurable via environment variables:**
-- `RPI_CONTEXT_WARN_THRESHOLD` (default: 40)
-- `RPI_CONTEXT_URGENT_THRESHOLD` (default: 70)
-
-**Why tool-count and not token-count:** Hook scripts are shell processes without direct access to the Claude API context window state. Tool-call count correlates with context growth because each tool call appends tool input + output to the context. A file-read tool call typically adds 500–5000 tokens; an edit adds 200–2000. After 40 calls, accumulated context is typically significant.
 
 ### Feature 2: Compression Skill & Command
 
@@ -197,7 +161,6 @@ context monitoring, and compression-aware file templates.
 
 Files created (new):
 ```
-plugins/rpi-plan-and-execute/hooks/context-monitor.sh
 plugins/rpi-plan-and-execute/skills/compressing-context/SKILL.md
 plugins/rpi-plan-and-execute/commands/compress-context.md
 docs/design-plans/2026-03-01-rpi-context-engineering.md   ← this file
@@ -205,7 +168,6 @@ docs/design-plans/2026-03-01-rpi-context-engineering.md   ← this file
 
 Files modified (significant changes):
 ```
-plugins/rpi-plan-and-execute/hooks/hooks.json              ← add PostToolUse entry
 plugins/rpi-plan-and-execute/skills/starting-a-design-plan/SKILL.md     ← add compression step Phase 6
 plugins/rpi-plan-and-execute/skills/starting-an-implementation-plan/SKILL.md  ← add compression step
 plugins/rpi-plan-and-execute/skills/writing-design-plans/SKILL.md       ← add tier template instructions
@@ -233,10 +195,6 @@ Rename all 9 `plugins/ed3d-*` directories to `plugins/rpi-*`. Then do a global s
 
 Rewrite `README.md` with: new project name and description, attribution block, updated install instructions using `rpi-*` names, updated command examples, links to upstream repos.
 
-### Phase 3: Context monitor hook
-
-Write `plugins/rpi-plan-and-execute/hooks/context-monitor.sh` (shell script, PostToolUse). Add the PostToolUse hook entry to `plugins/rpi-plan-and-execute/hooks/hooks.json`. The script must create `.rpi/` directory if absent, maintain the counter file, compare against thresholds, output JSON with `additionalContext` at threshold crossings, and reset the counter after each alert.
-
 ### Phase 4: Compression skill
 
 Write `plugins/rpi-plan-and-execute/skills/compressing-context/SKILL.md`. The skill instructs Claude to: produce an Anchored Iterative Summary with the five defined sections, merge with existing `.rpi/CONTEXT.md` if present (do not overwrite — merge), write the result back to `.rpi/CONTEXT.md`, and confirm completion.
@@ -255,20 +213,16 @@ Update `writing-design-plans` skill to: include a Memory Tier Index section temp
 
 ## 🔵 Background
 
-This design arises from a comparison of three Claude Code workflow harnesses: `ed3d-plugins` (this repo), `Agent-Skills-for-Context-Engineering`, and `get-shit-done`. The analysis identified three gaps in `ed3d-plugins` relative to the CE skills repo and GSD:
+This design arises from a comparison of three Claude Code workflow harnesses: `ed3d-plugins` (this repo), `Agent-Skills-for-Context-Engineering`, and `get-shit-done`. The analysis identified two gaps in `ed3d-plugins` relative to the CE skills repo and GSD:
 
-1. No context monitoring — GSD has a PostToolUse hook alerting at 35%/25% context; ed3d has nothing
-2. No compression step — the RPI workflow tells users to `/clear` between phases but discards all context with no summary
-3. No memory-tier awareness — design docs have no structure indicating to a future agent what is "hot" vs "cold" to read
+1. No compression step — the RPI workflow tells users to `/clear` between phases but discards all context with no summary
+2. No memory-tier awareness — design docs have no structure indicating to a future agent what is "hot" vs "cold" to read
 
-The rebrand decision arises independently: since this fork introduces breaking changes (new hook, new skill, modified skills), it is a good moment to establish a distinct identity rather than continuing to use the upstream `ed3d-` namespace, which could cause confusion with the original project.
+The rebrand decision arises independently: since this fork introduces breaking changes, it is a good moment to establish a distinct identity rather than continuing to use the upstream `ed3d-` namespace, which could cause confusion with the original project.
 
 ---
 
 ## 🔵 Alternatives Considered
-
-**Alternative to tool-count proxy: context percentage from Claude's self-report**
-Rather than a hook counting tool calls, the `UserPromptSubmit` hook could ask Claude to self-report context usage. Rejected: more complex, adds latency to every prompt, and Claude's self-reported context fractions are unreliable.
 
 **Alternative to Anchored Iterative Summarization: /compact command**
 Claude Code has a built-in `/compact` command that auto-summarises. Rejected: it is destructive (clears the conversation and cannot be undone), gives no structured output, and the resulting summary is not readable as a project file that persists across sessions.
@@ -290,6 +244,5 @@ Use structured YAML to annotate sections instead of emoji. Rejected: YAML is not
 | **Anchored Iterative Summarization** | A compression technique that maintains a persistent structured summary file, merging new information incrementally rather than regenerating from scratch |
 | **Hot/Warm/Cold (memory tiers)** | A three-tier classification of document sections by how frequently an agent needs to read them: hot = always, warm = when relevant, cold = reference only |
 | **Context budget** | An estimate of the token cost of loading a document or set of files, used to help agents prioritise what to read when context is limited |
-| **PostToolUse hook** | A Claude Code hook type that fires after every tool invocation, receiving tool metadata and optionally injecting content into Claude's context |
 | **`ed3d-plugins`** | The upstream repository this project forks from: `github.com/ed3dai/ed3d-plugins` |
 | **`obra/superpowers`** | The upstream repository (Jesse Vincent, MIT) from which the core workflow skills derive |

@@ -33,7 +33,7 @@ The **Opus** model is recommended for high-reasoning tasks like initial design, 
 
 **REQUIRED: Create task tracker at start**
 
-Use TaskCreate to create todos for each phase (or TodoWrite in older Claude Code versions):
+Use write_todos to create todos for each phase :
 
 - Phase 1: Context Gathering (initial information collected)
 - (conditional) Read project design guidance (if `.rpi/design-plan-guidance.md` exists)
@@ -43,15 +43,15 @@ Use TaskCreate to create todos for each phase (or TodoWrite in older Claude Code
 - Phase 5: Design Documentation (design written to docs/design-plans/)
 - Phase 6: Planning Handoff (implementation plan offered/created)
 
-Use TaskUpdate to mark each phase as in_progress when working on it, completed when finished (or TodoWrite in older versions).
+Use write_todos to mark each phase as in_progress when working on it, completed when finished .
 
 ### Phase 1: Context Gathering
 
 **Never skip this phase.** Even if the user provides detailed information, ask for anything missing.
 
-Use TaskUpdate to mark Phase 1 as in_progress.
+Use write_todos to mark Phase 1 as in_progress.
 
-**Ask the user to provide (freeform, not AskUserQuestion):**
+**Ask the user to provide (freeform, not ask_user):**
 
 "I need some information to start the design process. Please provide what you have:
 
@@ -92,7 +92,7 @@ Use the Read tool to check if `.rpi/design-plan-guidance.md` exists in the sessi
 
 **If the file exists:**
 
-1. Use TaskCreate to add: "Read project design guidance from [absolute path to .rpi/design-plan-guidance.md]"
+1. Use write_todos to add: "Read project design guidance from [absolute path to .rpi/design-plan-guidance.md]"
    - Set this task as blocked by Phase 1 (Context Gathering)
    - Update Phase 2 (Clarification) to be blocked by this new task
 2. Mark the task in_progress
@@ -115,7 +115,7 @@ The guidance informs what questions you ask during clarification.
 
 ### Phase 2: Clarification
 
-Use TaskUpdate to mark Phase 2 as in_progress.
+Use write_todos to mark Phase 2 as in_progress.
 
 **REQUIRED SUB-SKILL:** Use rpi-plan-and-execute:asking-clarifying-questions
 
@@ -136,7 +136,7 @@ Mark Phase 2 as completed when requirements are disambiguated.
 
 Before brainstorming the *how*, lock in the *what*. Brainstorming explores texture and approach — it assumes the goal is already clear.
 
-Use TaskUpdate to mark Phase 3 as in_progress.
+Use write_todos to mark Phase 3 as in_progress.
 
 **Synthesize the Definition of Done from context gathered so far:**
 
@@ -147,7 +147,7 @@ From Phases 1-2 (Context Gathering and Clarification), you should be able to inf
 
 **If the Definition of Done is clear:**
 
-State it back to the user and confirm using AskUserQuestion:
+State it back to the user and confirm using ask_user:
 
 ```
 Question: "Before we explore approaches, let me confirm what success looks like:"
@@ -163,7 +163,7 @@ Present the Definition of Done as a brief statement (2-4 sentences) covering:
 
 **If the Definition of Done is unclear:**
 
-Ask targeted questions to nail it down. Use AskUserQuestion when there are discrete options, or open-ended questions when you need the user to describe their vision.
+Ask targeted questions to nail it down. Use ask_user when there are discrete options, or open-ended questions when you need the user to describe their vision.
 
 Examples of clarifying questions:
 - "What's the primary deliverable here — is it [X] or [Y]?"
@@ -185,7 +185,7 @@ The slug becomes part of all acceptance criteria identifiers (e.g., `my-feature.
 - **Terse but unambiguous** — prefer short forms that don't create confusion (e.g., `authn` not `authentication`, but not `auth` since that's ambiguous with `authz`)
 - Recognizable months later
 
-**Use AskUserQuestion:**
+**Use ask_user:**
 
 ```
 Question: "What should we call this design plan? The name becomes the prefix for all acceptance criteria (e.g., `{slug}.AC1.1`) and appears in test names.
@@ -238,7 +238,7 @@ Mark Phase 3 as completed when user confirms the Definition of Done AND the file
 
 With clear understanding from Phases 1-3, explore design alternatives and validate the approach.
 
-Use TaskUpdate to mark Phase 4 as in_progress.
+Use write_todos to mark Phase 4 as in_progress.
 
 **REQUIRED SUB-SKILL:** Use rpi-plan-and-execute:brainstorming
 
@@ -264,7 +264,7 @@ Mark Phase 4 as completed when design is validated.
 
 Append the validated design to the document created in Phase 3.
 
-Use TaskUpdate to mark Phase 5 as in_progress.
+Use write_todos to mark Phase 5 as in_progress.
 
 **REQUIRED SUB-SKILL:** Use rpi-plan-and-execute:writing-design-plans
 
@@ -294,13 +294,13 @@ Mark Phase 5 as completed when design document is committed.
 
 After design is documented, guide user to create implementation plan in fresh context.
 
-Use TaskUpdate to mark Phase 6 as in_progress.
+Use write_todos to mark Phase 6 as in_progress.
 
 ### Pre-Handoff: Compress Context
 
 Before clearing context, preserve this session's state.
 
-**REQUIRED:** Use your Skill tool to invoke `compressing-context`.
+**REQUIRED:** Use your activate_skill tool to invoke `compressing-context`.
 
 The skill will write a structured summary to `.rpi/CONTEXT.md`. This file persists
 across `/clear` and lets the implementation-planning session resume without re-investigation.
