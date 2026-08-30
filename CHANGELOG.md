@@ -1,5 +1,29 @@
 # Changelog
 
+## [rpi-plan-and-execute] 1.13.0
+
+File-based handoffs between controller and subagents, a structured implementor status protocol, and guardrails on reviewer prompts. Ported from obra/superpowers.
+
+**New:**
+- `scripts/rpi-workspace` — resolves `.rpi/exec/` with a self-ignoring `.gitignore` for short-lived execution artifacts
+- `scripts/task-brief PHASE_FILE TASK` — extracts one task (number) or subcomponent (letter) from a phase file to its own brief file
+- `scripts/review-package BASE HEAD` — writes commit list, stat summary, and `-U10` diff to a file the reviewer reads in one call
+- Implementor status protocol: `DONE` / `DONE_WITH_CONCERNS` / `NEEDS_CONTEXT` / `BLOCKED`, with per-status controller handling
+- Pre-flight conflict scan before each phase, batched into a single question
+- `REVIEW_PACKAGE` input on the code-reviewer template
+- `receiving-code-review` skill — handling feedback from a human or external reviewer: verify before implementing, no performative agreement, push back with technical reasoning
+- Durable progress ledger at `.rpi/exec/progress.md`, checked before dispatch and appended per completed task and phase, so a compacted controller cannot re-run finished work
+- Model selection guidance: when to override the agents' pinned `sonnet` in either direction, and why turn count beats token price
+
+**Changed:**
+- `executing-an-implementation-plan` dispatches implementors with a brief path and a report path instead of the phase file, and records a phase BASE SHA rather than relying on `HEAD~1`
+- Reviewer prompts may not pre-judge findings — no "don't flag X", no pre-rated severity; plan-mandated findings escalate to the human
+- Fix dispatches must report covering test files, command, and output before re-review
+- `requesting-code-review` scoped explicitly to the automated loop, cross-linked with `receiving-code-review`
+
+**Fixed:**
+- `brainstorming` regained the `<HARD-GATE>` block barring any implementation action before the user approves a design — lost in an earlier rewrite
+
 ## [rpi-plan-and-execute] 1.12.0
 
 Agent and skill updates; hooks and deprecated workspace-dashboard removed.

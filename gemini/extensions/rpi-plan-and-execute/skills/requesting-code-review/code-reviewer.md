@@ -17,23 +17,15 @@ You are reviewing code changes for production readiness.
 
 {PLAN_REFERENCE}
 
-## Changes to Review
-
-**Review package:** {REVIEW_PACKAGE}
-
-Read that file first. It contains the commit list, the stat summary, and the full diff with extended context for the range below — everything you need in one call.
+## Git Range to Review
 
 **Base:** {BASE_SHA}
 **Head:** {HEAD_SHA}
 
-If no review package was provided, derive the diff yourself:
-
 ```bash
 git diff --stat {BASE_SHA}..{HEAD_SHA}
-git diff -U10 {BASE_SHA}..{HEAD_SHA}
+git diff {BASE_SHA}..{HEAD_SHA}
 ```
-
-Read surrounding source files whenever the diff alone doesn't settle a question.
 
 ## Review Checklist
 

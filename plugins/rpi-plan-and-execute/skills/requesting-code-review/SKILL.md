@@ -10,6 +10,8 @@ Dispatch rpi-plan-and-execute:code-reviewer subagent to catch issues before they
 
 **Core principle:** Review early, review often. Fix ALL issues before proceeding.
 
+**Scope:** This skill covers dispatching the reviewer subagent and running the automated review-fix loop. For feedback arriving from a human or an external reviewer, use `receiving-code-review` instead.
+
 ## When to Request Review
 
 **Mandatory:**
@@ -55,6 +57,16 @@ BASE_SHA=$(git rev-parse HEAD~1)  # or commit before task
 HEAD_SHA=$(git rev-parse HEAD)
 ```
 
+**Generate a review package** so the reviewer reads the diff in one call instead of re-deriving it, and so the diff never enters your own context:
+
+```bash
+[plugin scripts dir]/review-package "$BASE_SHA" "$HEAD_SHA"   # prints the file path
+```
+
+Pass the printed path as `REVIEW_PACKAGE`. Where the caller spans several commits (a phase, a branch), `BASE_SHA` must be the commit that range started from — `HEAD~1` silently drops all but the last commit.
+
+Without bash, fall back to `git log --oneline`, `git diff --stat`, and `git diff -U10` redirected to one uniquely named file.
+
 **Dispatch code-reviewer subagent:**
 
 ```
@@ -66,6 +78,7 @@ HEAD_SHA=$(git rev-parse HEAD)
 
   WHAT_WAS_IMPLEMENTED: [summary of implementation]
   PLAN_OR_REQUIREMENTS: [task/requirements reference]
+  REVIEW_PACKAGE: [path printed by review-package — read this for the diff]
   BASE_SHA: [commit before work]
   HEAD_SHA: [current commit]
   DESCRIPTION: [brief summary]

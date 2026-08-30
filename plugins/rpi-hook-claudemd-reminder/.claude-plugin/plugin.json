@@ -1,0 +1,12 @@
+{
+    "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+    "name": "rpi-hook-claudemd-reminder",
+    "version": "1.0.0",
+    "description": "A PostToolUse hook that reminds to invoke project-claude-librarian before committing when git status or git log reveals changes that may warrant CLAUDE.md updates.",
+    "author": {
+        "name": "Ed",
+        "email": "ed@ed3d.net"
+    },
+    "license": "UNLICENSED",
+    "keywords": ["hooks", "documentation", "claude-md"]
+}
