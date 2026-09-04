@@ -97,6 +97,14 @@ bash scripts/install.sh                              # installs core set
 bash scripts/install.sh rpi-house-style rpi-getting-started  # specific plugins
 ```
 
+### Gemini CLI / Antigravity installation
+
+To install the Gemini versions of the extensions and skills to `~/.gemini/config/` and `~/.agents/`:
+```bash
+cd /path/to/rpi-plugins
+bash scripts/install-gemini.sh
+```
+
 ## Repository Structure
 
 ```
@@ -112,8 +120,11 @@ rpi-plugins/
 │   ├── rpi-extending-claude/
 │   ├── rpi-hook-skill-reinforcement/
 │   └── rpi-hook-claudemd-reminder/
+├── gemini/
+│   └── extensions/
 ├── scripts/
 │   ├── install.sh
+│   ├── install-gemini.sh
 │   └── _merge_hooks.py
 └── README.md
 ```

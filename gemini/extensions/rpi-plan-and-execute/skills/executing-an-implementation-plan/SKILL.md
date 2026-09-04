@@ -128,6 +128,29 @@ write_todos({
 
 **Why include the title:** Gives visibility into what each phase covers without loading full content.
 
+### 2b. Check the Progress Ledger
+
+Conversation memory does not survive compaction. Todos help, but they do not name commit ranges — and a controller that has lost its place can re-dispatch an entire completed phase, which is the single most expensive failure this workflow has.
+
+**Before dispatching anything, check for a ledger:**
+
+```bash
+cat "$(git rev-parse --show-toplevel)/.rpi/exec/progress.md"
+```
+
+Anything listed there as complete **is** complete. Do not re-dispatch it. Resume at the first task or phase not marked complete.
+
+**Append to the ledger as you go**, in the same message as your other bookkeeping:
+
+- when a task's implementor returns `DONE` and is committed:
+  `Phase N task M: complete (commits <base7>..<head7>)`
+- when a phase's review comes back clean:
+  `Phase N: complete (commits <base7>..<head7>, review clean)`
+
+The ledger is your recovery map: the commits it names exist in git even when your context no longer remembers creating them. **After any compaction or resume, trust the ledger and `git log` over your own recollection.**
+
+The ledger lives in the git-ignored workspace, so `git clean -fdx` will destroy it. If that happens, rebuild from `git log`.
+
 ### 3. Execute Each Phase
 
 For each phase, follow this cycle:
@@ -156,65 +179,88 @@ If a functionality task (code that does something) has no tests specified:
 
 Do NOT implement functionality without tests. Missing tests = plan gap, not something to skip.
 
-**Execute all tasks in sequence.** For each task, dispatch `task-implementor-fast` with the phase file path:
+**Pre-flight conflict scan.** Before dispatching the first task of the phase, read the phase once looking for:
+- tasks that contradict each other, or contradict the plan's constraints
+- anything the plan explicitly mandates that a reviewer would treat as a defect (a test that asserts nothing, verbatim duplication of a logic block)
+
+Present everything you find as **one batched question** — each finding beside the plan text that mandates it, asking which governs — before execution begins. Not one interrupt per discovery mid-phase. If the scan is clean, proceed without comment. The review loop remains the net for conflicts that only emerge from implementation.
+
+**Record the phase BASE SHA now** — `git rev-parse HEAD` before the first task. You need it for the phase review, and `HEAD~1` will not do: a phase is many commits, and `HEAD~1` silently drops all but the last.
+
+**Hand work over as files, not pasted text.** Everything you paste into a dispatch prompt — and everything a subagent prints back — stays in your context for the rest of the session and is re-read every turn. Use the scripts in this extension's `scripts/` directory:
+
+- `scripts/task-brief PHASE_FILE N` extracts one task's text to a file and prints the path. Pass a letter instead of a number (`scripts/task-brief PHASE_FILE A`) to extract a whole subcomponent.
+- `scripts/review-package BASE HEAD` writes the commit list, stat summary, and full diff to a file and prints the path.
+
+Neither output enters your context — only the path does.
+
+#### Model Selection
+
+The agents in this extension pin `model: flash`, which is the right default for most tasks. You can override it per dispatch with the subagent tool's `model` parameter. Override deliberately, in either direction:
+
+**Down to flash-lite** when the task is transcription plus testing — the plan text contains the complete code to write, or it's a single-file mechanical fix.
+
+**Up to pro** when the task needs design judgment, spans many files with real integration concerns, or requires broad codebase understanding. Also override up when re-dispatching a `BLOCKED` implementor whose blocker was reasoning, not missing context. The final whole-branch review is worth pro; per-phase reviews usually are not.
+
+**Turn count beats token price.** Wall-clock and context cost scale with how many turns a subagent takes, and the cheapest model routinely takes 2–3× the turns on multi-step work — costing more overall. Flash is the floor for reviewers and for any implementor working from prose rather than complete code. Do not reach for flash-lite to save money on a task that will make it flail.
+
+**Execute all tasks in sequence.** For each task, generate the brief, then dispatch:
+
+```bash
+scripts/task-brief [absolute path to phase file] N   # prints e.g. .rpi/exec/task-N-brief.md
+```
 
 ```
 <invoke name="Task">
 <parameter name="subagent_type">rpi-plan-and-execute:task-implementor-fast</parameter>
 <parameter name="description">Implementing Phase X, Task Y: [description]</parameter>
 <parameter name="prompt">
-  Implement Task N from the phase file.
+  Implement Task N.
 
-  Phase file: [absolute path to phase file]
-  Task number: N
+  Read this first — it is your requirements, with the exact values to use verbatim:
+  [path printed by task-brief]
 
-  Read the phase file and implement Task N (look for `<!-- START_TASK_N -->`).
+  Where this fits: [one line on the task's place in the project]
 
-  Your job is to:
-  1. Read the phase file to understand context
-  2. Apply all relevant skills, such as (if available) rpi-house-style:coding-effectively
-  3. Implement exactly what Task N specifies
-  4. Verify with tests/build/lint
-  5. Commit your work
-  6. Report back with evidence
+  Interfaces and decisions from earlier tasks that the brief cannot know:
+  [only what this task actually touches]
+
+  Ambiguity I noticed in the brief and how to resolve it:
+  [your resolution, or "none"]
+
+  Write your full report to: [brief path with -brief.md → -report.md]
+  Return only: status, commit SHAs, one-line test summary, concerns.
+
+  Apply all relevant skills, such as (if available) rpi-house-style:coding-effectively.
 
   Work from: [directory]
-
-  Provide complete report per your agent instructions.
 </parameter>
 </invoke>
 ```
 
-**For subcomponents** (grouped tasks), dispatch once for all tasks in the subcomponent:
+**For subcomponents** (grouped tasks), extract the subcomponent brief with its letter (`scripts/task-brief PHASE_FILE A`) and dispatch once for the whole group, using the same prompt shape. Ask for one commit per task, or logical commits.
 
-```
-<invoke name="Task">
-<parameter name="subagent_type">rpi-plan-and-execute:task-implementor-fast</parameter>
-<parameter name="description">Implementing Phase X, Subcomponent A (Tasks 3-5): [description]</parameter>
-<parameter name="prompt">
-  Implement Subcomponent A (Tasks 3, 4, 5) from the phase file.
+**A dispatch prompt describes one task, not the session's history.** Do not paste accumulated prior-task summaries into later dispatches. A fresh subagent needs its brief, the interfaces it touches, and nothing else. Exact values — numbers, magic strings, signatures, test cases — live only in the brief.
 
-  Phase file: [absolute path to phase file]
-  Tasks: 3, 4, 5 (look for `<!-- START_SUBCOMPONENT_A -->`)
+**Print each task-implementor's returned summary** before moving to the next task. If the human wants the detail, point them at the report file.
 
-  Read the phase file and implement all tasks in this subcomponent.
+#### Handling Implementor Status
 
-  Your job is to:
-  1. Read the phase file to understand context
-  2. Apply all relevant skills, such as (if available) rpi-house-style:coding-effectively
-  3. Implement all tasks in sequence
-  4. Verify with tests/build/lint after completing all tasks
-  5. Commit your work (one commit per task, or logical commits)
-  6. Report back with evidence for each task
+Every implementor reports one of four statuses. Handle each:
 
-  Work from: [directory]
+**DONE** — proceed to the next task.
 
-  Provide complete report covering all tasks.
-</parameter>
-</invoke>
-```
+**DONE_WITH_CONCERNS** — read the concerns before proceeding. If they bear on correctness or scope, resolve them now. If they are observations ("this file is getting large"), note them and continue.
 
-**Print each task-implementor's response** before moving to the next task.
+**NEEDS_CONTEXT** — supply exactly what was missing and re-dispatch. Consider whether the plan should have carried it; if so, that is a plan gap worth surfacing.
+
+**BLOCKED** — assess the blocker before doing anything else:
+1. Context problem → provide more context, re-dispatch
+2. Needs more reasoning → re-dispatch on a more capable model
+3. Task too large → break it into smaller pieces
+4. Plan itself is wrong → escalate to the human
+
+**Never** ignore an escalation, and never force a re-dispatch with nothing changed. If the implementor said it was stuck, something has to change before it tries again.
 
 **No code review between tasks.** Execute all tasks in the phase first.
 
@@ -226,12 +272,31 @@ Mark "Phase Nc: Code review" as in_progress.
 
 **MANDATORY:** Use the `requesting-code-review` skill for the review loop.
 
+**Generate the review package first**, so the reviewer reads one file instead of re-deriving the diff with git commands:
+
+```bash
+scripts/review-package [phase BASE SHA] HEAD   # prints e.g. .rpi/exec/review-abc1234..def5678.diff
+```
+
+Use the BASE you recorded before the first task — never `HEAD~1`.
+
 **Context to provide:**
 - WHAT_WAS_IMPLEMENTED: Summary of all tasks in this phase
 - PLAN_OR_REQUIREMENTS: All tasks from this phase
+- REVIEW_PACKAGE: path printed by `scripts/review-package`
 - BASE_SHA: commit before phase started
 - HEAD_SHA: current commit
 - IMPLEMENTATION_GUIDANCE: absolute path to `.rpi/implementation-plan-guidance.md` (**only if it exists**—omit entirely if the file doesn't exist)
+
+**Constructing the reviewer prompt:**
+
+- **Never tell a reviewer what not to flag.** If your prompt contains "don't flag X", "at most Minor", "the plan chose this", or "don't treat X as a defect" — stop. You are pre-judging a finding to spare yourself a review cycle. Let the reviewer raise it and adjudicate it in the loop.
+- **Don't pre-rate severity.** The reviewer assigns Critical/Important/Minor, not you.
+- **Don't add open-ended directives** ("check all uses", "run the race tests if useful") without a concrete, task-specific reason.
+- **Don't ask the reviewer to re-run tests the implementor already ran** on the same code — the report carries that evidence.
+- **Copy binding constraints verbatim** from the plan: exact values, exact formats, and stated relationships between components ("same layout as X", "matches Y"). The reviewer template already carries the process rules; this block is for what *this* project's spec demands.
+
+**A finding that conflicts with what the plan mandates is the human's decision.** Present the finding beside the plan text and ask which governs. Do not dismiss the finding because the plan required it, and do not dispatch a fix that contradicts the plan without asking. The plan's example code is a starting point, not evidence that its weaknesses were chosen deliberately.
 
 The implementation guidance file contains project-specific coding standards, testing requirements, and review criteria. When provided, the code reviewer should read it and apply those standards during review.
 
@@ -290,11 +355,14 @@ The phase changed too much for a single review. Chunk the review:
 
   Fix ALL issues — including every Minor issue. The goal is ZERO issues on re-review.
   Minor issues are not optional. Do not skip them.
+
+  Re-run the tests covering your changes and report: the covering test files,
+  the command you ran, and its output. A one-line fix does not need the whole suite.
 </parameter>
 </invoke>
 ```
 
-3. **Mark "Fix issues" complete**, then re-review per the `requesting-code-review` skill.
+3. **Mark "Fix issues" complete.** Before re-dispatching the reviewer, confirm the fix report contains the covering test files, the command run, and the output. Once all three are present, re-review per the `requesting-code-review` skill — generating a fresh review package for the new range.
 
 4. **If re-review finds more issues**, create new fix/re-review tasks. Continue loop until zero issues.
 
@@ -357,9 +425,16 @@ Code Review → Test Analysis (Coverage + Plan)
 
 Use the `requesting-code-review` skill for final code review:
 
+Generate a whole-branch review package first:
+
+```bash
+scripts/review-package $(git merge-base main HEAD) HEAD
+```
+
 **Context to provide:**
 - WHAT_WAS_IMPLEMENTED: Summary of all phases completed
 - PLAN_OR_REQUIREMENTS: Reference to the full implementation plan directory
+- REVIEW_PACKAGE: path printed by `scripts/review-package`
 - BASE_SHA: commit before first phase started
 - HEAD_SHA: current commit
 - IMPLEMENTATION_GUIDANCE: absolute path (if exists)
