@@ -1,0 +1,4 @@
+interface:
+  display_name: "RPI Extend Codex"
+  short_description: "Create or maintain Codex skills"
+  default_prompt: "Use $rpi-extend-codex to maintain these skills or project instructions."

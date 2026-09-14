@@ -1,5 +1,15 @@
 # Changelog
 
+## [codex] Initial RPI skills port
+
+**New:**
+- Twelve Codex skills preserving research, design, detailed phase planning, implementation, review/fix loops, acceptance coverage, and context recovery.
+- Durable progress/evidence ledger, collision-safe project/user installer, source mapping, and validation tests.
+- Codex adaptations for house style, research roles, fanout, project instructions, and extension maintenance.
+
+**Changed:**
+- Vendor-specific tool calls, hooks, and forced context resets become explicit Codex skill procedures and persistent checkpoints. Original Claude and Gemini implementations remain available.
+
 ## [rpi-plan-and-execute] 1.13.0
 
 File-based handoffs between controller and subagents, a structured implementor status protocol, and guardrails on reviewer prompts. Ported from obra/superpowers.
