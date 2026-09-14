@@ -1,0 +1,4 @@
+interface:
+  display_name: "RPI Implement"
+  short_description: "Execute or resume an RPI implementation plan with task repor"
+  default_prompt: "Use $rpi-implement to execute this plan and validate the result."

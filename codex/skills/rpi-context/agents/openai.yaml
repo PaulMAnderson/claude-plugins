@@ -1,0 +1,4 @@
+interface:
+  display_name: "RPI Context"
+  short_description: "Save and restore exact workflow state and progress"
+  default_prompt: "Use $rpi-context to save or restore the current RPI workflow state."

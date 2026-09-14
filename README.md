@@ -3,6 +3,10 @@
 Claude Code plugins for design, implementation, and development workflows,
 implementing the Research-Plan-Implement (RPI) methodology.
 
+**Codex port:** See [codex/README.md](codex/README.md) for 12 native skills preserving
+the design → plan → implement → review → validate workflow, with durable progress
+tracking, acceptance-criterion coverage, and a collision-safe installer.
+
 This is **Paul Anderson's fork** of [ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins).
 It diverges from upstream in: RPI branding, integrated Context Engineering (CE) features,
 and compression-aware file templates.

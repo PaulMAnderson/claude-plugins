@@ -1,0 +1,766 @@
+{
+  "schema_version": 1,
+  "note": "Source inventory and review fingerprints, not a text-generation recipe. Adaptations are maintained directly.",
+  "entries": [
+    {
+      "source": "plugins/rpi-basic-agents/agents/haiku-general-purpose.md",
+      "sha256": "487cef58e721d8f36bc13febc40c8206bddecdd785a97d8dd0353b6e34d30e79",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "plugins/rpi-basic-agents/agents/opus-general-purpose.md",
+      "sha256": "a41d4d232bceb5932de06d47b4f976c9caf41c94f8d5f928a511537bdd03b881",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "plugins/rpi-basic-agents/agents/sonnet-general-purpose.md",
+      "sha256": "62029d47ab4709958580be355563c819d0991e3a7b4146a3a5b27b6d11adea22",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "plugins/rpi-basic-agents/hooks/hooks.json",
+      "sha256": "fa08efd0315bd20d038ad1c394f699b03e5e501a550289413d8156f7833818c4",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-basic-agents/hooks/session-start.sh",
+      "sha256": "c913f526df0dfc4561c3e2fa3d362a1216976aa210920673ae94d51af0df86d3",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-basic-agents/skills/doing-a-simple-two-stage-fanout/SKILL.md",
+      "sha256": "56f92a6ce649aa72905c87f889c2f568e5227a6f61482cbe50af7a69428df252",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "plugins/rpi-basic-agents/skills/using-generic-agents/SKILL.md",
+      "sha256": "bb598b6df249a40469c38deaabde92276dd1264271503a070d6672641ee2026a",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/agents/project-claude-librarian.md",
+      "sha256": "79a3bbb2e940b29629b1089be91a855b4b9c9ef4e473b752620eedfb50350493",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/creating-a-plugin/SKILL.md",
+      "sha256": "b54aed33bf55ad2b3f83eb38abe945757524dc9c929aabd000eba5f516068a6a",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/creating-an-agent/SKILL.md",
+      "sha256": "858643557b07c0ba14350eca520bb6e1a5570b81c258a7a921d1501e48ad3285",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/maintaining-a-marketplace/SKILL.md",
+      "sha256": "1db2f0664a2f8303a89466c3387d7466a7c1a93aeac28cb142b9af9a300f33cd",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/maintaining-project-context/SKILL.md",
+      "sha256": "38fb8554e7577b5e72fe383391408695fe5760dfc7b5234219870ba5df3a5c40",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/testing-skills-with-subagents/SKILL.md",
+      "sha256": "e49b02a419b6928152ea067aa693cdf02a7fe1dd2ca4fd98934564f2f67223f1",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/writing-claude-directives/SKILL.md",
+      "sha256": "591bc323720ff719dad4681c02d42aa4f29a48c50a6b018c2d0773f492f1d2b0",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/writing-claude-md-files/SKILL.md",
+      "sha256": "1ceec16a63da4130662e576548cbb6486b9969eff79c899a8d8b416adca38338",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-extending-claude/skills/writing-skills/SKILL.md",
+      "sha256": "9421f0e52b47d8cf3dc0e8c19f70319b68d4d87a2c5e28151d3e37f57ff6df1f",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-getting-started/commands/getting-started.md",
+      "sha256": "e0a5d54758d9f3285e818b05edf0fa8d509fa1acb98bc5361a8b7f401549b5f1",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-hook-claudemd-reminder/hooks/git-command-reminder.py",
+      "sha256": "ed770726576b51cf6e73da134de470b883a705e1f621f7dc72b1616cc538d495",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-hook-claudemd-reminder/hooks/hooks.json",
+      "sha256": "e1b6cb8dbd400744c5f087b41d81efd24c0f93813d8de061a4ac7712f85a8807",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "plugins/rpi-hook-skill-reinforcement/hooks/hook-reminder.sh",
+      "sha256": "2a744fee37279402cd7773515eb6e390788215addd02446663be928c6dacd8e5",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-hook-skill-reinforcement/hooks/hooks.json",
+      "sha256": "867ab420cbdf3dfa9200bbb3c7bbd17b850cb58b350e5dabd43a5cc4120fb909",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-house-style/agents/.keep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/coding-effectively/SKILL.md",
+      "sha256": "4db8f5ffeffdd593ec8ad53b6ba61c40af0efeaa5c80a0044c665e35604d1738",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/defense-in-depth/SKILL.md",
+      "sha256": "08db1b1e842906574be879af6256510ab33c3594eeadce1848fcb089b7e6d7e3",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/howto-code-in-matlab/SKILL.md",
+      "sha256": "20ec53c37e2bae9955c00fab8c1338166a6af75659ec03642d51efd562a1f67e",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/howto-code-in-python/SKILL.md",
+      "sha256": "3989c47e1054999d91ed7c5d8af4b027b7516627ceb2104d807372a6aa3ac76b",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/howto-code-in-r/SKILL.md",
+      "sha256": "6a02ddae6bf27f8c42919b9c1834013350b6cdf34b92e070b4c3966ca1288329",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/howto-develop-with-mysql/SKILL.md",
+      "sha256": "f8adc1ba5438dc975d225a979a29bfd1f65dc3644ed9d914f856e4da3168bcd4",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/howto-functional-vs-imperative/SKILL.md",
+      "sha256": "41d64a7736fb0522131ee832c1dbc20cfddc123bc746f26539202fc903ec494b",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/writing-for-a-technical-audience/SKILL.md",
+      "sha256": "685a2a419a4236ce0938abf9ee1094fb983d5e16cb3bb787553da425e065c4d5",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-house-style/skills/writing-good-tests/SKILL.md",
+      "sha256": "8b98769fb38b12ad8584d4d8d143730c708c6452a8671e1a2c33cdbbb51bbb56",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/agents/code-reviewer.md",
+      "sha256": "966b8ad9ec3e3bd42dab4038f2e4e66398476d7fe0a19feca5705e1c083c1d67",
+      "target": "rpi-review"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/agents/task-bug-fixer.md",
+      "sha256": "55799157cbdf60b0afb3ef70d8bff32952dd8a5708f7f5a2709a989ee4a983c4",
+      "target": "rpi-review"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/agents/task-implementor-fast.md",
+      "sha256": "71bf27f229dfe442f09b3abfa342656c99ad3bca2de16d106eb0021615a0cde3",
+      "target": "rpi-implement"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/agents/test-analyst.md",
+      "sha256": "247a6fcfc8417903c06b08611f70a46009521d93c1dcccb6eff1df7919d07e97",
+      "target": "rpi-review"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/compress-context.md",
+      "sha256": "3741e88b1faa6798b6c5fa134253c971c64f5e3ce79fb310c99242066d52a2bc",
+      "target": "rpi-context"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/execute-implementation-plan.md",
+      "sha256": "fb80a7e202d8b0ad9343ce1e641149738a677baf33b611d34b292d1c15f67ce3",
+      "target": "rpi-implement"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/flesh-it-out.md",
+      "sha256": "3e49c1226629a8cf42564f2f7e6e5c79c3e0dc5f57b5b62e3319472e4cc8cab5",
+      "target": "rpi-design"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/helper-function.md",
+      "sha256": "6465519eaad3e12b8a2aa94266d8cfbfea33939c0cf623a724a8832a274ab452",
+      "target": "rpi-quick"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/how-to-customize.md",
+      "sha256": "c3aa7355e608b5b64d22da6969f0750636064bcfde671beb0a8a282ff9c89acb",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/quick-analysis.md",
+      "sha256": "004adc708bf6dc64ca68772fa8fa4cb541d9ed105b284a839eec6daca32b9d1e",
+      "target": "rpi-quick"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/start-design-plan.md",
+      "sha256": "8e027d115480faaa0a5801a284f1b1141be4ddd92f18ff18747c307053967a9a",
+      "target": "rpi-design"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/commands/start-implementation-plan.md",
+      "sha256": "ecf544b56c5f368c3136318475099d99eb4d0fc0e99ae9bc3a88644383ed448d",
+      "target": "rpi-plan"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/hooks/hooks.json",
+      "sha256": "fa08efd0315bd20d038ad1c394f699b03e5e501a550289413d8156f7833818c4",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/hooks/session-start.sh",
+      "sha256": "aa001a46a9cc7f353b0999af89a2f7905b5efbc39f4aa6936f7345a75b8891f8",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/scripts/review-package",
+      "sha256": "8fb069be1fe1531f4a46d18a6b785c982e81cbadd5525fb5e0936152ced44d9d",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/scripts/rpi-workspace",
+      "sha256": "a476d35fd58154668be476632817a25558adeff921f0cdd6ed019744be5bd343",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/scripts/task-brief",
+      "sha256": "09b1b29ea2e3580de0c85382b68bfa5667691f0af6235cb82152a8ec26c9e307",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/asking-clarifying-questions/SKILL.md",
+      "sha256": "56bd799e90117f7e5314e928ebff253b7c880b296ddc05fcf1c6b5fb9eedbd48",
+      "target": "rpi-design"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/brainstorming/SKILL.md",
+      "sha256": "beb7fbd4e5418f292869d23c7d4f25ca51bcb8d33a7b9c5ff791e5fbf33b9ce9",
+      "target": "rpi-design"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/compressing-context/SKILL.md",
+      "sha256": "5aadf562814d1e11c8fd23e625b6350d8d4449c8e7112a82bacee44c97a83ade",
+      "target": "rpi-context"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/executing-an-implementation-plan/SKILL.md",
+      "sha256": "35142ebbbfe98c6e0141525893edd419f18cd07dacc8b1206d015e27778978fe",
+      "target": "rpi-implement"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/finishing-a-development-branch/SKILL.md",
+      "sha256": "4a2e080233db4309a81bf747d794cf1f464cb9ae5f62cd52d13c779c4bb68298",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/helper-function/SKILL.md",
+      "sha256": "f8dea8ef3691a40eed7f1849a17079769f5beafb136a2e9821533a5e21729c06",
+      "target": "rpi-quick"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/quick-analysis/SKILL.md",
+      "sha256": "036eebc0ed016633c9f7e20c83603bf8616b8cdfbd021e69dd5cb482790fcfe5",
+      "target": "rpi-quick"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/receiving-code-review/SKILL.md",
+      "sha256": "20585ca0711afe17797d2afcb594c39caedbdba3be82a2f891394d0de9d6091a",
+      "target": "rpi-review"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/requesting-code-review/SKILL.md",
+      "sha256": "d0ae0b0ab2edf0f90b946a1aaff80f29aaf83e7b49c11ff087641625a0dc7141",
+      "target": "rpi-review"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/starting-a-design-plan/SKILL.md",
+      "sha256": "84504180835f88c838242da04d47c9b3b5869f4aee820069033438df64e63fa6",
+      "target": "rpi-design"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/starting-an-implementation-plan/SKILL.md",
+      "sha256": "01c2838bcae088de3e3483915373b154e6cc7d1f03e259a69caed7f639fef00a",
+      "target": "rpi-plan"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/systematic-debugging/SKILL.md",
+      "sha256": "9e85c7909344ca0c14d58e440834b86210c348382b2da608b93be8d04c6491c4",
+      "target": "rpi-debug"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/test-driven-development/SKILL.md",
+      "sha256": "c1ec1be52fc61b8ec04ab1fb956ea104834679ecce503ef607883acfefc32c90",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/using-git-worktrees/SKILL.md",
+      "sha256": "d923b221afa21db32861d146e4d01c48405f6b1015b4eb6f5d8bf62d1278c0ac",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/using-plan-and-execute/SKILL.md",
+      "sha256": "c9ffd9186cb5f164907bff620dc92302ae32bbcdae52b96648f5cd1cab4d8490",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/verification-before-completion/SKILL.md",
+      "sha256": "28c28a066708f6b42115391f53acecd02bfdf3beeeb8d871b0cebe81df657a24",
+      "target": "rpi-review"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/writing-design-plans/SKILL.md",
+      "sha256": "0a78233fc3e1aea7c058df5521caed4651bbbb8d6e2d894009042f5f1987af5b",
+      "target": "rpi-design"
+    },
+    {
+      "source": "plugins/rpi-plan-and-execute/skills/writing-implementation-plans/SKILL.md",
+      "sha256": "7f9efe6db3e5ae422885c7619352b3c37f63089777dea6784420effd69da755f",
+      "target": "rpi-plan"
+    },
+    {
+      "source": "plugins/rpi-research-agents/agents/codebase-investigator.md",
+      "sha256": "6dedf298d7a7eabb7e6069bd2716818c7572d397c7881d6a38785970f09cf064",
+      "target": "rpi-research"
+    },
+    {
+      "source": "plugins/rpi-research-agents/agents/combined-researcher.md",
+      "sha256": "b2492e3e8e70ec6c58e5bc09b5d99c1fa6b0389fa5222b3986c734d888f6baa7",
+      "target": "rpi-research"
+    },
+    {
+      "source": "plugins/rpi-research-agents/agents/internet-researcher.md",
+      "sha256": "37d431a4624b9d4583c3824089313e91c7833001f5e0871b304e5d175d71340a",
+      "target": "rpi-research"
+    },
+    {
+      "source": "plugins/rpi-research-agents/agents/remote-code-researcher.md",
+      "sha256": "60ee40434e6c7d1f9d5311954bde98763d1dbe973d93a763dc3e16cc767f803b",
+      "target": "rpi-research"
+    },
+    {
+      "source": "plugins/rpi-research-agents/skills/investigating-a-codebase/SKILL.md",
+      "sha256": "8b907bb4010a39233a642a0cb227d2a351d47a801d3175d7eed0012457908a58",
+      "target": "rpi-research"
+    },
+    {
+      "source": "plugins/rpi-research-agents/skills/researching-on-the-internet/SKILL.md",
+      "sha256": "3966cec94447ccb26869bf325eb93b4fc5adc968953235c910afd077402e8c36",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/agents/flash-general-purpose.md",
+      "sha256": "85433ba15d6e2b6128f46c40190bf5e284a8760723010c0672b83d948266e79c",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/agents/flash-lite-general-purpose.md",
+      "sha256": "95bdaebb146e1bb72a7c55bb12a42cb91422dec0469564892fc390f763469d5f",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/agents/pro-general-purpose.md",
+      "sha256": "e4a72f9649e7e47773d738342dfdf224f420cfe7c67b1573441ba850b14af923",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/commands/fanout.toml",
+      "sha256": "15ac0948fa1d6d744ee86fc672ac124834d66a3d51b49ac6d3b03b95bc56c817",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/hooks/hooks.json",
+      "sha256": "1a558c3ed3f7470530af2c3f40ee77f23867efb2d18fa130f0cf8c659a4e1050",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/hooks/session-start.sh",
+      "sha256": "62571f1b4887be276ffe065423693fceaf61156cea2a6f001a5bcb5b54ac7add",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/skills/doing-a-simple-two-stage-fanout/SKILL.md",
+      "sha256": "40b216ef9d0230ab07ad19dc044d7c4ea2ccaa4614fc890b35e9641cab10d0d6",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "gemini/extensions/rpi-basic-agents/skills/using-generic-agents/SKILL.md",
+      "sha256": "3469b77aceb87fcfc99c1a914da4f9379a33c2ed23e08d6afd40bf0785c7b3de",
+      "target": "rpi-fanout"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/agents/project-claude-librarian.md",
+      "sha256": "62eefff8302772cc79355b1f654d23b66ed11008c4429c3ffba8055a797bd3ce",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/creating-a-plugin/SKILL.md",
+      "sha256": "678f18e8683bf00f18ea21f49fb4dab243a717fe99978c256eec2aabb7e327b8",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/creating-an-agent/SKILL.md",
+      "sha256": "3465340ba23b67b8e1f04a016e1b4fa69c029b53772bd18c013bb5e5ba6fada2",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/maintaining-a-marketplace/SKILL.md",
+      "sha256": "44551fd0b616ca67424ccc5ec5eebca4ec6128d6837d513bb5e4c98b307e7f10",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/maintaining-project-context/SKILL.md",
+      "sha256": "38fb8554e7577b5e72fe383391408695fe5760dfc7b5234219870ba5df3a5c40",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/testing-skills-with-subagents/SKILL.md",
+      "sha256": "d8bfc1f790f6dc9d0ab7dd55fba2e6b2990ca736cc77ea2e264f9d2438902ccf",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/writing-claude-directives/SKILL.md",
+      "sha256": "0ecaf2444c518715e1c94f35935bb351660b296cfcdc45245772c1e9f4fbc9ff",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/writing-claude-md-files/SKILL.md",
+      "sha256": "1ceec16a63da4130662e576548cbb6486b9969eff79c899a8d8b416adca38338",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-extending-claude/skills/writing-skills/SKILL.md",
+      "sha256": "631b62eb3899870dad546241897e92b084b562a9906e2de3954a3af98cab02d7",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-getting-started/commands/getting-started.toml",
+      "sha256": "c88acadc77323ef6d7d9a18325d2a55adb3855d1caa7bd8e641875eb5978f3bb",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-hook-claudemd-reminder/hooks/git-command-reminder.py",
+      "sha256": "6de5bb2510575a1c46803e86b284f94a648578ad42433f830920c5c4d79023db",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-hook-claudemd-reminder/hooks/hooks.json",
+      "sha256": "f07366a08b19ad41110bf4e50eef8bac2f542a8b16a2fd3db7fe26ad148f092f",
+      "target": "rpi-extend-codex"
+    },
+    {
+      "source": "gemini/extensions/rpi-hook-skill-reinforcement/hooks/hook-reminder.sh",
+      "sha256": "d2ee40302fdc82d77ae68d433e9168f28121442a081470d4030bd84ef3246a48",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-hook-skill-reinforcement/hooks/hooks.json",
+      "sha256": "27c7038690f5b80a0d307a5b801d367622880f1f4dee8eb2d95ccaeea840fc20",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/coding-effectively/SKILL.md",
+      "sha256": "4db8f5ffeffdd593ec8ad53b6ba61c40af0efeaa5c80a0044c665e35604d1738",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/defense-in-depth/SKILL.md",
+      "sha256": "08db1b1e842906574be879af6256510ab33c3594eeadce1848fcb089b7e6d7e3",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/howto-code-in-matlab/SKILL.md",
+      "sha256": "20ec53c37e2bae9955c00fab8c1338166a6af75659ec03642d51efd562a1f67e",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/howto-code-in-python/SKILL.md",
+      "sha256": "3989c47e1054999d91ed7c5d8af4b027b7516627ceb2104d807372a6aa3ac76b",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/howto-code-in-r/SKILL.md",
+      "sha256": "6a02ddae6bf27f8c42919b9c1834013350b6cdf34b92e070b4c3966ca1288329",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/howto-develop-with-mysql/SKILL.md",
+      "sha256": "f8adc1ba5438dc975d225a979a29bfd1f65dc3644ed9d914f856e4da3168bcd4",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/howto-functional-vs-imperative/SKILL.md",
+      "sha256": "41d64a7736fb0522131ee832c1dbc20cfddc123bc746f26539202fc903ec494b",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/writing-for-a-technical-audience/SKILL.md",
+      "sha256": "685a2a419a4236ce0938abf9ee1094fb983d5e16cb3bb787553da425e065c4d5",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-house-style/skills/writing-good-tests/SKILL.md",
+      "sha256": "8b98769fb38b12ad8584d4d8d143730c708c6452a8671e1a2c33cdbbb51bbb56",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/agents/code-reviewer.md",
+      "sha256": "e1ec21aa516cdfb6dfb9c9d3579e0caeb61eacbeed95678c59ef94e1930e485c",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/agents/task-bug-fixer.md",
+      "sha256": "bfb6709d972bf89f0a01914a56439216689844658adfdb1536a9a687c508b4f7",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/agents/task-implementor-fast.md",
+      "sha256": "09870667ee821f40ff93275d128b5192cf0b8df0aa3b03b766d699242a968290",
+      "target": "rpi-implement"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/agents/test-analyst.md",
+      "sha256": "d6e1f7943d00eea6806eed81104eb72cf62b5c1aa6ea393dd4fa5907fde91732",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/analyze-test-coverage.toml",
+      "sha256": "57fdc26e2026631018a73bf03d8239c5e6e9de45a28c4745a89d14816c8f6d6e",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/code-review.toml",
+      "sha256": "f9f0c9e43ead7a955a41feb031aa456968646c901fa2ecf725149ddcd9d98607",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/compress-context.toml",
+      "sha256": "9933b0860737a5dc0f41790caa1a03e76e47b5d984ccccd706c3bd9f15948425",
+      "target": "rpi-context"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/execute-implementation-plan.toml",
+      "sha256": "3e0df9164c0e620ea218fbd45e96657f81e76138175db7bb0c8558ae46d8e38f",
+      "target": "rpi-implement"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/fix-review-issues.toml",
+      "sha256": "6c08b56a71885b4af4a5ea1e0a7135f42e7e60aa11e13c0b6a5641b753fc9eaf",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/flesh-it-out.toml",
+      "sha256": "c6632bf52375b4e2dbdce2a02b7a54726ff5a5902b751395c1f6353d569075dc",
+      "target": "rpi-design"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/how-to-customize.toml",
+      "sha256": "ee1b440b75fbe670ecf15c3f890a53d8d865adcd1146abefd349730d3e3693e0",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/implement-task.toml",
+      "sha256": "53fef36018fa2271ca4d8cd7324211992f9dd1e3ff23be458115ff22d681375e",
+      "target": "rpi-implement"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/quick-analysis.toml",
+      "sha256": "54bdc92241b630f62d5160b5c9a240f57e676deebd3986c868989dccc7179abe",
+      "target": "rpi-quick"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/start-design-plan.toml",
+      "sha256": "9c087c4685d3eff9b2907a6ba0efab104215aa9303714d2b925ae0d5713b6350",
+      "target": "rpi-design"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/commands/start-implementation-plan.toml",
+      "sha256": "13385858de1ccfa9a07f09d21a4c24edc9f7b34f2b3aab49e1f37a630c518827",
+      "target": "rpi-plan"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/hooks/hooks.json",
+      "sha256": "7977313214e9fe5228963a66b8b41596b8692e726fb9409ecf5403a1541c91e3",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/hooks/session-monitor.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/hooks/session-start.sh",
+      "sha256": "97e2897cb5fddc4fbc7f7e63203e9b96d7004aa4d724cf0bfc580855a4b9db98",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/scripts/review-package",
+      "sha256": "8fb069be1fe1531f4a46d18a6b785c982e81cbadd5525fb5e0936152ced44d9d",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/scripts/rpi-workspace",
+      "sha256": "a476d35fd58154668be476632817a25558adeff921f0cdd6ed019744be5bd343",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/scripts/task-brief",
+      "sha256": "09b1b29ea2e3580de0c85382b68bfa5667691f0af6235cb82152a8ec26c9e307",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/asking-clarifying-questions/SKILL.md",
+      "sha256": "4f0c30edb44a8f54566ea68eece4ec43d3b315bed5d175711eef5b8375f002c9",
+      "target": "rpi-design"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/brainstorming/SKILL.md",
+      "sha256": "77dcb00e2e841659ee217e6cf6659bd74b498732eec29e08fe3a4d8abd8fe92a",
+      "target": "rpi-design"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/compressing-context/SKILL.md",
+      "sha256": "5aadf562814d1e11c8fd23e625b6350d8d4449c8e7112a82bacee44c97a83ade",
+      "target": "rpi-context"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/executing-an-implementation-plan/SKILL.md",
+      "sha256": "554de57b0aec87cea845f9d4bcbfc5a2b7d7223d7f0c09dc14473681ece29bdc",
+      "target": "rpi-implement"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/finishing-a-development-branch/SKILL.md",
+      "sha256": "fdd054fda791adea2e6a0cc640bd9993e580d00b182a5d60a1fb98ff96e12bdb",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/helper-function/SKILL.md",
+      "sha256": "f8dea8ef3691a40eed7f1849a17079769f5beafb136a2e9821533a5e21729c06",
+      "target": "rpi-quick"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/quick-analysis/SKILL.md",
+      "sha256": "036eebc0ed016633c9f7e20c83603bf8616b8cdfbd021e69dd5cb482790fcfe5",
+      "target": "rpi-quick"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/receiving-code-review/SKILL.md",
+      "sha256": "20585ca0711afe17797d2afcb594c39caedbdba3be82a2f891394d0de9d6091a",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/requesting-code-review/SKILL.md",
+      "sha256": "ca8b4f3d7c2fa200539c28c798e827d93d3d3d0f69130cefd24a4f1db5bf1d68",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/starting-a-design-plan/SKILL.md",
+      "sha256": "ec06e95ac384a514d77bf23ce78966744006d663fa85a7c31d84cfb3f8b0c855",
+      "target": "rpi-design"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/starting-an-implementation-plan/SKILL.md",
+      "sha256": "0a9a8b8cfa76f0bda2054323693e21281790df24f1745b6666b276201b02104b",
+      "target": "rpi-plan"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/systematic-debugging/SKILL.md",
+      "sha256": "9e85c7909344ca0c14d58e440834b86210c348382b2da608b93be8d04c6491c4",
+      "target": "rpi-debug"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/test-driven-development/SKILL.md",
+      "sha256": "c1ec1be52fc61b8ec04ab1fb956ea104834679ecce503ef607883acfefc32c90",
+      "target": "rpi-house-style"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/using-git-worktrees/SKILL.md",
+      "sha256": "d923b221afa21db32861d146e4d01c48405f6b1015b4eb6f5d8bf62d1278c0ac",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/using-plan-and-execute/SKILL.md",
+      "sha256": "0d71bbcfee2744e05b3a3dae963f5360ea212af8b5c781b6c0140ab10af84645",
+      "target": "rpi-workflow"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/verification-before-completion/SKILL.md",
+      "sha256": "28c28a066708f6b42115391f53acecd02bfdf3beeeb8d871b0cebe81df657a24",
+      "target": "rpi-review"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/writing-design-plans/SKILL.md",
+      "sha256": "061132302b9702ac9e32fc953875f0f1e59ab49f5091e9e7ec3c4d3b4b892c1f",
+      "target": "rpi-design"
+    },
+    {
+      "source": "gemini/extensions/rpi-plan-and-execute/skills/writing-implementation-plans/SKILL.md",
+      "sha256": "21cf927d6c428120d6c309212eb1b37aa46e43cbeedd43f785dc42b4307d962a",
+      "target": "rpi-plan"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/agents/codebase-investigator.md",
+      "sha256": "3453bb013b6d2b4ad0fe5ee07a827767cfee0846534e656c5849d3b801cd9598",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/agents/combined-researcher.md",
+      "sha256": "8b79aef02ca90dcf8d155767d2a5f1012f5f084942bd9a114a4cd01eb8d19749",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/agents/internet-researcher.md",
+      "sha256": "377982a9330468509ca429ec2138073237d8b68e6f7edf22de1608a282b1efe7",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/agents/remote-code-researcher.md",
+      "sha256": "432b0a5b64a1e6c34463aaadada99e0d74e128c12ee0153cf72fd38347a14421",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/commands/investigate-codebase.toml",
+      "sha256": "c865b6ecaf76329696c6ee9f12f943eb0f2733ee78fdb7d2dd658b5955309a30",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/commands/research-combined.toml",
+      "sha256": "419097e044fa8056a3956518dffc4c191a73d3c576d3353c9ef8adf2a4ee998c",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/commands/research-internet.toml",
+      "sha256": "14736b93dfd77452ed292f63141df5fa6ac3ddd92d544feb64bdb3c20b44d20f",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/commands/research-remote-code.toml",
+      "sha256": "df9b610296e712e9b8bc360df55e4093979cba6253f199cbd048869406a51017",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/skills/investigating-a-codebase/SKILL.md",
+      "sha256": "01803dd22de91a658821b8dc93f193540427536916c260ba15d4b5b8cd5be538",
+      "target": "rpi-research"
+    },
+    {
+      "source": "gemini/extensions/rpi-research-agents/skills/researching-on-the-internet/SKILL.md",
+      "sha256": "e158706801665e2e8bc0cc71c81cb1d78b1c19101423b4736bc4617f14199a06",
+      "target": "rpi-research"
+    }
+  ]
+}
