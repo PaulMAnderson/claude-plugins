@@ -1,0 +1,22 @@
+services:
+  hypercube:
+    build: .
+    image: astrolabe-hypercube:local
+    restart: unless-stopped
+    read_only: true
+    user: "${HYPERCUBE_UID:-1000}:${HYPERCUBE_GID:-1000}"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - "${HYPERCUBE_BIND_ADDRESS:-127.0.0.1}:${HYPERCUBE_PORT:-8765}:8765"
+    volumes:
+      - type: bind
+        source: ${HYPERCUBE_CONFIG_PATH:?Set HYPERCUBE_CONFIG_PATH to the watch-list JSON file}
+        target: /config/projects.json
+        read_only: true
+      - type: bind
+        source: ${HYPERCUBE_PROJECTS_ROOT:?Set HYPERCUBE_PROJECTS_ROOT to the parent of registered projects}
+        target: /projects
+        read_only: true

@@ -1,0 +1,5 @@
+**
+!hypercube/
+!hypercube/**
+**/__pycache__/
+**/*.pyc
