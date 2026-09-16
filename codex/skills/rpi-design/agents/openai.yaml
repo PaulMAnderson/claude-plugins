@@ -1,4 +1,0 @@
-interface:
-  display_name: "RPI Design"
-  short_description: "Develop an RPI design plan from a feature idea"
-  default_prompt: "Use $rpi-design to design this feature with verifiable acceptance criteria."

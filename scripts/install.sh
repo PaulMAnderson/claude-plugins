@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CLAUDE_DIR="${HOME}/.claude"
-DEFAULT_PLUGINS=(rpi-basic-agents rpi-research-agents rpi-plan-and-execute rpi-extending-claude)
+DEFAULT_PLUGINS=(astrolabe-basic-agents astrolabe-research-agents astrolabe-plan-and-execute astrolabe-extending-claude)
 
 PLUGINS=("${@:-${DEFAULT_PLUGINS[@]}}")
 

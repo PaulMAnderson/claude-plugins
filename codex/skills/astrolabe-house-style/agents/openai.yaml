@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe House Style"
+  short_description: "Apply Paul's Astrolabe coding conventions for scientific Python"
+  default_prompt: "Use $astrolabe-house-style to apply the Astrolabe conventions to this code."

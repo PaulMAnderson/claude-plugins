@@ -1,4 +1,0 @@
-interface:
-  display_name: "RPI House Style"
-  short_description: "Apply Paul's RPI coding conventions for scientific Python"
-  default_prompt: "Use $rpi-house-style to apply the RPI conventions to this code."

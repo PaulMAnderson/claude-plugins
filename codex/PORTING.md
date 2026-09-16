@@ -1,6 +1,6 @@
 # Claude Code / Gemini CLI → Codex port
 
-The original Claude and Gemini trees are retained. The Codex implementation is a maintained skills bundle in `codex/skills`, discoverable through project `.agents/skills` links or the installer. All 39 Claude skills and 39 Gemini skills are represented, including `receiving-code-review` in `rpi-review`.
+The original Claude and Gemini trees are retained. The Codex implementation is a maintained skills bundle in `codex/skills`, discoverable through project `.agents/skills` links or the installer. All 39 Claude skills and 39 Gemini skills are represented, including `receiving-code-review` in `astrolabe-review`.
 
 `source-map.json` records every source skill plus command, agent, hook, and workflow script (152 files), its SHA-256, and its target skill. This provides a complete inventory and flags upstream drift. It is a coverage map, not a mechanical string-replacement generator.
 
@@ -8,36 +8,36 @@ The original Claude and Gemini trees are retained. The Codex implementation is a
 
 | Original skills/commands | Codex equivalent |
 | --- | --- |
-| using-plan-and-execute, getting-started, how-to-customize | `rpi-workflow` entrypoint and shared contract |
-| starting-a-design-plan, start-design-plan, asking-clarifying-questions, brainstorming, flesh-it-out, writing-design-plans | `rpi-design` and design template |
-| starting-an-implementation-plan, start-implementation-plan, writing-implementation-plans | `rpi-plan` and phase/test-requirement format |
-| executing-an-implementation-plan, execute-implementation-plan, implement-task | `rpi-implement` and execution mechanics |
-| requesting-code-review, receiving-code-review, code-review, fix-review-issues, analyze-test-coverage, verification-before-completion | `rpi-review`, review/coverage procedure, shared evidence gates |
-| test-driven-development, writing-good-tests | Shared workflow testing rule and `rpi-house-style` test reference |
-| systematic-debugging | `rpi-debug` |
-| compressing-context, compress-context | `rpi-context` with anchored merging and ledger reconciliation |
-| using-git-worktrees, finishing-a-development-branch | Shared workflow git/handoff rules and `rpi-implement` completion |
-| quick-analysis, helper-function | `rpi-quick` with chat intent, verification, SESSION log |
-| investigating-a-codebase, researching-on-the-internet, investigate-codebase, research-internet, research-remote-code, research-combined | `rpi-research` local/remote/internet/combined modes |
-| using-generic-agents, doing-a-simple-two-stage-fanout, fanout | Capability-aware roles plus `rpi-fanout` worker/critic/synthesis stages |
-| coding-effectively, defense-in-depth, howto-functional-vs-imperative | `rpi-house-style/references/engineering.md` |
-| howto-code-in-python, howto-code-in-matlab, howto-code-in-r | `rpi-house-style/references/languages.md` |
-| howto-develop-with-mysql | `rpi-house-style/references/mysql.md` |
-| writing-for-a-technical-audience | `rpi-house-style/references/writing.md` |
-| writing-skills, testing-skills-with-subagents, writing-claude-directives | `rpi-extend-codex` skill/directive authoring and behavioral validation |
-| writing-claude-md-files, maintaining-project-context | `rpi-extend-codex` AGENTS.md/librarian mode |
-| creating-an-agent, creating-a-plugin, maintaining-a-marketplace | `rpi-extend-codex` capability-aware roles and current Codex packaging/distribution |
+| using-plan-and-execute, getting-started, how-to-customize | `astrolabe-workflow` entrypoint and shared contract |
+| starting-a-design-plan, start-design-plan, asking-clarifying-questions, brainstorming, flesh-it-out, writing-design-plans | `astrolabe-design` and design template |
+| starting-an-implementation-plan, start-implementation-plan, writing-implementation-plans | `astrolabe-plan` and phase/test-requirement format |
+| executing-an-implementation-plan, execute-implementation-plan, implement-task | `astrolabe-implement` and execution mechanics |
+| requesting-code-review, receiving-code-review, code-review, fix-review-issues, analyze-test-coverage, verification-before-completion | `astrolabe-review`, review/coverage procedure, shared evidence gates |
+| test-driven-development, writing-good-tests | Shared workflow testing rule and `astrolabe-house-style` test reference |
+| systematic-debugging | `astrolabe-debug` |
+| compressing-context, compress-context | `astrolabe-context` with anchored merging and ledger reconciliation |
+| using-git-worktrees, finishing-a-development-branch | Shared workflow git/handoff rules and `astrolabe-implement` completion |
+| quick-analysis, helper-function | `astrolabe-quick` with chat intent, verification, SESSION log |
+| investigating-a-codebase, researching-on-the-internet, investigate-codebase, research-internet, research-remote-code, research-combined | `astrolabe-research` local/remote/internet/combined modes |
+| using-generic-agents, doing-a-simple-two-stage-fanout, fanout | Capability-aware roles plus `astrolabe-fanout` worker/critic/synthesis stages |
+| coding-effectively, defense-in-depth, howto-functional-vs-imperative | `astrolabe-house-style/references/engineering.md` |
+| howto-code-in-python, howto-code-in-matlab, howto-code-in-r | `astrolabe-house-style/references/languages.md` |
+| howto-develop-with-mysql | `astrolabe-house-style/references/mysql.md` |
+| writing-for-a-technical-audience | `astrolabe-house-style/references/writing.md` |
+| writing-skills, testing-skills-with-subagents, writing-claude-directives | `astrolabe-extend-codex` skill/directive authoring and behavioral validation |
+| writing-claude-md-files, maintaining-project-context | `astrolabe-extend-codex` AGENTS.md/librarian mode |
+| creating-an-agent, creating-a-plugin, maintaining-a-marketplace | `astrolabe-extend-codex` capability-aware roles and current Codex packaging/distribution |
 
 ## Native adaptations
 
 | Source mechanism | Codex implementation |
 | --- | --- |
-| Slash command files and vendor skill activation tools | Discoverable named skills; `$rpi-design`, `$rpi-plan`, `$rpi-implement`; direct linked-resource reads |
+| Slash command files and vendor skill activation tools | Discoverable named skills; `$astrolabe-design`, `$astrolabe-plan`, `$astrolabe-implement`; direct linked-resource reads |
 | TaskCreate/TaskUpdate or write_todos | Durable JSON run ledger plus task-level phase/report records; native planning UI may mirror it |
 | Named Claude/Gemini agent types and model tiers | Bounded role briefs using actual exposed subagent capabilities and configured models, with truthful sequential/self-review fallback |
 | Session-start and skill-reminder hooks | Explicit startup/resume checkpoint in the skills; optional project AGENTS.md defaults |
 | Instruction-file reminder hook/librarian | Explicit contract/structure/command documentation check before final review |
-| Task-brief/review-package/rpi-workspace helpers | Marker-based task reads; report directories scoped per run; full-phase/full-change diff procedure covering uncommitted and untracked work |
+| Task-brief/review-package/astrolabe-workspace helpers | Marker-based task reads; report directories scoped per run; full-phase/full-change diff procedure covering uncommitted and untracked work |
 | Gemini session-monitor.py | The source file is empty; the new state helper provides explicit, tested checkpoint integrity and status |
 | Mandatory /clear and manual handoffs | Checkpoint and resume; continue directly when already authorized |
 | Plugin/extension manifests | A directly installable skills bundle; no dependency on vendor manifests, event schemas, or global config edits |
@@ -68,4 +68,4 @@ The original Claude and Gemini trees are retained. The Codex implementation is a
 
 Edit the Codex skills directly. When either source tree changes, inspect the changed material, update the target procedure and coverage tests when relevant, and refresh only the reviewed source fingerprints. Run the bundle validator and workflow tests after changes. Keep sibling skills together when distributing.
 
-Adapted from Paul Anderson's RPI fork of [ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins); original contributors include Ed Ropple and contributors. Superpowers-derived material credits Jesse Vincent's [obra/superpowers](https://github.com/obra/superpowers). House-style source also credits [Trail of Bits skills](https://github.com/trailofbits/skills). Each installed skill carries the original CC BY-SA 4.0 notice, MIT license for superpowers-derived material, and an adaptation notice.
+Adapted from Paul Anderson's Astrolabe fork of [ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins); original contributors include Ed Ropple and contributors. Superpowers-derived material credits Jesse Vincent's [obra/superpowers](https://github.com/obra/superpowers). House-style source also credits [Trail of Bits skills](https://github.com/trailofbits/skills). Each installed skill carries the original CC BY-SA 4.0 notice, MIT license for superpowers-derived material, and an adaptation notice.

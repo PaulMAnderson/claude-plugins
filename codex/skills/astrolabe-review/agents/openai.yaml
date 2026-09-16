@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Review"
+  short_description: "Review code, resolve findings, and validate coverage"
+  default_prompt: "Use $astrolabe-review to review this change and its acceptance coverage."

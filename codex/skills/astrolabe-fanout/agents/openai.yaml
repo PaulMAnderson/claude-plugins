@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Fanout"
+  short_description: "Organize a requested corpus analysis as workers"
+  default_prompt: "Use $astrolabe-fanout to analyze this corpus with worker, critic, and synthesis stages."

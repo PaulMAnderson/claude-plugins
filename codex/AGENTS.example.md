@@ -1,10 +1,10 @@
-# Optional RPI project defaults
+# Optional Astrolabe project defaults
 
 Merge relevant instructions into the existing project AGENTS.md; do not replace unrelated guidance.
 
-- For substantial feature/refactor work, use `rpi-workflow`: investigate, design, plan, implement, review, and validate. Respect the requested stage and scope; bounded one-off analyses/helpers use `rpi-quick`.
-- At RPI startup/resume, read `.rpi/CONTEXT.md`, `.rpi/PROJECT.md`, and the active run ledger if present. Verify the actual branch/worktree and current phase before resuming.
-- Read `.rpi/design-plan-guidance.md` before design and `.rpi/implementation-plan-guidance.md` before planning/execution/review when they exist.
+- For substantial feature/refactor work, use `astrolabe-workflow`: investigate, design, plan, implement, review, and validate. Respect the requested stage and scope; bounded one-off analyses/helpers use `astrolabe-quick`.
+- At Astrolabe startup/resume, read `.astrolabe/CONTEXT.md`, `.astrolabe/PROJECT.md`, and the active run ledger if present. Verify the actual branch/worktree and current phase before resuming.
+- Read `.astrolabe/design-plan-guidance.md` before design and `.astrolabe/implementation-plan-guidance.md` before planning/execution/review when they exist.
 - Maintain scoped acceptance criteria, phase/task progress and evidence reports. Update progress at task/gate boundaries and report meaningful updates during sustained work.
 - Verify each task, review each whole phase, fix and explicitly re-review all valid findings, then perform whole-change review and acceptance coverage analysis before completion.
 - Use actual command evidence; failing or unavailable required checks and pending manual acceptance remain unverified. Before handoff, inspect ledger status/check and checkpoint context.

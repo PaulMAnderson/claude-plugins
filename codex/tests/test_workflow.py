@@ -10,13 +10,13 @@ import unittest
 
 
 BUNDLE = Path(__file__).resolve().parents[1]
-STATE = BUNDLE / "skills/rpi-workflow/scripts/rpi_state.py"
+STATE = BUNDLE / "skills/astrolabe-workflow/scripts/astrolabe_state.py"
 INSTALL = BUNDLE / "scripts/install.py"
 
 
 class WorkflowTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix="rpi-test-")
+        self.tmp = tempfile.TemporaryDirectory(prefix="astrolabe-test-")
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
         (self.root / "plan").mkdir()
@@ -32,7 +32,7 @@ class WorkflowTests(unittest.TestCase):
         return result
 
     def state(self):
-        return json.loads((self.root / ".rpi/runs/test-run/state.json").read_text())
+        return json.loads((self.root / ".astrolabe/runs/test-run/state.json").read_text())
 
     def complete(self, name):
         self.call("gate", name, "completed", "--evidence", "report.md")
@@ -117,7 +117,7 @@ class WorkflowTests(unittest.TestCase):
 
 class InstallTests(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory(prefix="rpi-install-test-")
+        self.tmp = tempfile.TemporaryDirectory(prefix="astrolabe-install-test-")
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
 
@@ -132,11 +132,11 @@ class InstallTests(unittest.TestCase):
         self.install()
         self.install()
         installed = list((self.root / ".agents/skills").iterdir())
-        self.assertEqual(len(installed), 12)
+        self.assertEqual(len(installed), 13)
         self.assertTrue(all(p.is_symlink() and (p / "SKILL.md").is_file() for p in installed))
 
     def test_collision_preflight_makes_no_partial_install(self):
-        target = self.root / ".agents/skills/rpi-review"
+        target = self.root / ".agents/skills/astrolabe-review"
         target.mkdir(parents=True)
         (target / "SKILL.md").write_text("User-owned skill\n")
         self.install(expected=2)
@@ -147,13 +147,13 @@ class InstallTests(unittest.TestCase):
         self.install("--copy")
         self.install("--copy")
         skills = self.root / ".agents/skills"
-        self.assertFalse((skills / "rpi-workflow").is_symlink())
-        result = subprocess.run([sys.executable, str(skills / "rpi-workflow/scripts/rpi_state.py"),
+        self.assertFalse((skills / "astrolabe-workflow").is_symlink())
+        result = subprocess.run([sys.executable, str(skills / "astrolabe-workflow/scripts/astrolabe_state.py"),
                                  "--help"], capture_output=True)
         self.assertEqual(result.returncode, 0)
         for path in skills.iterdir():
             self.assertTrue((path / "LICENSE").is_file())
-        (skills / "rpi-design/SKILL.md").write_text("User edited copy\n")
+        (skills / "astrolabe-design/SKILL.md").write_text("User edited copy\n")
         self.install("--copy", expected=2)
 
 

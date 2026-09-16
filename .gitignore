@@ -1,2 +1,3 @@
 .DS_Store
-.rpi/
+.astrolabe/
+__pycache__/

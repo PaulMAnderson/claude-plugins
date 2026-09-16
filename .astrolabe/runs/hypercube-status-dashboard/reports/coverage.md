@@ -1,0 +1,2 @@
+# B1 acceptance coverage
+Inspected assertions in tests/test_hypercube_status.py and tests/test_hypercube_web.py. AC1.1: explicit-only list; AC1.2: invalid/duplicate config; AC2.1: five fields and summary; AC2.2: healthy result survives missing and unsupported neighbor; AC2.3: consecutive HTTP reads reflect changed file; AC3.1: page includes status and error; AC3.2: script and name escaped; AC3.3: unknown path 404 and ephemeral configured bind. All automated tests executed successfully on final relevant code.

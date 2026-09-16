@@ -135,7 +135,7 @@ Gemini hooks receive a JSON payload on `stdin` containing:
 
 Always use `${extensionPath}` in `hooks.json` or `commands.toml` to reference files bundled with the extension. Do not rely on hardcoded paths or `CLAUDE_*` environment variables.
 
-In Python/Bash scripts, parse the `cwd` from the hook payload to locate the project's `.rpi` or configuration folders.
+In Python/Bash scripts, parse the `cwd` from the hook payload to locate the project's `.astrolabe` or configuration folders.
 
 ---
 
@@ -144,4 +144,4 @@ In Python/Bash scripts, parse the `cwd` from the hook payload to locate the proj
 1. **FCIS Compliance**: Ensure all ported code (Python/Bash) follows the Functional Core / Imperative Shell pattern.
 2. **Pattern Comments**: Every ported `.py` or `.sh` file should have `# pattern: Functional Core` or `# pattern: Imperative Shell`.
 3. **Verification**: After porting, verify the extension by listing it: `gemini extensions list`.
-4. **Context Injection**: Use the `SessionStart` hook to restore context from `.rpi/CONTEXT.md` to emulate Claude's session persistence.
+4. **Context Injection**: Use the `SessionStart` hook to restore context from `.astrolabe/CONTEXT.md` to emulate Claude's session persistence.

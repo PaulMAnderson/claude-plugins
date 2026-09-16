@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Spec"
+  short_description: "Track a resumable local task"
+  default_prompt: "Use $astrolabe-spec to plan and track this task."

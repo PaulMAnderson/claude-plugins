@@ -45,16 +45,16 @@ check_skill() {
 
 # TypeScript style skill: strict 150-line limit (reference skill)
 check_skill \
-  "plugins/rpi-house-style/skills/howto-code-in-typescript/SKILL.md" \
+  "plugins/astrolabe-house-style/skills/howto-code-in-typescript/SKILL.md" \
   150
 
 # Process skills: 200-line limit (enforcement tables must stay hot)
 check_skill \
-  "plugins/rpi-plan-and-execute/skills/writing-implementation-plans/SKILL.md" \
+  "plugins/astrolabe-plan-and-execute/skills/writing-implementation-plans/SKILL.md" \
   200
 
 check_skill \
-  "plugins/rpi-plan-and-execute/skills/writing-design-plans/SKILL.md" \
+  "plugins/astrolabe-plan-and-execute/skills/writing-design-plans/SKILL.md" \
   150
 
 echo ""

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Research"
+  short_description: "Investigate local or remote code and external documentation "
+  default_prompt: "Use $astrolabe-research to investigate the code and documentation for this question."

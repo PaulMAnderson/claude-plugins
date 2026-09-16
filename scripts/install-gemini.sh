@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 GEMINI_DIR="${HOME}/.gemini/config"
 AGENTS_DIR="${HOME}/.agents"
-DEFAULT_EXTENSIONS=(rpi-basic-agents rpi-research-agents rpi-plan-and-execute rpi-extending-claude rpi-house-style)
+DEFAULT_EXTENSIONS=(astrolabe-basic-agents astrolabe-research-agents astrolabe-plan-and-execute astrolabe-extending-claude astrolabe-house-style)
 
 EXTENSIONS=("${@:-${DEFAULT_EXTENSIONS[@]}}")
 

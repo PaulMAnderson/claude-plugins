@@ -1,4 +1,4 @@
-# rpi-plugins (Paul's RPI Fork)
+# astrolabe-plugins (Paul's Astrolabe Fork)
 
 Claude Code plugins for design, implementation, and development workflows.
 
@@ -10,7 +10,7 @@ When documenting Task tool invocations in skills or agent prompts, use XML-style
 
 ```
 <invoke name="Task">
-<parameter name="subagent_type">rpi-basic-agents:sonnet-general-purpose</parameter>
+<parameter name="subagent_type">astrolabe-basic-agents:sonnet-general-purpose</parameter>
 <parameter name="description">Brief description of what the subagent does</parameter>
 <parameter name="prompt">
 The prompt content goes here.
@@ -49,3 +49,7 @@ Brief description of the release.
 ```
 
 Only include sections that apply. Keep entries concise.
+
+### Cross-tool skill changes
+
+Follow [the Astrolabe skill sync checklist](docs/skill-sync-checklist.md) when changing tier behavior or the shared state contract.

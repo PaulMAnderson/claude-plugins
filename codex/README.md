@@ -1,104 +1,66 @@
-# RPI skills for Codex
+# Astrolabe skills for Codex
 
-This port preserves the Claude Code/Gemini RPI process in 12 Codex skills: investigate → design → plan → implement → review/fix → validate. It includes durable phase/task progress, exact acceptance-criterion tracing, context recovery, language guidance, and explicit completion gates.
+The Codex bundle has 13 skills for local research, tracked tasks, design, phased implementation, review, and validation. It uses the same `.astrolabe/` project files as the Claude Code and Gemini distributions.
 
-## Use
+## Install
 
-The repository's `.agents/skills/` links make these skills discoverable when working in this repository. For another project, install the entire bundle so sibling references remain available:
-
-```sh
-python3 /path/to/claude-plugins/codex/scripts/install.py --project /path/to/project
-```
-
-For all your projects:
+From this checkout, install the complete bundle into a project:
 
 ```sh
-python3 /path/to/claude-plugins/codex/scripts/install.py --user
+python3 codex/scripts/install.py --project /path/to/project
 ```
 
-`--user` writes to `~/.agents/skills`; the installer requires normal filesystem permission for that location. This port does not automatically change user-wide configuration. For a deployment using another supported discovery location, pass `--skills-dir /actual/skills/directory` explicitly.
+Use `--user` for your user skill directory, `--skills-dir /path/to/skills` for another discovery location, or `--dry-run` to inspect the changes. The default uses relative symlinks to this checkout. `--copy` makes independent copies that include licenses and runtime scripts. The installer checks every destination before writing and will not replace a different existing skill; review or remove a stale installation yourself before retrying.
 
-Default installation creates relative symlinks to the bundle; updates in this checkout are immediately available through them. Use `--copy` for independent portable copies, or `--dry-run` to inspect the destinations. The installer preflights every name, preserves unrelated skills, and refuses differing existing copies. To update a modified copy, review/merge its changes deliberately; there is no force-overwrite option. Keep the source checkout available for symlink installations. Copied bundles include their licenses and all runtime resources.
+This checkout includes `.agents/skills/astrolabe-*` links for work in this repository. Install the bundle separately in another project where you intend to use it.
 
-Codex's current documentation describes `.agents/skills` discovery, symlink support, and `$skill-name` invocation. Restart Codex if new skills do not appear. See [Build skills](https://learn.chatgpt.com/docs/build-skills) and [AGENTS.md guidance](https://learn.chatgpt.com/docs/agent-configuration/agents-md), checked 2026-09-14.
-
-```text
-$rpi-design Add <feature> to this project.
-$rpi-plan /absolute/path/docs/design-plans/YYYY-MM-DD-feature.md
-$rpi-implement /absolute/path/docs/implementation-plans/YYYY-MM-DD-feature/
-```
-
-Or request the complete workflow:
-
-```text
-$rpi-workflow Design, plan, implement, review, and validate <feature>.
-```
-
-The stages continue within existing authorization. Design-only and planning-only requests stop at their requested deliverable. Existing unambiguous plans and `.rpi` context can be resumed; no forced conversation reset is needed.
+## Choose a skill
 
 | Skill | Purpose |
 | --- | --- |
-| `rpi-workflow` | Entry point, process contract, quality gates, customization, progress helper |
-| `rpi-design` | Investigated architecture, alternatives, Definition of Done, scoped ACs |
-| `rpi-plan` | Detailed ordered phase files, plan review, test requirements |
-| `rpi-implement` | Task execution, reports, phase reviews, final validation and handoff |
-| `rpi-review` | Plan/code review, incoming feedback, issue fixes, acceptance coverage |
-| `rpi-research` | Local code, remote code, internet documentation, combined findings |
-| `rpi-debug` | Reproduction, root cause, hypotheses, regression verification |
-| `rpi-context` | Merge/recover session and project context across sessions |
-| `rpi-quick` | One-off analysis and small helpers with verification/session logging |
-| `rpi-house-style` | Python, MATLAB, R, MySQL, architecture, tests, technical writing |
-| `rpi-extend-codex` | Skills, directives, project context, role briefs, distribution |
-| `rpi-fanout` | Worker/critic/synthesis analysis with coverage and recovery |
+| `$astrolabe-quick` | One-session analysis or helper, with a short outcome |
+| `$astrolabe-spec` | Dated task with numbered steps and notes that can be resumed |
+| `$astrolabe-design` | Investigated design, alternatives, Definition of Done, and acceptance criteria |
+| `$astrolabe-plan` | Ordered phase files and test requirements |
+| `$astrolabe-implement` | Task execution, phase reviews, coverage, and final checks |
+| `$astrolabe-review` | Plan/code review, findings, fixes, and acceptance coverage |
+| `$astrolabe-workflow` | Full workflow entry point and shared gate contract |
+| `$astrolabe-research` | Local code, remote code, and documentation research |
+| `$astrolabe-debug` | Root cause analysis and regression verification |
+| `$astrolabe-context` | Resume and checkpoint context |
+| `$astrolabe-house-style` | Language, architecture, test, and writing conventions |
+| `$astrolabe-extend-codex` | Skills, project instructions, and distribution |
+| `$astrolabe-fanout` | Corpus analysis with worker, critic, and synthesis roles |
 
-## Detailed checks and progress
-
-Plans keep the original locations and markers:
+For example:
 
 ```text
-docs/design-plans/YYYY-MM-DD-feature.md
-docs/implementation-plans/YYYY-MM-DD-feature/phase_01.md
-docs/implementation-plans/YYYY-MM-DD-feature/test-requirements.md
-docs/test-plans/YYYY-MM-DD-feature.md
-.rpi/runs/feature/state.json
-.rpi/runs/feature/reports/
-.rpi/CONTEXT.md
-.rpi/PROJECT.md
-.rpi/SESSION.md
+$astrolabe-spec Track the CSV importer in a dated checklist.
+$astrolabe-design Design the CSV importer and its acceptance criteria.
+$astrolabe-plan /absolute/path/.astrolabe/docs/design-plans/YYYY-MM-DD-csv-import.md
+$astrolabe-implement /absolute/path/.astrolabe/docs/implementation-plans/YYYY-MM-DD-csv-import/
 ```
 
-The ledger tracks design, plan, each phase's read/execute/review gates, final review, coverage, and verification. Task progress stays in phase files with evidence reports. Findings retain verbatim descriptions and severity. Completing a gate requires completed prerequisites and nonempty evidence files; unresolved findings block their gate. Evidence is hashed so later edits/deletions are detected. Reopening a gate invalidates downstream gates and preserves history.
+A larger task can start with `$astrolabe-workflow`. Design-only and planning-only requests stop at the requested deliverable. Existing unambiguous plans can be resumed without resetting the conversation.
 
-Example from the repository root (replace project, design, plan, and phase titles):
+## Local state and planned work
 
-```sh
-python3 codex/skills/rpi-workflow/scripts/rpi_state.py --root /path/to/project --run feature init --design docs/design-plans/YYYY-MM-DD-feature.md --plan docs/implementation-plans/YYYY-MM-DD-feature --phase "Foundation" --phase "Behavior"
-python3 codex/skills/rpi-workflow/scripts/rpi_state.py --root /path/to/project --run feature status
-python3 codex/skills/rpi-workflow/scripts/rpi_state.py --root /path/to/project --run feature check
-```
+Each tier initializes missing `.astrolabe/` files, reads `PROJECT.md` and `STATUS.md`, and checks Backlog and Roadmap in `PLANNED.md` before work. A matching item is shown for a decision. At exit, the tier updates `STATUS.md` and appends to `HISTORY.md`; deferred ideas are added only after the user chooses a list. The Spec tier writes `.astrolabe/docs/specs/YYYY-MM-DD-<slug>.md` and resumes its checked steps and notes.
 
-Run `rpi_state.py --help` or a subcommand's `--help` for all transitions. Evidence must be a nonempty file inside the target project; use immutable report files or snapshots so ongoing edits do not invalidate earlier evidence unintentionally. The controller owns ledger writes. Task/review agents write separate reports.
+The [shared state format](../docs/astrolabe-state-format.md) defines all files and the versioned `STATUS.md` schema. Work is local; registration, credentials, network access, and a running service are unnecessary. The optional [Hypercube dashboard](../README.md#hypercube-dashboard) reads explicitly registered projects.
 
-The helper checks recorded gate/evidence integrity; it cannot establish that a report is truthful or that code implements an AC. The skills require direct inspection of code, tests, output, and current revision. This is explicit checkpoint monitoring, not an automatically installed background watcher or model-enforced security boundary. Pending manual acceptance and unavailable environments remain visibly unverified.
+Use `$astrolabe-workflow Start B1` to work from a specific Backlog or Roadmap ID. The item stays in `PLANNED.md` while active or paused. After its requested outcome is verified, completion removes it and records its original text and result in `HISTORY.md`; its ID is never reused.
 
-## Customize
+Full implementation plans live under `.astrolabe/docs/implementation-plans/`. The gate ledger lives under `.astrolabe/runs/<slug>/state.json`; task and review reports sit alongside it. The `astrolabe_state.py` helper in `astrolabe-workflow/scripts/` manages the ledger, while `project_state.py` manages the tier state files. The ledger checks gate order and recorded evidence hashes. Code and test assertions still require review.
 
-Preserved customization files:
+## Customize and verify
 
-- `.rpi/design-plan-guidance.md`: terms, constraints, architecture, scope.
-- `.rpi/implementation-plan-guidance.md`: coding, testing, review, commit conventions.
+Optional project guidance goes in `.astrolabe/design-plan-guidance.md` and `.astrolabe/implementation-plan-guidance.md`. For repository-wide defaults, adapt [AGENTS.example.md](AGENTS.example.md) to your project's `AGENTS.md`; installation does not overwrite it.
 
-For repository-wide RPI defaults, merge the relevant lines from [AGENTS.example.md](AGENTS.example.md) into the target project's existing `AGENTS.md`. This is optional; the installer does not overwrite project instructions or install hooks. If every substantial task should use RPI automatically, the example provides that explicit project preference. Otherwise skills remain naturally selectable or explicitly invocable.
-
-## Validate the port
-
-Python 3.9+; no third-party runtime dependencies:
+Run the current behavior and installer tests with:
 
 ```sh
-python3 codex/scripts/validate.py
 python3 -B -m unittest discover -s codex/tests -v
 ```
 
-The validator checks metadata, UI metadata, sibling references, licenses, Python syntax, vendor-tool remnants, and the complete fingerprinted source inventory. Source changes deliberately fail validation until their port is reviewed and `source-map.json` updated. The tests exercise gate order, evidence requirements, blockers, review findings, recovery, stale evidence, and safe installation.
-
-See [PORTING.md](PORTING.md) for coverage and adaptation decisions and [VALIDATION.md](VALIDATION.md) for the executed checks and their limits.
+The source-map validator (`python3 codex/scripts/validate.py`) currently reports stale fingerprints and two UI metadata failures after the Astrolabe rename. It needs a separate inventory refresh before it can serve as a passing release check. See [PORTING.md](PORTING.md) for the adaptation map and [VALIDATION.md](VALIDATION.md) for earlier port validation history.

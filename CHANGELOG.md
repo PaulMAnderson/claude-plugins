@@ -1,5 +1,11 @@
 # Changelog
 
+## Astrolabe project tracking migration
+
+**Changed:**
+- Renamed the RPI plugin, Gemini extension, and Codex skill families to Astrolabe.
+- Moved local workflow state and planning documents under `.astrolabe/`.
+
 ## [codex] Initial RPI skills port
 
 **New:**

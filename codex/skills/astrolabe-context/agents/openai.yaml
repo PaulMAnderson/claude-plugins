@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Context"
+  short_description: "Save and restore exact workflow state and progress"
+  default_prompt: "Use $astrolabe-context to save or restore the current Astrolabe workflow state."

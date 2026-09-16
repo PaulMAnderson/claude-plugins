@@ -1,0 +1,1344 @@
+{
+  "schema_version": 1,
+  "run": "hypercube-status-dashboard",
+  "created_at": "2026-09-16T12:49:52+00:00",
+  "design": ".astrolabe/docs/design-plans/2026-09-16-hypercube-status-dashboard.md",
+  "plan": ".astrolabe/docs/implementation-plans/2026-09-16-hypercube-status-dashboard",
+  "phases": [
+    "Watch list and collector",
+    "Web interface and CLI"
+  ],
+  "issues": [],
+  "events": [
+    {
+      "at": "2026-09-16T12:49:52+00:00",
+      "action": "init",
+      "gates": [
+        {
+          "id": "design",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+              "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+              "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-read.md",
+              "sha256": "8251cf713ae4ec9c6da7dcd157d8671d7ae44aea7c9daa2c3f318c8157ac3aeb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+              "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-read.md",
+              "sha256": "8251cf713ae4ec9c6da7dcd157d8671d7ae44aea7c9daa2c3f318c8157ac3aeb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-execute.md",
+              "sha256": "0f3e5d6c1eaf2fc5ab5f52dfca5a2a49cbd3af4c6619befbdf83e7a51ba09502"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:52:33+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+              "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-read.md",
+              "sha256": "8251cf713ae4ec9c6da7dcd157d8671d7ae44aea7c9daa2c3f318c8157ac3aeb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-execute.md",
+              "sha256": "0f3e5d6c1eaf2fc5ab5f52dfca5a2a49cbd3af4c6619befbdf83e7a51ba09502"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-review.md",
+              "sha256": "5a553f4cbefe6136aa5994fea8961dfaa6db3d7c488e4766e844aca1b4d058fd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:54:00+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+              "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-read.md",
+              "sha256": "8251cf713ae4ec9c6da7dcd157d8671d7ae44aea7c9daa2c3f318c8157ac3aeb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-execute.md",
+              "sha256": "0f3e5d6c1eaf2fc5ab5f52dfca5a2a49cbd3af4c6619befbdf83e7a51ba09502"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-review.md",
+              "sha256": "5a553f4cbefe6136aa5994fea8961dfaa6db3d7c488e4766e844aca1b4d058fd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/final-review.md",
+              "sha256": "abc8ab7c0c12bdd26fd686eaedf2219b236b4964977c2485ba2151935a045ba8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:54:00+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+              "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-read.md",
+              "sha256": "8251cf713ae4ec9c6da7dcd157d8671d7ae44aea7c9daa2c3f318c8157ac3aeb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-execute.md",
+              "sha256": "0f3e5d6c1eaf2fc5ab5f52dfca5a2a49cbd3af4c6619befbdf83e7a51ba09502"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-review.md",
+              "sha256": "5a553f4cbefe6136aa5994fea8961dfaa6db3d7c488e4766e844aca1b4d058fd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/final-review.md",
+              "sha256": "abc8ab7c0c12bdd26fd686eaedf2219b236b4964977c2485ba2151935a045ba8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/coverage.md",
+              "sha256": "cbcd587447519794ec9687ae1e922436ba8adbe8b7fe00e8669d0e2bb155c495"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T12:54:00+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+              "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+              "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+              "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+              "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+              "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-read.md",
+              "sha256": "8251cf713ae4ec9c6da7dcd157d8671d7ae44aea7c9daa2c3f318c8157ac3aeb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-execute.md",
+              "sha256": "0f3e5d6c1eaf2fc5ab5f52dfca5a2a49cbd3af4c6619befbdf83e7a51ba09502"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-review.md",
+              "sha256": "5a553f4cbefe6136aa5994fea8961dfaa6db3d7c488e4766e844aca1b4d058fd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/final-review.md",
+              "sha256": "abc8ab7c0c12bdd26fd686eaedf2219b236b4964977c2485ba2151935a045ba8"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/coverage.md",
+              "sha256": "cbcd587447519794ec9687ae1e922436ba8adbe8b7fe00e8669d0e2bb155c495"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/hypercube-status-dashboard/reports/verification.md",
+              "sha256": "9ba0d7c9e5f182fb166a434eb30d3faa34f8f98f3ef567b34460a626b03e28a4"
+            }
+          ],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "gates": [
+    {
+      "id": "design",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/design-review.md",
+          "sha256": "741419e36f279074a5fb8e721987f63cea072c52ec4d50aaf6e5c7bb6481a1f8"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "plan",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/plan-review.md",
+          "sha256": "1446f5ea2782ad234f51e5f05d9f551634691fbe2415fc5952a7ac524b6f48a1"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:1:read",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-read.md",
+          "sha256": "6db49d4fcbf4e1b5f2fa1fb12290e09689dd637c55e1893ef474f3de9c0db16f"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:1:execute",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-execute.md",
+          "sha256": "07a6b3167863fe5aec508f441d736225158e48b53b970657ab44299350e3fdee"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:1:review",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-1-review.md",
+          "sha256": "e5e32b10177f91186ee793bc7e4f4c8ca90d0cc1c063aef0b2c3def2a91c081a"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:2:read",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-read.md",
+          "sha256": "8251cf713ae4ec9c6da7dcd157d8671d7ae44aea7c9daa2c3f318c8157ac3aeb"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:2:execute",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-execute.md",
+          "sha256": "0f3e5d6c1eaf2fc5ab5f52dfca5a2a49cbd3af4c6619befbdf83e7a51ba09502"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:2:review",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/phase-2-review.md",
+          "sha256": "5a553f4cbefe6136aa5994fea8961dfaa6db3d7c488e4766e844aca1b4d058fd"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "final-review",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/final-review.md",
+          "sha256": "abc8ab7c0c12bdd26fd686eaedf2219b236b4964977c2485ba2151935a045ba8"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "coverage",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/coverage.md",
+          "sha256": "cbcd587447519794ec9687ae1e922436ba8adbe8b7fe00e8669d0e2bb155c495"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "verification",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/hypercube-status-dashboard/reports/verification.md",
+          "sha256": "9ba0d7c9e5f182fb166a434eb30d3faa34f8f98f3ef567b34460a626b03e28a4"
+        }
+      ],
+      "reason": ""
+    }
+  ],
+  "updated_at": "2026-09-16T12:54:00+00:00"
+}

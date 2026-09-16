@@ -1,160 +1,105 @@
-# rpi-plugins
+# Astrolabe plugins
 
-Claude Code plugins for design, implementation, and development workflows,
-implementing the Research-Plan-Implement (RPI) methodology.
+Astrolabe is a set of local workflows for Claude Code, Codex, and Gemini CLI. It tracks work from a small helper through a full design and implementation plan, using the same `.astrolabe/` project files across all three tools.
 
-**Codex port:** See [codex/README.md](codex/README.md) for 12 native skills preserving
-the design → plan → implement → review → validate workflow, with durable progress
-tracking, acceptance-criterion coverage, and a collision-safe installer.
+This is [Paul Anderson's fork](https://github.com/paulanderson/astrolabe-plugins) of [ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins). The Claude plugins are in `plugins/`, Codex skills in `codex/skills/`, and Gemini extensions in `gemini/extensions/`.
 
-This is **Paul Anderson's fork** of [ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins).
-It diverges from upstream in: RPI branding, integrated Context Engineering (CE) features,
-and compression-aware file templates.
+## Choose a tier
 
-The big stick in this repository is `rpi-plan-and-execute`, which implements an "RPI" (research-plan-implement) loop that does a really good job of avoiding hallucination in the planning stages, adhering to high-level product requirements, avoiding drift between design planning and implementation planning, and reviewing the results such that you get out the other end not just what you asked for, but what you actually wanted.
+| Tier | Use it for | Claude command | Main artifact |
+| --- | --- | --- | --- |
+| Micro | One helper function | `/helper-function` | Short outcome in `HISTORY.md` |
+| Quick | One-session analysis | `/quick-analysis` | Short outcome in `HISTORY.md` |
+| Spec | A task that needs a resumable checklist | `/start-tracked-task` | Dated spec with numbered steps |
+| Full | Architecture, acceptance criteria, phased delivery, and review | `/start-design-plan` → `/start-implementation-plan` → `/execute-implementation-plan` | Design, phase plans, review reports, and human test plan |
 
-## Using `rpi-plan-and-execute`
-More in [the README for the plugin](plugins/rpi-plan-and-execute/README.md), and it's worth skimming, but here's a quickstart:
+Codex offers the equivalent `$astrolabe-quick`, `$astrolabe-spec`, `$astrolabe-design`, `$astrolabe-plan`, and `$astrolabe-implement` skills. Gemini has the corresponding skills and `/start-tracked-task`, `/start-design-plan`, and `/start-implementation-plan` commands. See the [Claude workflow guide](plugins/astrolabe-plan-and-execute/README.md), [Codex guide](codex/README.md), and [Gemini workflow guide](gemini/extensions/astrolabe-plan-and-execute/README.md) for tool-specific steps.
 
-```
-Rough Idea
-    │
-    ▼
-/start-design-plan  ──────► Design Document (committed to git)
-    │
-    ▼
-/start-implementation-plan ──► Implementation Plan (phase files)
-    │
-    ▼
-/execute-implementation-plan ──► Working Code (reviewed & committed)
-```
+Work can move up a tier without losing its earlier notes. A Spec can become input to a Full design when the task needs architecture or explicit acceptance criteria. The skills preserve context across sessions; clearing the conversation between phases is optional.
 
-**Customization:** Create `.rpi/design-plan-guidance.md` and `.rpi/implementation-plan-guidance.md` in your project to provide project-specific constraints, terminology, and standards. Run `/how-to-customize` for details.
+## Local project state
 
-## Plugins
+On first use, a tier initializes missing files under the project's `.astrolabe/` directory. Repeated initialization preserves existing content. Each tier reads the project description and status, checks planned work, then updates status and appends an outcome when it exits.
 
-| Plugin | Description |
-|--------|-------------|
-| **`rpi-getting-started`** | Getting started guide and onboarding for rpi-plugins. Run `/getting-started` to see this README. |
-| **`rpi-plan-and-execute`** | Planning and execution workflows for Claude Code. Feed it a decent-sized task and it'll help you get it done in a sustainable and thought-through way |
-| **`rpi-house-style`** | House style for software development; Very Opinionated |
-| **`rpi-basic-agents`** | Core agents for general-purpose tasks (haiku, sonnet, opus). Other plugins expect this to exist |
-| **`rpi-research-agents`** | Agents for research across multiple data sources (codebase, internet, combined); other plugins expect this to exist |
-| **`rpi-extending-claude`** | Knowledge skills for extending Claude Code: plugins, commands, agents, skills, hooks, MCP servers. Other plugins expect this to exist |
-| **`rpi-hook-skill-reinforcement`** | UserPromptSubmit hook that reinforces skill usage — low-overhead reminder each turn |
-| **`rpi-hook-claudemd-reminder`** | PostToolUse hook that reminds to update CLAUDE.md before committing when git commands reveal relevant changes |
+Start a planned item by ID with Claude Code `/start-planned B1`, Gemini `/start-planned B1`, or Codex `$astrolabe-workflow Start B1`. The agent chooses a tier and keeps the item in `PLANNED.md` while it is active or paused. After its requested outcome is verified, the state helper removes it from the list and records the ID, original text, outcome, and optional artifact in `HISTORY.md`. Completed IDs are never reused.
 
-## Installation
+| File | Purpose |
+| --- | --- |
+| `PROJECT.md` | Stable, human-authored project description |
+| `STATUS.md` | Current tier, work slug, state, and timestamp in a versioned format |
+| `HISTORY.md` | Append-only outcomes |
+| `PLANNED.md` | Separate Backlog (`B` IDs) and Roadmap (`R` IDs) |
+| `CONTEXT.md` | Optional summary for resuming a session |
+| `docs/specs/`, `docs/design-plans/`, `docs/implementation-plans/` | Tier documents |
 
-This repo is a Claude Code **marketplace** — one registration gives you access to all plugins by name.
+A matching Backlog or Roadmap item is shown before work begins so you can work on it, extend it, or proceed separately. Deferred ideas are added only after you choose Backlog or Roadmap. The [state format](docs/astrolabe-state-format.md) defines the files and `STATUS.md` schema.
 
-### Step 1: Register the marketplace
+Astrolabe project tracking runs locally without registration, credentials, or a service. The optional [Hypercube dashboard](#hypercube-dashboard) reads `STATUS.md` only for projects explicitly added to its watch list.
 
-In Claude Code, run:
-```
-/plugin marketplace add file:///absolute/path/to/rpi-plugins
+## Hypercube dashboard
+
+Create a JSON watch list on the machine running the dashboard:
+
+```json
+{"projects":[{"name":"Example","path":"/absolute/path/to/project"}]}
 ```
 
-Replace the path with the actual location you cloned the repo to, e.g.:
-```
-/plugin marketplace add file:///Users/yourname/code/rpi-plugins
-```
+Run `python3 -m hypercube --config /path/to/projects.json` from this repository, then open `http://127.0.0.1:8765/`. `--host` and `--port` set the listening address. The page reads each registered project's `.astrolabe/STATUS.md` on every request, so status changes appear without a restart. Editing the watch list requires a restart. Missing or invalid status files show an error for that project. The server binds to localhost by default and has no authentication; use a trusted network or access controls if exposing it elsewhere.
 
-### Step 2: Install plugins
+## Install
 
-Install the core set (required by most workflows):
-```
-/plugin install rpi-basic-agents@rpi-plugins
-/plugin install rpi-research-agents@rpi-plugins
-/plugin install rpi-plan-and-execute@rpi-plugins
-/plugin install rpi-extending-claude@rpi-plugins
-```
+### Claude Code
 
-Optional extras:
-```
-/plugin install rpi-house-style@rpi-plugins
-/plugin install rpi-getting-started@rpi-plugins
-/plugin install rpi-hook-claudemd-reminder@rpi-plugins
-/plugin install rpi-hook-skill-reinforcement@rpi-plugins
+Register this checkout as a marketplace, then install the core plugins:
+
+```text
+/plugin marketplace add file:///absolute/path/to/claude-plugins
+/plugin install astrolabe-basic-agents@astrolabe-plugins
+/plugin install astrolabe-research-agents@astrolabe-plugins
+/plugin install astrolabe-plan-and-execute@astrolabe-plugins
+/plugin install astrolabe-extending-claude@astrolabe-plugins
 ```
 
-Or browse interactively:
-```
-/plugin browse
-```
+Optional plugins are `astrolabe-house-style`, `astrolabe-getting-started`, `astrolabe-hook-skill-reinforcement`, and `astrolabe-hook-claudemd-reminder`. The [marketplace manifest](.claude-plugin/marketplace.json) lists all eight. Reload or restart Claude Code after updating the checkout.
 
-After installing, restart Claude Code or run `/clear` for changes to take effect.
+### Codex
 
-### Updating
+Install the 13-skill bundle for a project:
 
-After pulling updates to this repo, reload plugins:
-```
-/plugin reload
+```sh
+python3 codex/scripts/install.py --project /path/to/project
 ```
 
-### Alternative: shell script
+Use `--user` for your user skill directory, `--copy` for portable copies, or `--dry-run` to inspect changes. The [Codex guide](codex/README.md) covers collisions and updating installed copies.
 
-If the native plugin system is unavailable, a shell script installs by copying files directly to `~/.claude/`:
-```bash
-cd /path/to/rpi-plugins
-bash scripts/install.sh                              # installs core set
-bash scripts/install.sh rpi-house-style rpi-getting-started  # specific plugins
+### Gemini CLI
+
+Link the extensions you need from `gemini/extensions/`, beginning with `astrolabe-plan-and-execute`:
+
+```sh
+gemini extensions link /absolute/path/to/claude-plugins/gemini/extensions/astrolabe-plan-and-execute
 ```
 
-### Gemini CLI / Antigravity installation
+The [Gemini workflow guide](gemini/extensions/astrolabe-plan-and-execute/README.md) lists its commands, skills, and local state helper. Linking keeps the extension's scripts and references available alongside its skills.
 
-To install the Gemini versions of the extensions and skills to `~/.gemini/config/` and `~/.agents/`:
-```bash
-cd /path/to/rpi-plugins
-bash scripts/install-gemini.sh
-```
+## This repository's planned work
 
-## Repository Structure
+The repository's [planned list](.astrolabe/PLANNED.md) contains remaining Backlog work:
 
-```
-rpi-plugins/
-├── .claude-plugin/
-│   └── marketplace.json
-├── plugins/
-│   ├── rpi-getting-started/
-│   ├── rpi-plan-and-execute/
-│   ├── rpi-house-style/
-│   ├── rpi-basic-agents/
-│   ├── rpi-research-agents/
-│   ├── rpi-extending-claude/
-│   ├── rpi-hook-skill-reinforcement/
-│   └── rpi-hook-claudemd-reminder/
-├── gemini/
-│   └── extensions/
-├── scripts/
-│   ├── install.sh
-│   ├── install-gemini.sh
-│   └── _merge_hooks.py
-└── README.md
-```
+- **B2:** Build a migration script or skill for other projects with existing `.rpi` state.
 
-## Contributing
-Issues and pull requests gratefully solicited, except `rpi-house-style` is _my_ house style, and provided for reference, so I might not take contributions there. (You can make your own house-style plugin though and use that instead!)
+Other projects maintain their own Backlog and Roadmap in their own `.astrolabe/PLANNED.md`.
 
-## Attribution
+## Repository map
 
-This repository is a fork of [ed3dai/ed3d-plugins](https://github.com/ed3dai/ed3d-plugins).
+- `plugins/`: Claude Code plugins and commands.
+- `codex/skills/`: Codex skills; `codex/scripts/install.py` installs the bundle.
+- `gemini/extensions/`: Gemini extensions, commands, skills, hooks, and scripts.
+- `docs/astrolabe-state-format.md`: Shared local state contract.
+- `.astrolabe/docs/`: This repository's design and implementation documents.
+- `docs/test-plans/`: Human acceptance steps.
+- `CHANGELOG.md`: Releases and the rename history.
 
-`rpi-plan-and-execute` and parts of `rpi-extending-claude` are derived from
-[`obra/superpowers`](https://github.com/obra/superpowers) by Jesse Vincent (MIT licence).
-The original code has been extensively modified. See `plugins/rpi-plan-and-execute/LICENSE.superpowers`.
+## Attribution and license
 
-Some skills in `rpi-house-style` are derived from `obra/superpowers` and others
-(notably `property-based-testing`) from the
-[Trail of Bits Skills repository](https://github.com/trailofbits/skills).
-
-**Key divergences from upstream `ed3dai/ed3d-plugins`:**
-- Renamed from `ed3d-*` to `rpi-*` namespace
-- Context Engineering integration (compression skill)
-- CE memory-tier-annotated design and implementation plan templates
-
-## License
-
-The original [obra/superpowers](https://github.com/obra/superpowers) code in this repository is licensed under the MIT License, copyright Jesse Vincent. See `plugins/rpi-plan-and-execute/LICENSE.superpowers`.
-
-All other content is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
+The Claude workflow and some extension skills derive from [obra/superpowers](https://github.com/obra/superpowers) by Jesse Vincent. Some house-style material derives from [Trail of Bits Skills](https://github.com/trailofbits/skills). See the licenses and notices in each plugin or skill. MIT-derived material retains its MIT license; other content is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).

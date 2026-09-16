@@ -38,6 +38,6 @@ Rechecked after merging the Gemini 1.13.0 updates on 2026-09-14: all 12 workflow
 
 Inspected the written procedures for design-only vs end-to-end scope; task vs phase review cadence; incomplete legacy plan recovery; stale tests after fixes; reviewer timeout; unchanged repeated failures; manual acceptance; existing user edits and untracked implementation; unavailable subagents; and compaction/resume.
 
-Corrections made during validation: three UI descriptions were too short and were rewritten; review-package guidance was given a working relative link; installer symlinks were made relative for repository portability; legacy `.rpi/exec/progress.md` recovery was made explicit.
+Corrections made during validation: three UI descriptions were too short and were rewritten; review-package guidance was given a working relative link; installer symlinks were made relative for repository portability; legacy `.astrolabe/exec/progress.md` recovery was made explicit.
 
 The automated source inventory proves that every inventoried entry has a maintained target and an unchanged source fingerprint. It does not prove semantic parity. The workflow comparison in PORTING.md records the preserved invariants and deliberate changes. The ledger validates declared evidence integrity; a reviewer still must inspect commands, assertions, requirements, and actual code. Skills and optional AGENTS.md instructions are procedural guidance, not an installed background hook or enforced security boundary.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the complete RPI Codex skill set without overwriting other skills."""
+"""Install the complete Astrolabe Codex skill set without overwriting other skills."""
 # pattern: Imperative Shell
 
 import argparse
@@ -64,7 +64,7 @@ def main():
     try:
         install(destination, args.copy, args.dry_run)
     except (OSError, ValueError) as error:
-        print(f"rpi-install: {error}", file=sys.stderr)
+        print(f"astrolabe-install: {error}", file=sys.stderr)
         return 2
     return 0
 

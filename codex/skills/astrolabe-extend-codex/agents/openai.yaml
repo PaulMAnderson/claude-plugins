@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Extend Codex"
+  short_description: "Create or maintain Codex skills"
+  default_prompt: "Use $astrolabe-extend-codex to maintain these skills or project instructions."

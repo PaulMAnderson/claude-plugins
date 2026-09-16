@@ -1,4 +1,0 @@
-interface:
-  display_name: "RPI Plan"
-  short_description: "Turn an RPI design document into a reviewed implementation p"
-  default_prompt: "Use $rpi-plan to turn this design into reviewed implementation phases."

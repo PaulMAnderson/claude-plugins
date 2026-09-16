@@ -1,0 +1,6 @@
+description = "Start or resume a tracked task with a dated spec"
+prompt = """
+Use the starting-a-tracked-task skill. Follow its entry, step tracking, resume, and completion instructions.
+
+{{args}}
+"""

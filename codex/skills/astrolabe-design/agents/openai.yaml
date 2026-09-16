@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Design"
+  short_description: "Develop an Astrolabe design plan from a feature idea"
+  default_prompt: "Use $astrolabe-design to design this feature with verifiable acceptance criteria."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Quick"
+  short_description: "Perform a one-off analysis or build a small helper function "
+  default_prompt: "Use $astrolabe-quick to complete this bounded analysis or helper."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "RPI Debug"
-  short_description: "Diagnose unexpected behavior"
-  default_prompt: "Use $rpi-debug to diagnose and verify a fix for this failure."

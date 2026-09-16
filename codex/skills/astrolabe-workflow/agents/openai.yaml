@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Workflow"
+  short_description: "Research, design, plan, implement, review, and validate"
+  default_prompt: "Use $astrolabe-workflow to guide this change through the full Astrolabe process."

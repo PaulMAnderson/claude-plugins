@@ -1,4 +1,0 @@
-interface:
-  display_name: "RPI Workflow"
-  short_description: "Research, design, plan, implement, review, and validate"
-  default_prompt: "Use $rpi-workflow to guide this change through the full RPI process."

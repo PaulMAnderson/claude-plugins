@@ -1,0 +1,6 @@
+description = "Start a Backlog or Roadmap item by its planned ID"
+prompt = """
+Read the shared project-state reference and the requested ID in .astrolabe/PLANNED.md. Choose a Micro, Quick, Spec, or Design tier. Run start-planned with ID, tier, and slug, then follow that tier to verified completion. Keep the item in PLANNED.md while active or paused. After its requested outcome is verified, run complete-planned with the outcome and optional artifact. The helper removes it from PLANNED.md and records its original text in HISTORY.md. An explicit ID is authorization to start it; clarify only missing scope.
+
+{{args}}
+"""

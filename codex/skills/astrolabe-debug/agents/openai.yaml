@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astrolabe Debug"
+  short_description: "Diagnose unexpected behavior"
+  default_prompt: "Use $astrolabe-debug to diagnose and verify a fix for this failure."
