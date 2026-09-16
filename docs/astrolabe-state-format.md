@@ -51,3 +51,7 @@ Start a specific item with `start-planned --id B1 --tier spec --work feature-slu
 After the requested outcome is verified and the tier is finished, run `complete-planned --id B1 --outcome "Verified result" --artifact "path/to/artifact"`. The artifact is optional. This removes the item from `PLANNED.md` and appends a `Planned-Status: completed` entry with the ID, original text, tier, work slug, outcome, and optional artifact to `HISTORY.md`. A completed intermediate design or phase leaves the item in `PLANNED.md` if its requested outcome is still pending. Retrying completion does not duplicate the history entry. `add-planned` checks both files so completed IDs are never reused. Preserve the history if editing the planned list manually.
 
 A future Hypercube service may maintain its own watch-list of project paths and periodically pull registered projects' `.astrolabe/STATUS.md` files. Registration is only a Hypercube-side watch-list change. Projects absent from that list remain invisible to the service and continue to work locally.
+
+## Migrating legacy `.rpi/` projects
+
+Run `python3 scripts/migrate-rpi-project.py /absolute/path/to/project --dry-run` from this repository to preview the mapping, then repeat without `--dry-run` to copy it. The migration retains `.rpi/` and root plan directories, archives all old state under `.astrolabe/legacy-rpi/`, and imports the old `SESSION.md` into `HISTORY.md`. It refuses an existing `.astrolabe/` target rather than merging states. See the root README for the command and limitations.

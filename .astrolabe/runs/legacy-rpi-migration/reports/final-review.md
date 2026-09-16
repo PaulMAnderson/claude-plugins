@@ -1,0 +1,2 @@
+# Final self-review
+Reviewed complete B2 diff from bf4fd04 including untracked scripts and tests, ignored design/plan/ledger artifacts, README, schema doc, and Gemini references. Examined copy mappings, symlink and target checks, error cleanup, parser compatibility, and source retention. The source is never removed. No unresolved findings. No user authorization to merge this new branch was supplied; work remains on feature/legacy-rpi-migration.

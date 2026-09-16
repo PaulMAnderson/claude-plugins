@@ -36,6 +36,16 @@ A matching Backlog or Roadmap item is shown before work begins so you can work o
 
 Astrolabe project tracking runs locally without registration, credentials, or a service. The optional [Hypercube dashboard](#hypercube-dashboard) reads `STATUS.md` only for projects explicitly added to its watch list.
 
+## Migrate a legacy RPI project
+
+Preview a project that still uses `.rpi/`:
+
+```sh
+python3 scripts/migrate-rpi-project.py /absolute/path/to/project --dry-run
+```
+
+Remove `--dry-run` to create `.astrolabe/`. The script copies `PROJECT.md`, `CONTEXT.md`, optional guidance, and root design and implementation plans. It archives the entire `.rpi/` directory under `.astrolabe/legacy-rpi/` and imports `SESSION.md` text into `HISTORY.md`. It creates schema-1 `STATUS.md` and an empty `PLANNED.md`. Original files remain in place. An existing `.astrolabe/` without a migration marker is a conflict; a completed migration is a no-op when repeated. The script rejects source symlinks and publishes the new directory only after all copies succeed.
+
 ## Hypercube dashboard
 
 Create a JSON watch list on the machine running the dashboard:
@@ -84,9 +94,7 @@ The [Gemini workflow guide](gemini/extensions/astrolabe-plan-and-execute/README.
 
 ## This repository's planned work
 
-The repository's [planned list](.astrolabe/PLANNED.md) contains remaining Backlog work:
-
-- **B2:** Build a migration script or skill for other projects with existing `.rpi` state.
+The repository's [planned list](.astrolabe/PLANNED.md) holds future Backlog and Roadmap items. Completed B1 and B2 work is recorded in [HISTORY.md](.astrolabe/HISTORY.md).
 
 Other projects maintain their own Backlog and Roadmap in their own `.astrolabe/PLANNED.md`.
 

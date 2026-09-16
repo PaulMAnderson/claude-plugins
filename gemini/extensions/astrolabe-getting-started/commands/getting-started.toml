@@ -6,5 +6,5 @@ Explain the Astrolabe workflow tiers to the user:
 - Spec: a resumable dated checklist in .astrolabe/docs/specs/.
 - Full: design, implementation plan, review, and validation.
 
-Explain that all tiers use local .astrolabe/PROJECT.md, STATUS.md, HISTORY.md, and PLANNED.md files. They consult Backlog and Roadmap before work. No service or registration is needed. Point the user to the root README.md in the astrolabe-plugins checkout for installation and to docs/astrolabe-state-format.md for the file contract. Do not claim that the future Hypercube crawler or migration tool already exists.
+Explain that all tiers use local .astrolabe/PROJECT.md, STATUS.md, HISTORY.md, and PLANNED.md files. They consult Backlog and Roadmap before work. No service or registration is needed. Point the user to the root README.md in the astrolabe-plugins checkout for installation and to docs/astrolabe-state-format.md for the file contract. Mention the optional Hypercube dashboard and legacy RPI migration script from the root README when relevant.
 """

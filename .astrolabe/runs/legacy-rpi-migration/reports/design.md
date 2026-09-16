@@ -1,0 +1,2 @@
+# Design gate
+B2 original text: Build a migration script or skill for other projects with existing .rpi state. Verified the old layout in Git revision a647a21 and current schema in docs/astrolabe-state-format.md on 2026-09-16. Definition of Done, seven scoped criteria, explicit copy mapping, existing-target refusal, staged publication, alternatives, and two phases are in the design. Agent-selected script form and conflict policy are identified as assumptions. Self-reviewed against legacy references; no unresolved finding.

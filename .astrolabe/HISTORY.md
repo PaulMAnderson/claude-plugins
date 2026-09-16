@@ -38,3 +38,25 @@
 - Work: hypercube-status-dashboard
 - Outcome: Standalone dashboard reads registered schema-1 status files; HTTP and collection tests passed
 - Artifact: hypercube/
+### 2026-09-16T13:05:19+00:00 — planned — legacy-rpi-migration
+
+- Planned-ID: B2
+- Planned-Item: Build a migration script or skill for other projects with existing .rpi state
+- Planned-Status: started
+- Tier: design
+- Work: legacy-rpi-migration
+### 2026-09-16T13:10:39+00:00 — design — legacy-rpi-migration
+
+- Intent: Build B2 legacy .rpi to .astrolabe migration tool
+- Outcome: Implemented staged, non-destructive CLI migration; 10 repository and 23 Codex tests passed
+- Result: completed
+
+### 2026-09-16T13:10:39+00:00 — planned — legacy-rpi-migration
+
+- Planned-ID: B2
+- Planned-Item: Build a migration script or skill for other projects with existing .rpi state
+- Planned-Status: completed
+- Tier: design
+- Work: legacy-rpi-migration
+- Outcome: Migration script preserves legacy state and plans; dry run, conflict, cleanup, and repeat behavior verified
+- Artifact: scripts/migrate-rpi-project.py

@@ -33,7 +33,7 @@ Use `/start-planned B1` to begin a specific Backlog or Roadmap item. It remains 
 
 `CONTEXT.md` remains a resume summary. Design and implementation plans live under `.astrolabe/docs/`. The [shared format](../../../docs/astrolabe-state-format.md) documents the files and versioned status schema. The extension's `scripts/astrolabe-state.py` writes the local state; `hooks/session-start.sh` reads saved context when present.
 
-The optional [Hypercube dashboard](../../../README.md#hypercube-dashboard) is separate from this extension. The migration tool remains [planned work](../../../.astrolabe/PLANNED.md).
+The optional [Hypercube dashboard](../../../README.md#hypercube-dashboard) is separate from this extension. The [legacy migration script](../../../README.md#migrate-a-legacy-rpi-project) is also separate from this extension.
 
 ## Customization
 

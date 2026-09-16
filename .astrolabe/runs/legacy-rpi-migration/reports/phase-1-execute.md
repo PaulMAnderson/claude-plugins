@@ -1,0 +1,2 @@
+# Phase 1 execute
+Created scripts/migrate_rpi_project.py and tests/test_migrate_rpi_project.py. Tests exercise preserved source and archive bytes, imported HISTORY text, valid STATUS schema, copied plan/guidance/unknown file, dry run, errors, symlink refusal, injected copy failure cleanup, and idempotency. `python3 -m unittest discover -s tests -p 'test_migrate_rpi_project.py' -v`: 5 passed, exit 0. Tested uncommitted working tree based on bf4fd04.

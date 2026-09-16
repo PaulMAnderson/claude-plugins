@@ -1,0 +1,1344 @@
+{
+  "schema_version": 1,
+  "run": "legacy-rpi-migration",
+  "created_at": "2026-09-16T13:06:39+00:00",
+  "design": ".astrolabe/docs/design-plans/2026-09-16-legacy-rpi-migration.md",
+  "plan": ".astrolabe/docs/implementation-plans/2026-09-16-legacy-rpi-migration",
+  "phases": [
+    "Migration engine",
+    "CLI and guide"
+  ],
+  "issues": [],
+  "events": [
+    {
+      "at": "2026-09-16T13:06:39+00:00",
+      "action": "init",
+      "gates": [
+        {
+          "id": "design",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:46+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:46+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:47+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:47+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:47+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+              "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:47+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+              "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-read.md",
+              "sha256": "06332029919117902592e1b7c62c59ac4589987905625f331c77a4c52e19dde0"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:47+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+              "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-read.md",
+              "sha256": "06332029919117902592e1b7c62c59ac4589987905625f331c77a4c52e19dde0"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-execute.md",
+              "sha256": "2e3e303358f1a793e2fa965b526d1bafc89a08e17c93360c4947dcaec48bb0a5"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:09:47+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+              "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-read.md",
+              "sha256": "06332029919117902592e1b7c62c59ac4589987905625f331c77a4c52e19dde0"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-execute.md",
+              "sha256": "2e3e303358f1a793e2fa965b526d1bafc89a08e17c93360c4947dcaec48bb0a5"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-review.md",
+              "sha256": "62b482ab1fb4d2b41c1a0ee162eaca6b3245fd8749b98cae6ef01f2f9106e5eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:10:28+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+              "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-read.md",
+              "sha256": "06332029919117902592e1b7c62c59ac4589987905625f331c77a4c52e19dde0"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-execute.md",
+              "sha256": "2e3e303358f1a793e2fa965b526d1bafc89a08e17c93360c4947dcaec48bb0a5"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-review.md",
+              "sha256": "62b482ab1fb4d2b41c1a0ee162eaca6b3245fd8749b98cae6ef01f2f9106e5eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/final-review.md",
+              "sha256": "eb27c282ff137a5d0550ed856940831a5d9573729e809c1161b39e89c2e30fc6"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:10:28+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+              "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-read.md",
+              "sha256": "06332029919117902592e1b7c62c59ac4589987905625f331c77a4c52e19dde0"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-execute.md",
+              "sha256": "2e3e303358f1a793e2fa965b526d1bafc89a08e17c93360c4947dcaec48bb0a5"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-review.md",
+              "sha256": "62b482ab1fb4d2b41c1a0ee162eaca6b3245fd8749b98cae6ef01f2f9106e5eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/final-review.md",
+              "sha256": "eb27c282ff137a5d0550ed856940831a5d9573729e809c1161b39e89c2e30fc6"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/coverage.md",
+              "sha256": "efe34b61fd4a9fc0342a2870a7af1ad8bd11b65bb8ae2978df7dee539f2be964"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "pending",
+          "evidence": [],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    },
+    {
+      "at": "2026-09-16T13:10:28+00:00",
+      "action": "gate",
+      "gates": [
+        {
+          "id": "design",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+              "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "plan",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+              "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+              "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+              "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:1:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+              "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:read",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-read.md",
+              "sha256": "06332029919117902592e1b7c62c59ac4589987905625f331c77a4c52e19dde0"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:execute",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-execute.md",
+              "sha256": "2e3e303358f1a793e2fa965b526d1bafc89a08e17c93360c4947dcaec48bb0a5"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "phase:2:review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-review.md",
+              "sha256": "62b482ab1fb4d2b41c1a0ee162eaca6b3245fd8749b98cae6ef01f2f9106e5eb"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "final-review",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/final-review.md",
+              "sha256": "eb27c282ff137a5d0550ed856940831a5d9573729e809c1161b39e89c2e30fc6"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "coverage",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/coverage.md",
+              "sha256": "efe34b61fd4a9fc0342a2870a7af1ad8bd11b65bb8ae2978df7dee539f2be964"
+            }
+          ],
+          "reason": ""
+        },
+        {
+          "id": "verification",
+          "status": "completed",
+          "evidence": [
+            {
+              "path": ".astrolabe/runs/legacy-rpi-migration/reports/verification.md",
+              "sha256": "8442beb5f7d1d39aed753e82b68a97fbf44912cceee74477a7d779213f372eca"
+            }
+          ],
+          "reason": ""
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "gates": [
+    {
+      "id": "design",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/design.md",
+          "sha256": "2a08e9bb8e8b3547cb17ce47924b2a22cb0f2a00a84cd53741f6b04e5dfd95eb"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "plan",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/plan.md",
+          "sha256": "d0a103f0d422bf984e5b796a0d43b17e118b8c95e6dbc83883f58a416b5268cd"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:1:read",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-read.md",
+          "sha256": "b52f14c9e1535d2c864f5df13e07d9cb32128501416b7de5a99b2ef486c1f8f1"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:1:execute",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-execute.md",
+          "sha256": "7acfd90ad71834df4544934d2a9fe7adf966e4e22823efeec0dbd081047d8382"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:1:review",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-1-review.md",
+          "sha256": "fbec3ee5a3bf5f3453b3fe15b8b863a8063bb1fcbefed93d8d076b037a23904d"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:2:read",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-read.md",
+          "sha256": "06332029919117902592e1b7c62c59ac4589987905625f331c77a4c52e19dde0"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:2:execute",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-execute.md",
+          "sha256": "2e3e303358f1a793e2fa965b526d1bafc89a08e17c93360c4947dcaec48bb0a5"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "phase:2:review",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/phase-2-review.md",
+          "sha256": "62b482ab1fb4d2b41c1a0ee162eaca6b3245fd8749b98cae6ef01f2f9106e5eb"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "final-review",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/final-review.md",
+          "sha256": "eb27c282ff137a5d0550ed856940831a5d9573729e809c1161b39e89c2e30fc6"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "coverage",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/coverage.md",
+          "sha256": "efe34b61fd4a9fc0342a2870a7af1ad8bd11b65bb8ae2978df7dee539f2be964"
+        }
+      ],
+      "reason": ""
+    },
+    {
+      "id": "verification",
+      "status": "completed",
+      "evidence": [
+        {
+          "path": ".astrolabe/runs/legacy-rpi-migration/reports/verification.md",
+          "sha256": "8442beb5f7d1d39aed753e82b68a97fbf44912cceee74477a7d779213f372eca"
+        }
+      ],
+      "reason": ""
+    }
+  ],
+  "updated_at": "2026-09-16T13:10:28+00:00"
+}
