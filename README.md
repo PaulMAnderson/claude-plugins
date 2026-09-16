@@ -46,6 +46,14 @@ Create a JSON watch list on the machine running the dashboard:
 
 Run `python3 -m hypercube --config /path/to/projects.json` from this repository, then open `http://127.0.0.1:8765/`. `--host` and `--port` set the listening address. The page reads each registered project's `.astrolabe/STATUS.md` on every request, so status changes appear without a restart. Editing the watch list requires a restart. Missing or invalid status files show an error for that project. The server binds to localhost by default and has no authentication; use a trusted network or access controls if exposing it elsewhere.
 
+### Run with Docker Compose
+
+1. Copy `deploy/hypercube.env.example` to `.env` and set `HYPERCUBE_PROJECTS_ROOT` to the host directory containing the registered projects. Set `HYPERCUBE_UID` and `HYPERCUBE_GID` to an account that can read their `.astrolabe/STATUS.md` files.
+2. Copy `deploy/hypercube/projects.example.json` to `deploy/hypercube/projects.json`. Each `path` in this watch list uses the **container** path under `/projects`, such as `/projects/example` for the host directory `${HYPERCUBE_PROJECTS_ROOT}/example`.
+3. Run `docker compose up -d --build`, then open `http://127.0.0.1:8765/` on the server. Use `docker compose logs -f hypercube` to inspect startup or read errors.
+
+Compose mounts the watch list and project directory read-only, runs as the configured UID/GID, and binds the published port to localhost by default. Set `HYPERCUBE_BIND_ADDRESS` only when a trusted reverse proxy or network should reach it; the dashboard has no login. Edit the watch list and run `docker compose restart hypercube` to change registrations. Changes to `STATUS.md` appear on the next page load.
+
 ## Install
 
 ### Claude Code

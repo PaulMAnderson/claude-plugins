@@ -1,3 +1,7 @@
 .DS_Store
 .astrolabe/
 __pycache__/
+
+# Server-local Docker settings and watch list
+.env
+deploy/hypercube/projects.json
