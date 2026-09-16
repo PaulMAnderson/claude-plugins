@@ -13,8 +13,8 @@ services:
       - "${HYPERCUBE_BIND_ADDRESS:-127.0.0.1}:${HYPERCUBE_PORT:-8765}:8765"
     volumes:
       - type: bind
-        source: ${HYPERCUBE_CONFIG_PATH:?Set HYPERCUBE_CONFIG_PATH to the watch-list JSON file}
-        target: /config/projects.json
+        source: ${HYPERCUBE_CONFIG_DIR:-./deploy/hypercube}
+        target: /config
         read_only: true
       - type: bind
         source: ${HYPERCUBE_PROJECTS_ROOT:?Set HYPERCUBE_PROJECTS_ROOT to the parent of registered projects}

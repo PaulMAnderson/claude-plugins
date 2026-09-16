@@ -62,7 +62,7 @@ Run `python3 -m hypercube --config /path/to/projects.json` from this repository,
 2. Copy `deploy/hypercube/projects.example.json` to `deploy/hypercube/projects.json`. Each `path` in this watch list uses the **container** path under `/projects`, such as `/projects/example` for the host directory `${HYPERCUBE_PROJECTS_ROOT}/example`.
 3. Run `docker compose up -d --build`, then open `http://127.0.0.1:8765/` on the server. Use `docker compose logs -f hypercube` to inspect startup or read errors.
 
-Compose mounts the watch list and project directory read-only, runs as the configured UID/GID, and binds the published port to localhost by default. Set `HYPERCUBE_BIND_ADDRESS` only when a trusted reverse proxy or network should reach it; the dashboard has no login. Edit the watch list and run `docker compose restart hypercube` to change registrations. Changes to `STATUS.md` appear on the next page load.
+Compose mounts the watch list and project directory read-only, runs as the configured UID/GID, and binds the published port to localhost by default. Set `HYPERCUBE_BIND_ADDRESS` only when a trusted reverse proxy or network should reach it; the dashboard has no login. Edit `deploy/hypercube/projects.json` and run `docker compose restart hypercube` to change registrations. Changes to `STATUS.md` appear on the next page load.
 
 ## Install
 
