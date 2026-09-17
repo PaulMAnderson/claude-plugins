@@ -6,7 +6,19 @@ import unittest
 
 from hypercube.status import Project
 from hypercube.web import serve
-from test_hypercube_status import VALID
+
+# Duplicated (not imported) from test_hypercube_status.py so this module has
+# no cross-file bare import that depends on tests/ being on sys.path. See
+# hypercube-status-dashboard code review, Critical 3.
+VALID = """---
+schema_version: 1
+status: active
+current_tier: design
+current_work: sample-work
+last_updated: 2026-09-16T12:00:00+00:00
+---
+Working on sample.
+"""
 
 
 class WebTests(unittest.TestCase):
