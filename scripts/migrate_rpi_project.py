@@ -47,6 +47,9 @@ def plan(root: Path) -> tuple[bool, list[str]]:
     for name in ("PROJECT.md", "CONTEXT.md", "design-plan-guidance.md", "implementation-plan-guidance.md"):
         if (source / name).is_file():
             mappings.append(f".rpi/{name} -> .astrolabe/{name}")
+    docs_root = root / "docs"
+    if _exists(docs_root) and (docs_root.is_symlink() or not docs_root.is_dir()):
+        raise MigrationError(f"Symlink or special file is not supported: {docs_root}")
     for name in ("design-plans", "implementation-plans"):
         path = root / "docs" / name
         if _exists(path):
