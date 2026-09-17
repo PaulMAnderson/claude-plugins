@@ -1,5 +1,11 @@
 # Changelog
 
+## [astrolabe-plan-and-execute] 1.14.0
+
+**New:**
+- `migrating-legacy-rpi-projects` skill — converts a project's legacy `.rpi/` state to `.astrolabe/` in full: runs the archival script, folds plan directories in, removes the now-archived `.rpi/`, and sweeps the repo for remaining `.rpi` references
+- `scripts/migrate-rpi-project.py` (and `migrate_rpi_project.py`) bundled into the plugin, mirroring `astrolabe-state.py`'s per-tool packaging
+
 ## Astrolabe project tracking migration
 
 **Changed:**

@@ -21,7 +21,7 @@
         {
             "name": "astrolabe-plan-and-execute",
             "description": "Planning and execution workflows for Claude Code. Based on obra/superpowers.",
-            "version": "1.13.0",
+            "version": "1.14.0",
             "source": "./plugins/astrolabe-plan-and-execute",
             "author": {
                 "name": "Paul",
