@@ -1,4 +1,5 @@
 """Observable local state behavior shared by Astrolabe tiers."""
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import json
 from pathlib import Path
@@ -89,6 +90,102 @@ class ProjectStateTests(unittest.TestCase):
                                 capture_output=True, text=True)
         self.assertEqual(result.returncode, 2)
         self.assertNotIn("three", (self.root / ".astrolabe/PLANNED.md").read_text())
+
+    def test_add_planned_concurrent_calls_assign_unique_ids_without_loss(self):
+        self.run_cli("init")
+
+        def add(index):
+            return subprocess.run([sys.executable, str(CLI), "--root", str(self.root),
+                                   "add-planned", "--list", "backlog", "--text", f"item-{index}"],
+                                  capture_output=True, text=True)
+
+        with ThreadPoolExecutor(max_workers=8) as pool:
+            results = list(pool.map(add, range(8)))
+        for result in results:
+            self.assertEqual(result.returncode, 0, result.stderr)
+        ids = [result.stdout.strip() for result in results]
+        self.assertEqual(len(ids), len(set(ids)), f"duplicate IDs printed: {ids}")
+        planned = (self.root / ".astrolabe/PLANNED.md").read_text()
+        for item_id in ids:
+            self.assertIn(f"- {item_id}: ", planned, f"{item_id} missing from PLANNED.md")
+        self.assertEqual(planned.count("- B"), 8)
+
+    def test_add_planned_and_complete_planned_concurrent_calls_do_not_lose_items(self):
+        # add_planned and complete_planned both do a read-modify-write of
+        # PLANNED.md; both mutators must serialize against each other via
+        # the same lock, not just against calls of their own kind.
+        self.run_cli("add-planned", "--list", "backlog", "--text", "Ship feature")
+        self.run_cli("start-planned", "--id", "B1", "--tier", "quick", "--work", "ship-feature")
+        self.run_cli("finish", "--tier", "quick", "--work", "ship-feature",
+                     "--intent", "ship", "--outcome", "done")
+
+        def complete():
+            return subprocess.run([sys.executable, str(CLI), "--root", str(self.root),
+                                   "complete-planned", "--id", "B1", "--outcome", "done"],
+                                  capture_output=True, text=True)
+
+        def add(index):
+            return subprocess.run([sys.executable, str(CLI), "--root", str(self.root),
+                                   "add-planned", "--list", "backlog", "--text", f"item-{index}"],
+                                  capture_output=True, text=True)
+
+        with ThreadPoolExecutor(max_workers=9) as pool:
+            complete_future = pool.submit(complete)
+            add_futures = [pool.submit(add, index) for index in range(8)]
+            complete_result = complete_future.result()
+            add_results = [future.result() for future in add_futures]
+
+        self.assertEqual(complete_result.returncode, 0, complete_result.stderr)
+        for result in add_results:
+            self.assertEqual(result.returncode, 0, result.stderr)
+        ids = [result.stdout.strip() for result in add_results]
+        self.assertEqual(len(ids), len(set(ids)), f"duplicate IDs printed: {ids}")
+        planned = (self.root / ".astrolabe/PLANNED.md").read_text()
+        self.assertNotIn("- B1:", planned, "completed item B1 must be removed, not resurrected")
+        for item_id in ids:
+            self.assertIn(f"- {item_id}: ", planned, f"{item_id} missing from PLANNED.md")
+        history = (self.root / ".astrolabe/HISTORY.md").read_text()
+        self.assertIn("- Planned-Status: completed", history)
+
+    def test_add_planned_rejects_text_with_fake_structured_field_line(self):
+        result = subprocess.run([sys.executable, str(CLI), "--root", str(self.root),
+                                 "add-planned", "--list", "backlog",
+                                 "--text", "- Planned-Status: completed"],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2)
+        result = subprocess.run([sys.executable, str(CLI), "--root", str(self.root),
+                                 "add-planned", "--list", "backlog",
+                                 "--text", "Legit summary\n- Tier: spec"],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2)
+        self.assertNotIn("Legit summary", (self.root / ".astrolabe/PLANNED.md").read_text())
+
+    def test_complete_planned_guard_survives_forged_status_marker_in_item_text(self):
+        # Reproduces the exact collision noted in docs/astrolabe-state-format.md:
+        # free text that happens to end with a real structured-field-looking suffix
+        # must not be mistaken for an actual Planned-Status/Result marker.
+        self.run_cli("add-planned", "--list", "backlog",
+                     "--text", "Do X - Planned-Status: completed")
+        self.run_cli("start-planned", "--id", "B1", "--tier", "quick", "--work", "do-x")
+        result = subprocess.run([sys.executable, str(CLI), "--root", str(self.root),
+                                 "complete-planned", "--id", "B1",
+                                 "--outcome", "never did the work"],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 2, result.stdout)
+        planned = (self.root / ".astrolabe/PLANNED.md").read_text()
+        self.assertIn("- B1: Do X - Planned-Status: completed", planned)
+        history = (self.root / ".astrolabe/HISTORY.md").read_text()
+        self.assertNotIn("never did the work", history)
+        status = (self.root / ".astrolabe/STATUS.md").read_text()
+        self.assertNotIn("current_tier: none", status)
+        # The guard only blocked a forged completion; a genuine one must still work.
+        self.run_cli("finish", "--tier", "quick", "--work", "do-x",
+                     "--intent", "did x", "--outcome", "actually done")
+        self.run_cli("complete-planned", "--id", "B1", "--outcome", "actually done")
+        self.assertNotIn("- B1:", (self.root / ".astrolabe/PLANNED.md").read_text())
+        history = (self.root / ".astrolabe/HISTORY.md").read_text()
+        self.assertIn("- Planned-Status: completed", history)
+        self.assertIn("actually done", history)
 
     def test_planned_lifecycle_preserves_item_until_completion_and_reserves_id(self):
         self.run_cli("add-planned", "--list", "backlog", "--text", "Ship feature")

@@ -3,7 +3,9 @@
 # pattern: Imperative Shell
 
 import argparse
+import contextlib
 from datetime import datetime, timezone
+import fcntl
 from pathlib import Path
 import re
 import sys
@@ -11,6 +13,10 @@ import sys
 TIERS = ("none", "micro", "quick", "spec", "design")
 STATUSES = ("active", "paused", "archived")
 SLUG = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
+PLANNED_STATUS_COMPLETED = re.compile(r"(?m)^- Planned-Status: completed$")
+PLANNED_STATUS_STARTED = re.compile(r"(?m)^- Planned-Status: started$")
+RESULT_COMPLETED = re.compile(r"(?m)^- Result: completed$")
+STRUCTURED_FIELD_LINE = re.compile(r"(?m)^\s*-\s*(Planned-\w+|Tier|Work|Result|Outcome|Artifact):")
 
 
 def now():
@@ -25,6 +31,24 @@ def validate_work(value):
 
 def state_dir(root):
     return root / ".astrolabe"
+
+
+def atomic_write(path, text):
+    temporary = path.with_name(f".{path.name}.tmp")
+    temporary.write_text(text, encoding="utf-8")
+    temporary.replace(path)
+
+
+@contextlib.contextmanager
+def locked(directory):
+    """Serialize read-modify-write sequences against concurrent invocations."""
+    lock_path = directory / ".lock"
+    with lock_path.open("a") as handle:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
 
 def status_text(status="active", tier="none", work=None, message="Ready for local work."):
@@ -63,10 +87,7 @@ def initialize(root):
 
 def write_status(root, *, status="active", tier="none", work=None, message="Ready for local work."):
     directory = initialize(root)
-    target = directory / "STATUS.md"
-    temporary = directory / ".STATUS.md.tmp"
-    temporary.write_text(status_text(status, tier, work, message), encoding="utf-8")
-    temporary.replace(target)
+    atomic_write(directory / "STATUS.md", status_text(status, tier, work, message))
 
 
 def history_value(value):
@@ -102,11 +123,13 @@ def start_planned(root, item_id, tier, work):
     _, _, match = planned_entry(root, item_id)
     item = match.group(1).strip()
     events = planned_events(root, item_id)
-    if any("- Planned-Status: completed\n" in event for event in events):
+    if any(PLANNED_STATUS_COMPLETED.search(event) for event in events):
         raise ValueError(f"planned item {item_id} is already completed")
     if events:
-        if not any(f"- Planned-Status: started\n" in event and
-                   f"- Work: {work}\n" in event and f"- Tier: {tier}\n" in event
+        work_line = re.compile(rf"(?m)^- Work: {re.escape(work)}$")
+        tier_line = re.compile(rf"(?m)^- Tier: {re.escape(tier)}$")
+        if not any(PLANNED_STATUS_STARTED.search(event) and
+                   work_line.search(event) and tier_line.search(event)
                    for event in events):
             raise ValueError(f"planned item {item_id} is already started with another work or tier")
         return item
@@ -123,65 +146,75 @@ def complete_planned(root, item_id, outcome, artifact=None):
     artifact = history_value(artifact) if artifact else None
     if not re.fullmatch(r"[BR][1-9]\d*", item_id):
         raise ValueError("planned ID must be Bn or Rn")
-    events = planned_events(root, item_id)
-    completed = any("- Planned-Status: completed\n" in event for event in events)
-    target = state_dir(root) / "PLANNED.md"
-    content = target.read_text(encoding="utf-8")
-    if completed and not re.search(rf"(?m)^- {item_id}: ", content):
-        return
-    target, content, match = planned_entry(root, item_id)
-    started = [event for event in events if "- Planned-Status: started\n" in event]
-    if len(started) != 1:
-        raise ValueError(f"planned item {item_id} must be started exactly once")
-    tier = re.search(r"(?m)^- Tier: (.+)$", started[0]).group(1)
-    work = re.search(r"(?m)^- Work: (.+)$", started[0]).group(1)
-    history = (state_dir(root) / "HISTORY.md").read_text(encoding="utf-8")
-    status = (state_dir(root) / "STATUS.md").read_text(encoding="utf-8")
-    if re.search(r"(?m)^status: paused$", status) and f"current_work: {work}\n" in status:
-        raise ValueError(f"work {work} is paused")
-    completed_tier = any(f" — {tier} — {work}\n" in block and "- Result: completed\n" in block
-                         for block in re.split(r"(?m)(?=^### )", history))
-    if not completed_tier and not completed:
-        raise ValueError(f"finish {tier} work {work} before completing {item_id}")
-    if not completed:
-        item = match.group(1).strip()
-        with (state_dir(root) / "HISTORY.md").open("a", encoding="utf-8") as stream:
-            stream.write(f"### {now()} — planned — {work}\n\n"
-                         f"- Planned-ID: {item_id}\n- Planned-Item: {item}\n"
-                         f"- Planned-Status: completed\n- Tier: {tier}\n- Work: {work}\n"
-                         f"- Outcome: {outcome}\n"
-                         + (f"- Artifact: {artifact}\n" if artifact else "") + "\n")
-    line_end = match.end() + (content[match.end():].startswith("\n"))
-    temporary = target.with_name(".PLANNED.md.tmp")
-    temporary.write_text(content[:match.start()] + content[line_end:], encoding="utf-8")
-    temporary.replace(target)
+    directory = initialize(root)
+    # The entire read -> decide -> write sequence must be serialized against
+    # add_planned (and against other complete_planned calls), since both
+    # mutate PLANNED.md via read-modify-write: without this lock, a
+    # concurrent add-planned can read PLANNED.md before this function's
+    # write lands and then overwrite it, silently losing the newly added
+    # item (or resurrecting an item this call just removed).
+    with locked(directory):
+        events = planned_events(root, item_id)
+        completed = any(PLANNED_STATUS_COMPLETED.search(event) for event in events)
+        target = directory / "PLANNED.md"
+        content = target.read_text(encoding="utf-8")
+        if completed and not re.search(rf"(?m)^- {item_id}: ", content):
+            return
+        target, content, match = planned_entry(root, item_id)
+        started = [event for event in events if PLANNED_STATUS_STARTED.search(event)]
+        if len(started) != 1:
+            raise ValueError(f"planned item {item_id} must be started exactly once")
+        tier = re.search(r"(?m)^- Tier: (.+)$", started[0]).group(1)
+        work = re.search(r"(?m)^- Work: (.+)$", started[0]).group(1)
+        history = (directory / "HISTORY.md").read_text(encoding="utf-8")
+        status = (directory / "STATUS.md").read_text(encoding="utf-8")
+        if re.search(r"(?m)^status: paused$", status) and f"current_work: {work}\n" in status:
+            raise ValueError(f"work {work} is paused")
+        completed_tier = any(f" — {tier} — {work}\n" in block and RESULT_COMPLETED.search(block)
+                             for block in re.split(r"(?m)(?=^### )", history))
+        if not completed_tier and not completed:
+            raise ValueError(f"finish {tier} work {work} before completing {item_id}")
+        if not completed:
+            item = match.group(1).strip()
+            with (directory / "HISTORY.md").open("a", encoding="utf-8") as stream:
+                stream.write(f"### {now()} — planned — {work}\n\n"
+                             f"- Planned-ID: {item_id}\n- Planned-Item: {item}\n"
+                             f"- Planned-Status: completed\n- Tier: {tier}\n- Work: {work}\n"
+                             f"- Outcome: {outcome}\n"
+                             + (f"- Artifact: {artifact}\n" if artifact else "") + "\n")
+        line_end = match.end() + (content[match.end():].startswith("\n"))
+        atomic_write(target, content[:match.start()] + content[line_end:])
 
 
 def add_planned(root, list_name, text):
+    if STRUCTURED_FIELD_LINE.search(text):
+        raise ValueError("planned item text must not contain structured field lines")
     text = history_value(text)
     if ":" in text[:3]:
         raise ValueError("planned item text must not begin with an ID")
     prefix, heading = ("B", "Backlog") if list_name == "backlog" else ("R", "Roadmap")
-    target = initialize(root) / "PLANNED.md"
-    content = target.read_text(encoding="utf-8")
-    lines = content.splitlines(keepends=True)
-    ids = re.findall(r"(?m)^- ([BR]\d+):", content)
-    if len(ids) != len(set(ids)):
-        raise ValueError("PLANNED.md has duplicate IDs")
-    past_ids = re.findall(r"(?m)^- Planned-ID: ([BR]\d+)$",
-                          (state_dir(root) / "HISTORY.md").read_text(encoding="utf-8"))
-    ids_for_list = [int(value[1:]) for value in ids + past_ids if value.startswith(prefix)]
-    next_id = f"{prefix}{max(ids_for_list, default=0) + 1}"
-    heading_line = f"## {heading}"
-    try:
-        start = next(i for i, line in enumerate(lines) if line.strip() == heading_line)
-    except StopIteration:
-        raise ValueError(f"PLANNED.md is missing {heading_line}") from None
-    end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
-    while end > start + 1 and not lines[end - 1].strip():
-        end -= 1
-    lines.insert(end, f"- {next_id}: {text}\n")
-    target.write_text("".join(lines), encoding="utf-8")
+    directory = initialize(root)
+    target = directory / "PLANNED.md"
+    with locked(directory):
+        content = target.read_text(encoding="utf-8")
+        lines = content.splitlines(keepends=True)
+        ids = re.findall(r"(?m)^- ([BR]\d+):", content)
+        if len(ids) != len(set(ids)):
+            raise ValueError("PLANNED.md has duplicate IDs")
+        past_ids = re.findall(r"(?m)^- Planned-ID: ([BR]\d+)$",
+                              (directory / "HISTORY.md").read_text(encoding="utf-8"))
+        ids_for_list = [int(value[1:]) for value in ids + past_ids if value.startswith(prefix)]
+        next_id = f"{prefix}{max(ids_for_list, default=0) + 1}"
+        heading_line = f"## {heading}"
+        try:
+            start = next(i for i, line in enumerate(lines) if line.strip() == heading_line)
+        except StopIteration:
+            raise ValueError(f"PLANNED.md is missing {heading_line}") from None
+        end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
+        while end > start + 1 and not lines[end - 1].strip():
+            end -= 1
+        lines.insert(end, f"- {next_id}: {text}\n")
+        atomic_write(target, "".join(lines))
     return next_id
 
 
@@ -212,7 +245,7 @@ def spec_start(root, work, intent, steps):
                 f"# {work}\n\n## Intent\n\n{intent}\n\n## Steps\n\n"
                 + "".join(f"- [ ] {i}. {step}\n" for i, step in enumerate(clean_steps, 1))
                 + "\n## Notes\n\n")
-        path.write_text(body, encoding="utf-8")
+        atomic_write(path, body)
     write_status(root, tier="spec", work=work, message=f"Tracking spec {work}.")
     return path
 
@@ -226,7 +259,7 @@ def spec_step(root, work, number):
     updated, count = pattern.subn(f"- [x] {number}. ", content)
     if count != 1:
         raise ValueError(f"open step {number} not found")
-    path.write_text(updated, encoding="utf-8")
+    atomic_write(path, updated)
     return path
 
 
@@ -265,7 +298,7 @@ def spec_done(root, work, outcome):
     if not match:
         raise ValueError("spec intent is missing")
     outcome = history_value(outcome)
-    path.write_text(content.replace("status: in_progress", "status: done", 1), encoding="utf-8")
+    atomic_write(path, content.replace("status: in_progress", "status: done", 1))
     record_outcome(root, "spec", work, match.group(1), outcome)
     return path
 
