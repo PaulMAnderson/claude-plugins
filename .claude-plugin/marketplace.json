@@ -14,8 +14,8 @@
             "version": "1.0.0",
             "source": "./plugins/astrolabe-getting-started",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             }
         },
         {
@@ -24,8 +24,8 @@
             "version": "1.13.0",
             "source": "./plugins/astrolabe-plan-and-execute",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             }
         },
         {
@@ -34,8 +34,8 @@
             "version": "1.0.2",
             "source": "./plugins/astrolabe-house-style",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             }
         },
         {
@@ -44,8 +44,8 @@
             "version": "1.1.1",
             "source": "./plugins/astrolabe-basic-agents",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             },
             "license": "UNLICENSED"
         },
@@ -55,8 +55,8 @@
             "version": "1.0.2",
             "source": "./plugins/astrolabe-research-agents",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             },
             "license": "UNLICENSED"
         },
@@ -66,8 +66,8 @@
             "version": "1.1.1",
             "source": "./plugins/astrolabe-extending-claude",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             },
             "license": "UNLICENSED",
             "keywords": [
@@ -84,8 +84,8 @@
             "version": "1.1.0",
             "source": "./plugins/astrolabe-hook-skill-reinforcement",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             },
             "license": "UNLICENSED",
             "keywords": [
@@ -98,8 +98,8 @@
             "version": "1.0.0",
             "source": "./plugins/astrolabe-hook-claudemd-reminder",
             "author": {
-                "name": "Ed",
-                "email": "ed@ed3d.net"
+                "name": "Paul",
+                "email": "paul@neuraloscillations.com"
             },
             "license": "UNLICENSED",
             "keywords": [

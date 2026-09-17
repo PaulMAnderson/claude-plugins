@@ -3,8 +3,8 @@
     "description": "Core agents for general-purpose tasks. Other plugins expect this to exist.",
     "version": "1.1.1",
     "author": {
-        "name": "Ed",
-        "email": "ed@ed3d.net"
+        "name": "Paul",
+        "email": "paul@neuraloscillations.com"
     },
     "homepage": "https://github.com/PaulMAnderson/astrolabe-plugins",
     "repository": "https://github.com/PaulMAnderson/astrolabe-plugins",
